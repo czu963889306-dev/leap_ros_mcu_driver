@@ -7,6 +7,7 @@
 ## v1.4 更新内容
 
 - 添加 MAVLink 串口协议，方便接入树莓派、香橙派等主板进行控制。
+- MAVLink UART 使用 `UART0`，波特率为 `230400`，串口参数为 8N1。
 - 支持 MAVLink UDP、MAVLink UART 与 micro-ROS 通信模式切换。
 - 支持长按 BOOT 键清除 Wi-Fi 配置，并重启回到配网模式。
 
