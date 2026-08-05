@@ -1,67 +1,67 @@
-# Leap Low v1 MAVLink and micro-ROS Protocols
+# Leap Low v1 MAVLink 与 micro-ROS 协议说明
 
-Software version: `v1.4`
+软件版本：`v1.4`
 
-This document describes the network protocol surface implemented by `leap_low_v1`.
+本文档说明 `leap_low_v1` 固件提供的网络与串口通信协议。
 
-## Runtime Mode
+## 运行模式
 
-The firmware supports one active communication mode at a time:
+固件同一时间只启用一种通信模式：
 
-| Mode | Runtime value | Default |
+| 模式 | 运行值 | 默认 |
 | --- | --- | --- |
-| micro-ROS | `micro_ros` | yes |
-| MAVLink UDP | `mavlink_udp` | no |
-| MAVLink UART | `uart_mavlink` | no |
+| micro-ROS | `micro_ros` | 是 |
+| MAVLink UDP | `mavlink_udp` | 否 |
+| MAVLink UART | `uart_mavlink` | 否 |
 
-The mode is stored in NVS under runtime configuration and can be changed from the web configuration page. The default micro-ROS agent is `192.168.31.214:8888`.
+通信模式保存在 NVS 的运行配置中，可通过网页配置页面修改。默认 micro-ROS agent 地址为 `192.168.31.214:8888`。
 
-## Common Units
+## 单位约定
 
-| Quantity | Internal unit | MAVLink unit | ROS unit |
+| 数据 | 内部单位 | MAVLink 单位 | ROS 单位 |
 | --- | --- | --- | --- |
-| Linear position | mm | m | m |
-| Linear velocity | mm/s | m/s | m/s |
-| Yaw / angular velocity | rad / rad/s | rad / rad/s | rad / rad/s |
-| IMU acceleration | g | mg in `SCALED_IMU`, m/s^2 in ROS | m/s^2 |
-| IMU gyro | deg/s | rad/s or mrad/s | rad/s |
-| Lidar distance | mm | cm in `OBSTACLE_DISTANCE` | m |
-| Battery voltage | V | mV | V |
+| 线性位置 | mm | m | m |
+| 线速度 | mm/s | m/s | m/s |
+| 航向角 / 角速度 | rad / rad/s | rad / rad/s | rad / rad/s |
+| IMU 加速度 | g | `SCALED_IMU` 中为 mg，ROS 中为 m/s^2 | m/s^2 |
+| IMU 陀螺仪 | deg/s | rad/s 或 mrad/s | rad/s |
+| 雷达距离 | mm | `OBSTACLE_DISTANCE` 中为 cm | m |
+| 电池电压 | V | mV | V |
 
 ## micro-ROS
 
-Transport: custom UDP transport over Wi-Fi.
+传输方式：基于 Wi-Fi 的自定义 UDP 传输。
 
-| Item | Value |
+| 项目 | 值 |
 | --- | --- |
-| Node name | `leap_low_driver` |
-| Local UDP port | `CONFIG_MICRO_ROS_LOCAL_PORT`, default `8888` |
-| Agent address | runtime `g_microros_agent_ip:g_microros_agent_port`, default `192.168.31.214:8888` |
-| Timer period | 20 ms |
+| 节点名称 | `leap_low_driver` |
+| 本地 UDP 端口 | `CONFIG_MICRO_ROS_LOCAL_PORT`，默认 `8888` |
+| Agent 地址 | 运行时 `g_microros_agent_ip:g_microros_agent_port`，默认 `192.168.31.214:8888` |
+| 定时器周期 | 20 ms |
 
-### Subscribed Topics
+### 订阅话题
 
-| Topic | Type | QoS | Mapping |
+| 话题 | 类型 | QoS | 映射 |
 | --- | --- | --- | --- |
-| `/cmd_vel` | `geometry_msgs/msg/Twist` | sensor data | `linear.x/y` in m/s -> target `vx/vy` in mm/s; `angular.z` -> target `wz` in rad/s |
+| `/cmd_vel` | `geometry_msgs/msg/Twist` | sensor data | `linear.x/y` 由 m/s 转为目标 `vx/vy`，单位 mm/s；`angular.z` 转为目标 `wz`，单位 rad/s |
 
-Receiving `/cmd_vel` writes a velocity command to `q_motion_cmd`, marks the source as micro-ROS, and clears `g_emergency_stop`.
+收到 `/cmd_vel` 后会向 `q_motion_cmd` 写入速度指令，将控制来源标记为 micro-ROS，并清除 `g_emergency_stop`。
 
-### Published Topics
+### 发布话题
 
-| Topic | Type | Rate | Frame | Notes |
+| 话题 | 类型 | 频率 | 坐标系 | 说明 |
 | --- | --- | --- | --- | --- |
-| `/odom` | `nav_msgs/msg/Odometry` | 50 Hz | `odom`, child `base_link` | position and velocity from motion state |
-| `/imu` | `sensor_msgs/msg/Imu` | 50 Hz | `imu_link` | quaternion, gyro, acceleration |
-| `/scan` | `sensor_msgs/msg/LaserScan` | 10 Hz | `laser_frame` | 360 points, 1 degree increment, 0.02-12.0 m |
-| `/battery_state` | `sensor_msgs/msg/BatteryState` | 10 Hz | `battery` | voltage and percentage; LiPo, discharging |
+| `/odom` | `nav_msgs/msg/Odometry` | 50 Hz | `odom`，子坐标系 `base_link` | 来自运动状态的位置与速度 |
+| `/imu` | `sensor_msgs/msg/Imu` | 50 Hz | `imu_link` | 四元数、陀螺仪、加速度 |
+| `/scan` | `sensor_msgs/msg/LaserScan` | 10 Hz | `laser_frame` | 360 个点，角度增量 1 度，范围 0.02-12.0 m |
+| `/battery_state` | `sensor_msgs/msg/BatteryState` | 10 Hz | `battery` | 电压与电量百分比；锂电池，放电状态 |
 
-`/battery_state` publishes:
+`/battery_state` 字段：
 
-| Field | Value |
+| 字段 | 值 |
 | --- | --- |
-| `voltage` | measured battery voltage in V |
-| `percentage` | `0.0` to `1.0` |
+| `voltage` | 实测电池电压，单位 V |
+| `percentage` | `0.0` 到 `1.0` |
 | `power_supply_status` | `DISCHARGING` |
 | `power_supply_health` | `GOOD` |
 | `power_supply_technology` | `LIPO` |
@@ -70,160 +70,163 @@ Receiving `/cmd_vel` writes a velocity command to `q_motion_cmd`, marks the sour
 
 ## MAVLink UDP
 
-Transport: UDP socket bound to port `14550`.
+传输方式：绑定到 `14550` 端口的 UDP socket。
 
-| Item | Value |
+| 项目 | 值 |
 | --- | --- |
-| Local port | `14550` |
-| Initial target | broadcast `255.255.255.255:14550` |
-| Connected target | first MAVLink sender address |
+| 本地端口 | `14550` |
+| 初始目标 | 广播地址 `255.255.255.255:14550` |
+| 已连接目标 | 第一个发送 MAVLink 数据的地址 |
 | System ID | `1` |
 | Component ID | `1` |
-| Main loop period | 20 ms |
-| Vehicle type | `MAV_TYPE_GROUND_ROVER` |
+| 主循环周期 | 20 ms |
+| 车辆类型 | `MAV_TYPE_GROUND_ROVER` |
 | Autopilot | `MAV_AUTOPILOT_GENERIC` |
 
 ## MAVLink UART
 
-Transport: `UART0`, `230400` baud, 8N1. Runtime logs use the same UART0
-serial port.
+传输方式：`UART0`，波特率 `230400`，8N1。运行日志与 MAVLink UART 共用 UART0 串口。
 
-| Item | Value |
+| 项目 | 值 |
 | --- | --- |
-| TX pin | GPIO43 |
-| RX pin | GPIO44 |
-| Log port | shared UART0 |
+| TX 引脚 | GPIO43 |
+| RX 引脚 | GPIO44 |
+| 日志端口 | 共用 UART0 |
 | System ID | `1` |
 | Component ID | `1` |
-| Main loop period | 20 ms |
+| 主循环周期 | 20 ms |
 
-## MAVLink Messages
+## MAVLink 消息
 
-### Received Messages
+### 接收消息
 
-| Message | Effect |
+| 消息 | 作用 |
 | --- | --- |
-| `SET_POSITION_TARGET_LOCAL_NED` | Position command if x/y/yaw fields are enabled; velocity command if vx/vy/yaw_rate fields are enabled |
-| `COMMAND_LONG` | Handles arm/disarm, odometry reset, servo, direct wheel speed, relative move, and PID update commands |
-| `SET_RGB_LED` | Sets RGB LED directly |
-| `SET_ACTUATOR_CONTROL_TARGET` | Uses `controls[0..2] * 255` as RGB |
-| `PARAM_REQUEST_READ` | Returns one PID parameter |
-| `PARAM_REQUEST_LIST` | Returns all PID parameters |
-| `PARAM_SET` | Updates one PID parameter and returns the new value |
+| `SET_POSITION_TARGET_LOCAL_NED` | 启用 x/y/yaw 字段时作为位置指令；启用 vx/vy/yaw_rate 字段时作为速度指令 |
+| `COMMAND_LONG` | 处理解锁/上锁、里程计复位、舵机、直接轮速、相对运动和 PID 更新指令 |
+| `SET_RGB_LED` | 直接设置 RGB 灯 |
+| `SET_ACTUATOR_CONTROL_TARGET` | 使用 `controls[0..2] * 255` 作为 RGB 值 |
+| `PARAM_REQUEST_READ` | 返回单个 PID 参数 |
+| `PARAM_REQUEST_LIST` | 返回全部 PID 参数 |
+| `PARAM_SET` | 更新单个 PID 参数并返回新值 |
 
-### COMMAND_LONG Commands
+### COMMAND_LONG 指令
 
-| Command | Parameters | Result |
+| 指令 | 参数 | 结果 |
 | --- | --- | --- |
-| `MAV_CMD_COMPONENT_ARM_DISARM` | `param1 < 0.5`: stop; otherwise clear emergency stop | `ACCEPTED` |
-| `MAV_CMD_PREFLIGHT_SET_SENSOR_OFFSETS` | none | reset odometry |
-| `MAV_CMD_DO_SET_SERVO` | `param2`: servo angle | writes `q_servo_cmd` |
-| `MAV_CMD_DO_SET_ACTUATOR` | `param1`: left wheel target, `param2`: right wheel target | wheel-speed mode |
-| `MAV_CMD_USER_2` | `param1`: relative distance, `param2`: relative yaw | relative motion mode |
-| `MAV_CMD_USER_4` | `param1`: PID target, `param2`: kp, `param3`: ki, `param4`: kd | updates speed or position PID |
+| `MAV_CMD_COMPONENT_ARM_DISARM` | `param1 < 0.5`：停止；否则清除急停 | `ACCEPTED` |
+| `MAV_CMD_PREFLIGHT_SET_SENSOR_OFFSETS` | 无 | 复位里程计 |
+| `MAV_CMD_DO_SET_SERVO` | `param2`：舵机角度 | 写入 `q_servo_cmd` |
+| `MAV_CMD_DO_SET_ACTUATOR` | `param1`：左轮目标，`param2`：右轮目标 | 轮速模式 |
+| `MAV_CMD_USER_2` | `param1`：相对距离，`param2`：相对航向角 | 相对运动模式 |
+| `MAV_CMD_USER_4` | `param1`：PID 目标，`param2`：kp，`param3`：ki，`param4`：kd | 更新速度或位置 PID |
 
-Custom command IDs:
+自定义指令 ID：
 
-| Name | Value | Meaning |
+| 名称 | 值 | 含义 |
 | --- | --- | --- |
-| `MATURO_MAV_CMD_MOVE_RELATIVE` | `MAV_CMD_USER_2` | relative movement |
-| `MATURO_MAV_CMD_SET_PID` | `MAV_CMD_USER_4` | set PID values |
+| `MATURO_MAV_CMD_MOVE_RELATIVE` | `MAV_CMD_USER_2` | 相对运动 |
+| `MATURO_MAV_CMD_SET_PID` | `MAV_CMD_USER_4` | 设置 PID 参数 |
 
-PID target values:
+PID 目标值：
 
-| Value | Target |
+| 值 | 目标 |
 | --- | --- |
-| `1` | speed PID |
-| `2` | position PID |
+| `1` | 速度 PID |
+| `2` | 位置 PID |
 
-### Parameters
+### 参数
 
-MAVLink parameter protocol exposes:
+MAVLink 参数协议暴露以下参数：
 
-| Parameter | Type | Meaning |
+| 参数 | 类型 | 含义 |
 | --- | --- | --- |
-| `SPD_KP` | `MAV_PARAM_TYPE_REAL32` | speed PID kp |
-| `SPD_KI` | `MAV_PARAM_TYPE_REAL32` | speed PID ki |
-| `SPD_KD` | `MAV_PARAM_TYPE_REAL32` | speed PID kd |
-| `POS_KP` | `MAV_PARAM_TYPE_REAL32` | position PID kp |
-| `POS_KI` | `MAV_PARAM_TYPE_REAL32` | position PID ki |
-| `POS_KD` | `MAV_PARAM_TYPE_REAL32` | position PID kd |
+| `SPD_KP` | `MAV_PARAM_TYPE_REAL32` | 速度 PID kp |
+| `SPD_KI` | `MAV_PARAM_TYPE_REAL32` | 速度 PID ki |
+| `SPD_KD` | `MAV_PARAM_TYPE_REAL32` | 速度 PID kd |
+| `POS_KP` | `MAV_PARAM_TYPE_REAL32` | 位置 PID kp |
+| `POS_KI` | `MAV_PARAM_TYPE_REAL32` | 位置 PID ki |
+| `POS_KD` | `MAV_PARAM_TYPE_REAL32` | 位置 PID kd |
 
-### Published Messages
+### 发布消息
 
-Published every 20 ms when source data is available:
+有对应源数据时每 20 ms 发布：
 
-| Message | Contents |
+| 消息 | 内容 |
 | --- | --- |
-| `ATTITUDE` | roll/pitch/yaw and gyro in rad |
-| `ATTITUDE_QUATERNION` | quaternion and gyro in rad/s |
-| `SCALED_IMU` | acceleration in mg, gyro in mrad/s, magnetometer zero |
-| `ODOMETRY` | local FLU pose and body FRD twist |
+| `ATTITUDE` | roll/pitch/yaw 与陀螺仪，单位 rad |
+| `ATTITUDE_QUATERNION` | 四元数与陀螺仪，单位 rad/s |
+| `SCALED_IMU` | 加速度单位 mg，陀螺仪单位 mrad/s，磁力计为 0 |
+| `ODOMETRY` | 本地 FLU 位姿与机体 FRD 速度 |
 
-Published every 100 ms:
+每 100 ms 发布：
 
-| Message | Contents |
+| 消息 | 内容 |
 | --- | --- |
-| `DISTANCE_SENSOR` | ultrasonic distance, 2-400 cm |
-| `DEBUG` | index `1`, motion busy as `0.0` or `1.0` |
-| `RAW_RPM` | index `0`: left wheel RPM; index `1`: right wheel RPM |
+| `DISTANCE_SENSOR` | 超声波距离，2-400 cm |
+| `DEBUG` | index `1`，运动忙状态以 `0.0` 或 `1.0` 表示 |
+| `RAW_RPM` | index `0`：左轮 RPM；index `1`：右轮 RPM |
 
-Published once per completed lidar scan:
+每完成一帧雷达扫描后发布：
 
-| Message | Contents |
+| 消息 | 内容 |
 | --- | --- |
-| `OBSTACLE_DISTANCE` | full 360 degree lidar scan split into five packets; each packet carries 72 bins at 1 degree per bin, with `angle_offset` set to `0/72/144/216/288` degrees |
+| `OBSTACLE_DISTANCE` | 360 度雷达扫描拆分为 5 个数据包；每包 72 个 1 度 bin，`angle_offset` 分别为 `0/72/144/216/288` 度 |
 
-Published every 1 s:
+每 1 s 发布：
 
-| Message | Contents |
+| 消息 | 内容 |
 | --- | --- |
-| `HEARTBEAT` | rover heartbeat |
+| `HEARTBEAT` | 地面车心跳 |
 | `STATUSTEXT` | `hostname=<device_name> ip=<sta_ipv4>` |
-| `ONBOARD_COMPUTER_STATUS` | heap, flash, Wi-Fi link estimate, board temperature if valid |
-| `SYS_STATUS` | battery voltage in mV and remaining percentage |
-| `BATTERY_STATUS` | LiPo battery voltage and remaining percentage |
+| `ONBOARD_COMPUTER_STATUS` | 堆内存、Flash、Wi-Fi 链路估计、有效时的板载温度 |
+| `SYS_STATUS` | 电池电压，单位 mV；剩余电量百分比 |
+| `BATTERY_STATUS` | 锂电池电压与剩余电量百分比 |
 
-Published once after first MAVLink client is seen:
+首次看到 MAVLink 客户端后发布一次：
 
-| Message | Contents |
+| 消息 | 内容 |
 | --- | --- |
-| `COMPONENT_INFORMATION_BASIC` | vendor `Maturo`, model `Driver`, software `v1.4`, hardware `ESP32`, serial set to device name |
+| `COMPONENT_INFORMATION_BASIC` | vendor `Maturo`，model `Driver`，software `v1.4`，hardware `ESP32`，serial 为设备名 |
 
-MAVLink publishing follows the active communication mode and transport behavior described above.
+MAVLink 发布行为遵循当前启用的通信模式和对应传输方式。
 
-### Battery Reporting
+### 电池上报
 
-Battery status is based on GPIO3 ADC sampling:
+电池状态基于 GPIO3 ADC 采样：
 
-| Field | Value |
+| 字段 | 值 |
 | --- | --- |
-| Full voltage | `8.4 V` |
-| Empty voltage estimate | `6.0 V` |
-| Divider ratio | `8.4 / 2.6857` |
-| Percentage | linear estimate from 6.0 V to 8.4 V |
+| 满电电压 | `8.4 V` |
+| 空电估计电压 | `6.0 V` |
+| 分压比 | `8.4 / 2.6857` |
+| 百分比 | 根据 6.0 V 到 8.4 V 线性估算 |
 
-MAVLink battery fields:
+MAVLink 电池字段：
 
-| Message | Field | Value |
+| 消息 | 字段 | 值 |
 | --- | --- | --- |
-| `SYS_STATUS` | `voltage_battery` | battery voltage in mV, `UINT16_MAX` if invalid |
-| `SYS_STATUS` | `current_battery` | `-1` unknown |
-| `SYS_STATUS` | `battery_remaining` | `0..100`, `-1` if invalid |
+| `SYS_STATUS` | `voltage_battery` | 电池电压，单位 mV；无效时为 `UINT16_MAX` |
+| `SYS_STATUS` | `current_battery` | `-1`，表示未知 |
+| `SYS_STATUS` | `battery_remaining` | `0..100`，无效时为 `-1` |
 | `BATTERY_STATUS` | `battery_function` | `MAV_BATTERY_FUNCTION_ALL` |
 | `BATTERY_STATUS` | `type` | `MAV_BATTERY_TYPE_LIPO` |
-| `BATTERY_STATUS` | `voltages[0]` | battery voltage in mV |
-| `BATTERY_STATUS` | `current_battery/current_consumed/energy_consumed` | `-1` unknown |
-| `BATTERY_STATUS` | `charge_state` | OK, LOW at <=20%, CRITICAL at <=10% |
+| `BATTERY_STATUS` | `voltages[0]` | 电池电压，单位 mV |
+| `BATTERY_STATUS` | `current_battery/current_consumed/energy_consumed` | `-1`，表示未知 |
+| `BATTERY_STATUS` | `charge_state` | 正常；低电量为 <=20%；严重低电量为 <=10% |
 
-## Mode Switching Notes
+## 模式切换说明
 
-Only the active mode sends communication traffic:
+只有当前启用的模式会发送通信数据：
 
-| Active mode | Behavior |
+| 当前模式 | 行为 |
 | --- | --- |
-| `micro_ros` | micro-ROS entities are created and spun; MAVLink UDP and MAVLink UART do not publish or receive |
-| `mavlink_udp` | MAVLink UDP task receives and publishes; micro-ROS and MAVLink UART are inactive |
-| `uart_mavlink` | MAVLink UART task receives and publishes; micro-ROS and MAVLink UDP are inactive |
+| `micro_ros` | 创建并运行 micro-ROS 实体；MAVLink UDP 和 MAVLink UART 不发布、不接收 |
+| `mavlink_udp` | MAVLink UDP 任务接收和发布；micro-ROS 与 MAVLink UART 不工作 |
+| `uart_mavlink` | MAVLink UART 任务接收和发布；micro-ROS 与 MAVLink UDP 不工作 |
 
-The web runtime configuration saves the selected mode and micro-ROS agent address in NVS, so the setting persists after reboot.
+网页运行配置会将通信模式和 micro-ROS agent 地址保存到 NVS，重启后仍然生效。
+
+## BOOT 键回到配网模式
+
+运行时长按 BOOT 键约 3 秒会清除已保存的 Wi-Fi STA 配置，状态灯进入快闪。松开 BOOT 键后设备会重启，并进入 Wi-Fi 配网模式。
