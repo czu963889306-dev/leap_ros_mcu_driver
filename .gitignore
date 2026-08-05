@@ -1,0 +1,13 @@
+.vscode/
+.idea/
+.codex/
+.agents/
+
+build/
+sdkconfig.old
+*.log
+
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
