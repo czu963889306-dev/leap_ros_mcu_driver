@@ -1,6 +1,6 @@
 # Leap Low v1 MAVLink 与 micro-ROS 协议说明
 
-软件版本：`v1.4`
+软件版本：`v1.5`
 
 本文档说明 `leap_low_v1` 固件提供的网络与串口通信协议。
 
@@ -55,6 +55,7 @@
 | `/imu` | `sensor_msgs/msg/Imu` | 50 Hz | `imu_link` | 四元数、陀螺仪、加速度 |
 | `/scan` | `sensor_msgs/msg/LaserScan` | 10 Hz | `laser_frame` | 360 个点，角度增量 1 度，范围 0.02-12.0 m |
 | `/battery_state` | `sensor_msgs/msg/BatteryState` | 10 Hz | `battery` | 电压与电量百分比；锂电池，放电状态 |
+| `/ultrasonic` | `sensor_msgs/msg/Range` | 10 Hz | `ultrasonic_link` | HC-SR04 超声波距离，单位 m |
 
 `/battery_state` 字段：
 
@@ -104,11 +105,16 @@
 | --- | --- |
 | `SET_POSITION_TARGET_LOCAL_NED` | 启用 x/y/yaw 字段时作为位置指令；启用 vx/vy/yaw_rate 字段时作为速度指令 |
 | `COMMAND_LONG` | 处理解锁/上锁、里程计复位、舵机、直接轮速、相对运动和 PID 更新指令 |
-| `SET_RGB_LED` | 直接设置 RGB 灯 |
-| `SET_ACTUATOR_CONTROL_TARGET` | 使用 `controls[0..2] * 255` 作为 RGB 值 |
 | `PARAM_REQUEST_READ` | 返回单个 PID 参数 |
 | `PARAM_REQUEST_LIST` | 返回全部 PID 参数 |
 | `PARAM_SET` | 更新单个 PID 参数并返回新值 |
+
+### 服务
+
+| 服务 | 作用 |
+| --- | --- |
+| `/set_speed_pid` | 设置速度 PID 的 `kp/ki/kd`，并写入 NVS |
+| `/get_speed_pid` | 获取当前速度 PID 参数 |
 
 ### COMMAND_LONG 指令
 

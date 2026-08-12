@@ -15,18 +15,8 @@ const gpio_num_t kEncoderLeftB = GPIO_NUM_11;
 const gpio_num_t kEncoderRightA = GPIO_NUM_17;
 const gpio_num_t kEncoderRightB = GPIO_NUM_18;
 
-// const gpio_num_t kMotorLeftIn1 = GPIO_NUM_9;
-// const gpio_num_t kMotorLeftIn2 = GPIO_NUM_46;
-// const gpio_num_t kMotorRightIn1 = GPIO_NUM_15;
-// const gpio_num_t kMotorRightIn2 = GPIO_NUM_16;
-
-// const gpio_num_t kEncoderLeftA = GPIO_NUM_11;
-// const gpio_num_t kEncoderLeftB = GPIO_NUM_10;
-// const gpio_num_t kEncoderRightA = GPIO_NUM_18;
-// const gpio_num_t kEncoderRightB = GPIO_NUM_17;
-
-const gpio_num_t kUltrasonicPin = GPIO_NUM_21;
-const gpio_num_t kRgbPin = GPIO_NUM_47;
+const gpio_num_t kUltrasonicTrigPin = GPIO_NUM_21;
+const gpio_num_t kUltrasonicEchoPin = GPIO_NUM_47;
 const gpio_num_t kStatusLedPin = GPIO_NUM_14;
 const gpio_num_t kServoPin = GPIO_NUM_48;
 const adc_unit_t kBatteryAdcUnit = ADC_UNIT_1;
@@ -46,8 +36,7 @@ QuadratureEncoder encoder_left(kEncoderLeftA, kEncoderLeftB);
 QuadratureEncoder encoder_right(kEncoderRightA, kEncoderRightB);
 
 MotionController robot(motor_left, motor_right, encoder_left, encoder_right);
-UltrasonicSensor ultrasonic(kUltrasonicPin);
-Ws2812Driver rgb_led(kRgbPin, 6);
+UltrasonicSensor ultrasonic(kUltrasonicTrigPin, kUltrasonicEchoPin);
 StatusLed status_led(kStatusLedPin);
 ButtonDriver io0_button(kIo0ButtonPin, true);
 ServoDriver my_servo(kServoPin);
@@ -63,7 +52,6 @@ void board_init(void) {
     encoder_right.Init();
 
     ultrasonic.Init();
-    rgb_led.Init();
     status_led.Init();
     io0_button.Init();
     ESP_LOGW(TAG, "BOOT/IO0 is used as a runtime communication-mode button; holding it during reset may enter download mode.");

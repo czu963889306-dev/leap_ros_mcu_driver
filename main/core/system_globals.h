@@ -48,7 +48,6 @@ extern QueueHandle_t q_battery_state;
 
 
 extern QueueHandle_t q_motion_cmd;
-extern QueueHandle_t q_rgb_cmd;
 extern QueueHandle_t q_servo_cmd;
 extern QueueHandle_t q_speedpid_cmd;
 extern QueueHandle_t q_postionpid_cmd;

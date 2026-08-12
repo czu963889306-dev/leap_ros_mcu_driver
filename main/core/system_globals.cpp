@@ -70,7 +70,6 @@ QueueHandle_t q_battery_state = nullptr;
 
 
 QueueHandle_t q_motion_cmd = nullptr;
-QueueHandle_t q_rgb_cmd = nullptr;
 QueueHandle_t q_servo_cmd = nullptr;
 QueueHandle_t q_speedpid_cmd = nullptr;
 QueueHandle_t q_postionpid_cmd = nullptr;

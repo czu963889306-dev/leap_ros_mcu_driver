@@ -12,13 +12,13 @@
 #include "freertos/queue.h"
 #include "freertos/task.h"
 #include "i2c_bus_lock.h"
+#include "pid_config.h"
 #include "msg/gamepad_msg.h"
 #include "msg/imu_msg.h"
 #include "msg/battery_msg.h"
 #include "msg/lidar_msg.h"
 #include "msg/motion_msg.h"
 #include "msg/pid_msg.h"
-#include "msg/rgb_msg.h"
 #include "msg/servo_msg.h"
 #include "msg/temperature_msg.h"
 #include "msg/ultrasonic_msg.h"
@@ -123,6 +123,22 @@ static void init_runtime_config(void) {
              static_cast<unsigned>(g_microros_agent_port));
 }
 
+static void init_pid_config(void) {
+    PidMsg speed_pid = g_speed_pid_state;
+    esp_err_t err = pid_load_speed_config(&speed_pid);
+    if (err == ESP_OK) {
+        g_speed_pid_state = speed_pid;
+        ESP_LOGI(TAG, "Speed PID config: kp=%.3f, ki=%.3f, kd=%.3f",
+                 speed_pid.kp, speed_pid.ki, speed_pid.kd);
+    } else if (err == ESP_ERR_NVS_NOT_FOUND) {
+        ESP_LOGI(TAG, "Speed PID config not found, using defaults: kp=%.3f, ki=%.3f, kd=%.3f",
+                 g_speed_pid_state.kp, g_speed_pid_state.ki, g_speed_pid_state.kd);
+    } else {
+        ESP_LOGW(TAG, "Failed to load speed PID config, using defaults: %s",
+                 esp_err_to_name(err));
+    }
+}
+
 static void create_runtime_queues(void) {
     q_imu_state = xQueueCreate(1, sizeof(ImuMsg));
     q_motion_state = xQueueCreate(1, sizeof(MotionMsg));
@@ -132,9 +148,11 @@ static void create_runtime_queues(void) {
     q_temperature_state = xQueueCreate(1, sizeof(TemperatureMsg));
     q_battery_state = xQueueCreate(1, sizeof(BatteryMsg));
     q_motion_cmd = xQueueCreate(1, sizeof(MotionMsg));
-    q_rgb_cmd = xQueueCreate(1, sizeof(RgbMsg));
     q_servo_cmd = xQueueCreate(1, sizeof(ServoMsg));
     q_speedpid_cmd = xQueueCreate(1, sizeof(PidMsg));
+    if (q_speedpid_cmd != nullptr) {
+        xQueueOverwrite(q_speedpid_cmd, &g_speed_pid_state);
+    }
     q_postionpid_cmd = xQueueCreate(1, sizeof(PidMsg));
 }
 
@@ -152,6 +170,7 @@ void app_runtime_startup(void) {
 
     init_device_name();
     init_runtime_config();
+    init_pid_config();
     shared_i2c_bus_lock_init();
     board_init();
     err = camera_i2c_client_init(I2C_NUM_0, CAMERA_I2C_DEFAULT_ADDRESS);
@@ -164,7 +183,7 @@ void app_runtime_startup(void) {
 
     xTaskCreate(imu_task, "imu", 4096, NULL, 5, NULL);
     xTaskCreate(motion_task, "motion", 4096, NULL, 5, NULL);
-    // xTaskCreate(ultrasonic_task, "ultrasonic", 4096, NULL, 4, NULL);
+    xTaskCreate(ultrasonic_task, "ultrasonic", 4096, NULL, 4, NULL);
     xTaskCreate(battery_task, "battery", 4096, NULL, 4, NULL);
     xTaskCreate(peripheral_task, "peripheral", 4096, NULL, 3, NULL);
     xTaskCreate(lidar_task, "lidar", 8192, NULL, 4, NULL);

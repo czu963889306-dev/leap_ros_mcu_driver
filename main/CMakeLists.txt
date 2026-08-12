@@ -1,6 +1,7 @@
 set(APP_SRCS
     "app_main.cpp"
     "app_runtime.cpp"
+    "config/pid_config.cpp"
     "core/system_globals.cpp"
     "platform/board.cpp"
     "control/motion_controller.cpp"
@@ -23,6 +24,7 @@ idf_component_register(
     SRCS ${APP_SRCS}
     INCLUDE_DIRS
         "."
+        "config"
         "core"
         "platform"
         "control"
@@ -42,7 +44,6 @@ idf_component_register(
         motor_driver
         encoder_driver
         ultrasonic_sensor
-        ws2812_driver
         button_driver
         servo_driver
         lsm6ds3_driver

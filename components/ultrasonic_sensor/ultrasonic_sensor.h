@@ -9,8 +9,8 @@
 
 class UltrasonicSensor {
  public:
-  // 构造函数，传入单总线所在的 GPIO 引脚
-  UltrasonicSensor(gpio_num_t io_pin);
+  // 构造函数，传入 HC-SR04 的 TRIG 与 ECHO GPIO 引脚
+  UltrasonicSensor(gpio_num_t trig_pin, gpio_num_t echo_pin);
 
   // 初始化引脚默认状态与 MCPWM 捕获硬件
   // 返回 true 表示初始化成功，false 表示失败
@@ -22,7 +22,8 @@ class UltrasonicSensor {
   float GetDistanceCm(float temperature = 20.0f);
 
  private:
-  gpio_num_t io_pin_;
+  gpio_num_t trig_pin_;
+  gpio_num_t echo_pin_;
     volatile bool measurement_armed_ = false;
     volatile bool echo_rise_seen_ = false;
     volatile bool result_sent_ = false;

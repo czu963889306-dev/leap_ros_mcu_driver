@@ -4,7 +4,6 @@
 #include "motor_driver.h"
 #include "encoder_driver.h" // 引入编码器驱动
 #include "ultrasonic_sensor.h"
-#include "ws2812_driver.h"
 #include "button_driver.h"
 #include "servo_driver.h"
 #include "lsm6ds3_driver.h"
@@ -23,7 +22,6 @@ extern QuadratureEncoder encoder_right;
 
 extern MotionController robot;
 extern UltrasonicSensor ultrasonic;
-extern Ws2812Driver rgb_led;
 extern StatusLed status_led;
 extern ButtonDriver io0_button;
 extern ServoDriver my_servo;

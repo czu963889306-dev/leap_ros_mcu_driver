@@ -2,7 +2,6 @@
 #include "app_runtime.h"
 #include "board.h"
 #include "wifi_app.h"
-#include "msg/rgb_msg.h"
 #include "msg/servo_msg.h"
 #include "msg/temperature_msg.h"
 
@@ -61,7 +60,6 @@ static void sample_temperature_sensor(temperature_sensor_handle_t sensor) {
 }
 
 void peripheral_task(void *p) {
-    RgbMsg rgb_cmd = {0, 255, 0}; 
     ServoMsg servo_cmd = {45.0f};
     TickType_t press_start_tick = 0;
     TickType_t last_temperature_sample_tick = 0;
@@ -71,12 +69,6 @@ void peripheral_task(void *p) {
     my_servo.SetAngle(servo_cmd.angle);
     
     while (1) {
-        if (xQueueReceive(q_rgb_cmd, &rgb_cmd, 0) == pdTRUE) {
-            for (int i = 0; i < 6; i++) {
-                rgb_led.SetPixel(i, rgb_cmd.r, rgb_cmd.g, rgb_cmd.b);
-            }
-            rgb_led.Refresh();
-        }
         if (xQueueReceive(q_servo_cmd, &servo_cmd, 0) == pdTRUE) {
             my_servo.SetAngle(servo_cmd.angle);
         }

@@ -2,19 +2,27 @@
 #include "esp_timer.h"
 #include "esp_rom_sys.h"
 
-UltrasonicSensor::UltrasonicSensor(gpio_num_t io_pin) : 
-    io_pin_(io_pin), cap_timer_(NULL), cap_chan_(NULL), 
+UltrasonicSensor::UltrasonicSensor(gpio_num_t trig_pin, gpio_num_t echo_pin) : 
+    trig_pin_(trig_pin), echo_pin_(echo_pin), cap_timer_(NULL), cap_chan_(NULL), 
     timer_res_(0), cap_val_begin_of_sample_(0), task_to_notify_(NULL) {}
 
 bool UltrasonicSensor::Init() {
-  // 1. 初始化引脚为输入，启用内部弱下拉，防止悬空杂波被误捕获
-  gpio_config_t io_conf = {};
-  io_conf.intr_type = GPIO_INTR_DISABLE;
-  io_conf.mode = GPIO_MODE_INPUT;
-  io_conf.pin_bit_mask = (1ULL << io_pin_);
-  io_conf.pull_down_en = GPIO_PULLDOWN_ENABLE; 
-  io_conf.pull_up_en = GPIO_PULLUP_DISABLE;
-  gpio_config(&io_conf);
+  gpio_config_t trig_conf = {};
+  trig_conf.intr_type = GPIO_INTR_DISABLE;
+  trig_conf.mode = GPIO_MODE_OUTPUT;
+  trig_conf.pin_bit_mask = (1ULL << trig_pin_);
+  trig_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
+  trig_conf.pull_up_en = GPIO_PULLUP_DISABLE;
+  gpio_config(&trig_conf);
+  gpio_set_level(trig_pin_, 0);
+
+  gpio_config_t echo_conf = {};
+  echo_conf.intr_type = GPIO_INTR_DISABLE;
+  echo_conf.mode = GPIO_MODE_INPUT;
+  echo_conf.pin_bit_mask = (1ULL << echo_pin_);
+  echo_conf.pull_down_en = GPIO_PULLDOWN_ENABLE; 
+  echo_conf.pull_up_en = GPIO_PULLUP_DISABLE;
+  gpio_config(&echo_conf);
 
   // 2. 配置 MCPWM 捕获定时器
   mcpwm_capture_timer_config_t cap_conf = {};
@@ -25,9 +33,9 @@ bool UltrasonicSensor::Init() {
   // 获取定时器实际分辨率(Hz)，用于后续在中断里快速换算微秒
   mcpwm_capture_timer_get_resolution(cap_timer_, &timer_res_);
 
-// 3. 配置 MCPWM 捕获通道（直接绑定到你的 io_pin）
+// 3. 配置 MCPWM 捕获通道（绑定到 HC-SR04 ECHO）
   mcpwm_capture_channel_config_t cap_ch_conf = {};
-  cap_ch_conf.gpio_num = io_pin_;
+  cap_ch_conf.gpio_num = echo_pin_;
   cap_ch_conf.prescale = 1;
   cap_ch_conf.flags.pos_edge = true;
   cap_ch_conf.flags.neg_edge = true;
@@ -110,16 +118,13 @@ float UltrasonicSensor::GetDistanceCm(float temperature) {
   echo_rise_seen_ = false;
   result_sent_ = false;
 
-  gpio_set_level(io_pin_, 0);
-  gpio_set_direction(io_pin_, GPIO_MODE_OUTPUT);
+  gpio_set_level(trig_pin_, 0);
   esp_rom_delay_us(2);
 
-  gpio_set_level(io_pin_, 1);
+  gpio_set_level(trig_pin_, 1);
   esp_rom_delay_us(15);
 
-  gpio_set_level(io_pin_, 0);
-
-  gpio_set_direction(io_pin_, GPIO_MODE_INPUT);
+  gpio_set_level(trig_pin_, 0);
 
   // 触发脉冲结束后，才正式允许捕获回波
   measurement_armed_ = true;

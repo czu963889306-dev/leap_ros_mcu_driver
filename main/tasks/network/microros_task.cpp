@@ -14,14 +14,19 @@
 #include "msg/imu_msg.h"
 #include "msg/lidar_msg.h"
 #include "msg/motion_msg.h"
+#include "msg/ultrasonic_msg.h"
+#include "pid_config.h"
 
 #include "geometry_msgs/msg/twist.h"
+#include "leap_interfaces/srv/get_speed_pid.h"
+#include "leap_interfaces/srv/set_speed_pid.h"
 #include "nav_msgs/msg/odometry.h"
 #include "rcl/rcl.h"
 #include "rcl/node_options.h"
 #include "rcl/time.h"
 #include "rcl/timer.h"
 #include "rcl/wait.h"
+#include "rclc/executor.h"
 #include "rmw/qos_profiles.h"
 #include "rmw_microros/custom_transport.h"
 #include "rmw_microros/ping.h"
@@ -32,6 +37,7 @@
 #include "sensor_msgs/msg/battery_state.h"
 #include "sensor_msgs/msg/imu.h"
 #include "sensor_msgs/msg/laser_scan.h"
+#include "sensor_msgs/msg/range.h"
 #include "uxr/client/profile/transport/custom/custom_transport.h"
 
 static const char *TAG = "MICROROS";
@@ -58,11 +64,20 @@ static nav_msgs__msg__Odometry s_odom_msg = {};
 static sensor_msgs__msg__Imu s_imu_msg = {};
 static sensor_msgs__msg__LaserScan s_scan_msg = {};
 static sensor_msgs__msg__BatteryState s_battery_msg = {};
+static sensor_msgs__msg__Range s_ultrasonic_msg = {};
 static rcl_publisher_t s_odom_publisher = {};
 static rcl_publisher_t s_imu_publisher = {};
 static rcl_publisher_t s_scan_publisher = {};
 static rcl_publisher_t s_battery_publisher = {};
+static rcl_publisher_t s_ultrasonic_publisher = {};
 static rcl_subscription_t s_cmd_vel_subscriber = {};
+static rcl_service_t s_set_speed_pid_service = {};
+static rcl_service_t s_get_speed_pid_service = {};
+static rclc_executor_t s_service_executor = {};
+static leap_interfaces__srv__SetSpeedPid_Request s_set_speed_pid_req = {};
+static leap_interfaces__srv__SetSpeedPid_Response s_set_speed_pid_res = {};
+static leap_interfaces__srv__GetSpeedPid_Request s_get_speed_pid_req = {};
+static leap_interfaces__srv__GetSpeedPid_Response s_get_speed_pid_res = {};
 static rcl_init_options_t s_init_options = {};
 static rcl_context_t s_context = {};
 static rcl_allocator_t s_allocator = {};
@@ -81,7 +96,11 @@ static bool s_imu_publisher_initialized = false;
 static bool s_scan_publisher_initialized = false;
 static bool s_battery_msg_initialized = false;
 static bool s_battery_publisher_initialized = false;
+static bool s_ultrasonic_publisher_initialized = false;
 static bool s_cmd_vel_subscriber_initialized = false;
+static bool s_set_speed_pid_service_initialized = false;
+static bool s_get_speed_pid_service_initialized = false;
+static bool s_service_executor_initialized = false;
 static bool s_clock_initialized = false;
 static bool s_timer_initialized = false;
 static bool s_wait_set_initialized = false;
@@ -186,7 +205,11 @@ static void reset_ros_handles() {
     s_imu_publisher = rcl_get_zero_initialized_publisher();
     s_scan_publisher = rcl_get_zero_initialized_publisher();
     s_battery_publisher = rcl_get_zero_initialized_publisher();
+    s_ultrasonic_publisher = rcl_get_zero_initialized_publisher();
     s_cmd_vel_subscriber = rcl_get_zero_initialized_subscription();
+    s_set_speed_pid_service = rcl_get_zero_initialized_service();
+    s_get_speed_pid_service = rcl_get_zero_initialized_service();
+    s_service_executor = rclc_executor_get_zero_initialized_executor();
     s_init_options = rcl_get_zero_initialized_init_options();
     s_context = rcl_get_zero_initialized_context();
     s_node = rcl_get_zero_initialized_node();
@@ -208,6 +231,70 @@ static void handle_cmd_vel(const geometry_msgs__msg__Twist *msg) {
     cmd.target_wz = static_cast<float>(msg->angular.z);
     xQueueOverwrite(q_motion_cmd, &cmd);
     g_emergency_stop = false;
+}
+
+static void set_speed_pid_response(
+    leap_interfaces__srv__SetSpeedPid_Response *res,
+    bool success,
+    const PidMsg &pid_msg) {
+    if (res == nullptr) {
+        return;
+    }
+    res->success = success;
+    res->kp = pid_msg.kp;
+    res->ki = pid_msg.ki;
+    res->kd = pid_msg.kd;
+}
+
+static void get_speed_pid_response(
+    leap_interfaces__srv__GetSpeedPid_Response *res,
+    bool success,
+    const PidMsg &pid_msg) {
+    if (res == nullptr) {
+        return;
+    }
+    res->success = success;
+    res->kp = pid_msg.kp;
+    res->ki = pid_msg.ki;
+    res->kd = pid_msg.kd;
+}
+
+static void handle_set_speed_pid_service(const void *req, void *res) {
+    auto *request = static_cast<const leap_interfaces__srv__SetSpeedPid_Request *>(req);
+    auto *response = static_cast<leap_interfaces__srv__SetSpeedPid_Response *>(res);
+    if (request == nullptr || response == nullptr || q_speedpid_cmd == nullptr ||
+        !isfinite(request->kp) || !isfinite(request->ki) || !isfinite(request->kd)) {
+        set_speed_pid_response(response, false, g_speed_pid_state);
+        return;
+    }
+
+    PidMsg pid_msg = {};
+    pid_msg.kp = request->kp;
+    pid_msg.ki = request->ki;
+    pid_msg.kd = request->kd;
+    esp_err_t save_err = pid_save_speed_config(&pid_msg);
+    if (save_err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to save speed PID config: %s", esp_err_to_name(save_err));
+        set_speed_pid_response(response, false, g_speed_pid_state);
+        return;
+    }
+
+    g_speed_pid_state = pid_msg;
+    xQueueOverwrite(q_speedpid_cmd, &pid_msg);
+    set_speed_pid_response(response, true, pid_msg);
+    ESP_LOGI(TAG, "Speed PID service set and saved: kp=%.3f, ki=%.3f, kd=%.3f",
+             pid_msg.kp, pid_msg.ki, pid_msg.kd);
+}
+
+static void handle_get_speed_pid_service(const void *, void *res) {
+    auto *response = static_cast<leap_interfaces__srv__GetSpeedPid_Response *>(res);
+    get_speed_pid_response(response, true, g_speed_pid_state);
+}
+
+static void spin_pid_services() {
+    if (s_service_executor_initialized) {
+        RCSOFTCHECK(rclc_executor_spin_some(&s_service_executor, RCL_MS_TO_NS(0)));
+    }
 }
 
 static void set_stamp(std_msgs__msg__Header *header, int64_t stamp_ms) {
@@ -295,6 +382,20 @@ static void publish_battery(int64_t stamp_ms) {
     RCPUBLISHCHECK(rcl_publish(&s_battery_publisher, &s_battery_msg, nullptr));
 }
 
+static void publish_ultrasonic(int64_t stamp_ms) {
+    UltrasonicMsg ultrasonic = {};
+    if (q_ultrasonic_state == nullptr ||
+        xQueuePeek(q_ultrasonic_state, &ultrasonic, 0) != pdTRUE) {
+        return;
+    }
+
+    set_stamp(&s_ultrasonic_msg.header, stamp_ms);
+    s_ultrasonic_msg.range = ultrasonic.distance_cm > 0.0f
+        ? ultrasonic.distance_cm / 100.0f
+        : NAN;
+    RCPUBLISHCHECK(rcl_publish(&s_ultrasonic_publisher, &s_ultrasonic_msg, nullptr));
+}
+
 static void publish_state_timer(rcl_timer_t *timer, int64_t) {
     if (timer == nullptr || g_wifi_comm_mode != WifiCommMode::kMicroRos) {
         return;
@@ -307,6 +408,7 @@ static void publish_state_timer(rcl_timer_t *timer, int64_t) {
     if ((++s_publish_tick % 5) == 0) {
         publish_scan(stamp_ms);
         publish_battery(stamp_ms);
+        publish_ultrasonic(stamp_ms);
     }
 }
 
@@ -342,12 +444,14 @@ static bool create_ros_entities() {
     rosidl_runtime_c__String__init(&s_odom_msg.child_frame_id);
     rosidl_runtime_c__String__init(&s_imu_msg.header.frame_id);
     rosidl_runtime_c__String__init(&s_scan_msg.header.frame_id);
+    rosidl_runtime_c__String__init(&s_ultrasonic_msg.header.frame_id);
     s_strings_initialized = true;
 
     (void)rosidl_runtime_c__String__assign(&s_odom_msg.header.frame_id, "odom");
     (void)rosidl_runtime_c__String__assign(&s_odom_msg.child_frame_id, "base_link");
     (void)rosidl_runtime_c__String__assign(&s_imu_msg.header.frame_id, "imu_link");
     (void)rosidl_runtime_c__String__assign(&s_scan_msg.header.frame_id, "laser_frame");
+    (void)rosidl_runtime_c__String__assign(&s_ultrasonic_msg.header.frame_id, "ultrasonic_link");
 
     if (!rosidl_runtime_c__float32__Sequence__init(&s_scan_msg.ranges, kLaserScanPointCount)) {
         ESP_LOGE(TAG, "failed to allocate LaserScan ranges");
@@ -370,6 +474,12 @@ static bool create_ros_entities() {
     s_scan_msg.scan_time = 0.1f;
     s_scan_msg.range_min = 0.02f;
     s_scan_msg.range_max = 12.0f;
+
+    s_ultrasonic_msg.radiation_type = sensor_msgs__msg__Range__ULTRASOUND;
+    s_ultrasonic_msg.field_of_view = 0.26f;
+    s_ultrasonic_msg.min_range = 0.02f;
+    s_ultrasonic_msg.max_range = 4.0f;
+    s_ultrasonic_msg.range = NAN;
 
     s_imu_msg.orientation_covariance[0] = -1.0;
     s_imu_msg.angular_velocity_covariance[0] = -1.0;
@@ -445,6 +555,15 @@ static bool create_ros_entities() {
         &sensor_pub_options));
     s_battery_publisher_initialized = true;
 
+    s_ultrasonic_publisher = rcl_get_zero_initialized_publisher();
+    RCCHECK(rcl_publisher_init(
+        &s_ultrasonic_publisher,
+        &s_node,
+        ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Range),
+        "ultrasonic",
+        &sensor_pub_options));
+    s_ultrasonic_publisher_initialized = true;
+
     rcl_subscription_options_t sub_options = rcl_subscription_get_default_options();
     sub_options.qos = rmw_qos_profile_sensor_data;
     s_cmd_vel_subscriber = rcl_get_zero_initialized_subscription();
@@ -455,6 +574,39 @@ static bool create_ros_entities() {
         "cmd_vel",
         &sub_options));
     s_cmd_vel_subscriber_initialized = true;
+
+    rcl_service_options_t service_options = rcl_service_get_default_options();
+    service_options.qos = rmw_qos_profile_services_default;
+    RCCHECK(rcl_service_init(
+        &s_set_speed_pid_service,
+        &s_node,
+        ROSIDL_GET_SRV_TYPE_SUPPORT(leap_interfaces, srv, SetSpeedPid),
+        "set_speed_pid",
+        &service_options));
+    s_set_speed_pid_service_initialized = true;
+
+    RCCHECK(rcl_service_init(
+        &s_get_speed_pid_service,
+        &s_node,
+        ROSIDL_GET_SRV_TYPE_SUPPORT(leap_interfaces, srv, GetSpeedPid),
+        "get_speed_pid",
+        &service_options));
+    s_get_speed_pid_service_initialized = true;
+
+    RCCHECK(rclc_executor_init(&s_service_executor, &s_context, 2, &s_allocator));
+    s_service_executor_initialized = true;
+    RCCHECK(rclc_executor_add_service(
+        &s_service_executor,
+        &s_set_speed_pid_service,
+        &s_set_speed_pid_req,
+        &s_set_speed_pid_res,
+        handle_set_speed_pid_service));
+    RCCHECK(rclc_executor_add_service(
+        &s_service_executor,
+        &s_get_speed_pid_service,
+        &s_get_speed_pid_req,
+        &s_get_speed_pid_res,
+        handle_get_speed_pid_service));
 
     s_clock = {};
     s_publish_timer = rcl_get_zero_initialized_timer();
@@ -504,6 +656,10 @@ static void destroy_ros_entities() {
         cleanup_result(rcl_clock_fini(&s_clock));
         s_clock_initialized = false;
     }
+    if (s_ultrasonic_publisher_initialized) {
+        cleanup_result(rcl_publisher_fini(&s_ultrasonic_publisher, &s_node));
+        s_ultrasonic_publisher_initialized = false;
+    }
     if (s_scan_publisher_initialized) {
         cleanup_result(rcl_publisher_fini(&s_scan_publisher, &s_node));
         s_scan_publisher_initialized = false;
@@ -524,6 +680,18 @@ static void destroy_ros_entities() {
         cleanup_result(rcl_subscription_fini(&s_cmd_vel_subscriber, &s_node));
         s_cmd_vel_subscriber_initialized = false;
     }
+    if (s_service_executor_initialized) {
+        cleanup_result(rclc_executor_fini(&s_service_executor));
+        s_service_executor_initialized = false;
+    }
+    if (s_set_speed_pid_service_initialized) {
+        cleanup_result(rcl_service_fini(&s_set_speed_pid_service, &s_node));
+        s_set_speed_pid_service_initialized = false;
+    }
+    if (s_get_speed_pid_service_initialized) {
+        cleanup_result(rcl_service_fini(&s_get_speed_pid_service, &s_node));
+        s_get_speed_pid_service_initialized = false;
+    }
     if (s_node_initialized) {
         cleanup_result(rcl_node_fini(&s_node));
         s_node_initialized = false;
@@ -542,6 +710,7 @@ static void destroy_ros_entities() {
         rosidl_runtime_c__String__fini(&s_odom_msg.child_frame_id);
         rosidl_runtime_c__String__fini(&s_imu_msg.header.frame_id);
         rosidl_runtime_c__String__fini(&s_scan_msg.header.frame_id);
+        rosidl_runtime_c__String__fini(&s_ultrasonic_msg.header.frame_id);
         s_strings_initialized = false;
     }
     if (s_scan_ranges_initialized) {
@@ -600,6 +769,7 @@ static bool spin_once(int timeout_ms) {
     if (s_wait_set.timers[0] != nullptr) {
         RCSOFTCHECK(rcl_timer_call(&s_publish_timer));
     }
+    spin_pid_services();
     if (s_ros_session_error) {
         ESP_LOGW(TAG, "micro-ROS publish failed, recreating session");
         return false;
@@ -629,7 +799,7 @@ void microros_task(void *p) {
         if (g_wifi_comm_mode == WifiCommMode::kMicroRos) {
             if (!s_ros_created) {
                 if (setup_udp_transport() && create_ros_entities()) {
-                    ESP_LOGI(TAG, "micro-ROS active: agent=%s:%u, pub=/odom,/imu,/scan, sub=/cmd_vel",
+                    ESP_LOGI(TAG, "micro-ROS active: agent=%s:%u, pub=/odom,/imu,/scan,/battery_state,/ultrasonic, sub=/cmd_vel, srv=/set_speed_pid,/get_speed_pid",
                              g_microros_agent_ip,
                              static_cast<unsigned>(g_microros_agent_port));
                 } else {

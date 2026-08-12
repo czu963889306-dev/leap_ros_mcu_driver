@@ -1,7 +1,6 @@
 #include "system_globals.h"
 #include "mavlink_common.h"
 #include "msg/motion_msg.h"
-#include "msg/rgb_msg.h"
 #include "msg/servo_msg.h"
 #include "msg/imu_msg.h"
 #include "msg/ultrasonic_msg.h"
@@ -160,16 +159,6 @@ static uint16_t ClampDistanceCm(float distance_cm) {
         return 65535;
     }
     return static_cast<uint16_t>(distance_cm);
-}
-
-static uint8_t ClampUint8(float value) {
-    if (value < 0.0f) {
-        return 0;
-    }
-    if (value > 255.0f) {
-        return 255;
-    }
-    return static_cast<uint8_t>(value);
 }
 
 static int8_t ClampTemperatureInt8(float value) {
@@ -989,28 +978,6 @@ void mavlink_common_handle_message(
                 msg->compid,
                 command.command,
                 result);
-            break;
-        }
-        case MAVLINK_MSG_ID_SET_RGB_LED: {
-            mavlink_set_rgb_led_t rgb;
-            mavlink_msg_set_rgb_led_decode(msg, &rgb);
-            RgbMsg rgb_cmd = {
-                .r = rgb.r,
-                .g = rgb.g,
-                .b = rgb.b,
-            };
-            xQueueOverwrite(q_rgb_cmd, &rgb_cmd);
-            break;
-        }
-        case MAVLINK_MSG_ID_SET_ACTUATOR_CONTROL_TARGET: {
-            mavlink_set_actuator_control_target_t actuator;
-            mavlink_msg_set_actuator_control_target_decode(msg, &actuator);
-            RgbMsg rgb_cmd = {
-                .r = ClampUint8(actuator.controls[0] * 255.0f),
-                .g = ClampUint8(actuator.controls[1] * 255.0f),
-                .b = ClampUint8(actuator.controls[2] * 255.0f),
-            };
-            xQueueOverwrite(q_rgb_cmd, &rgb_cmd);
             break;
         }
         case MAVLINK_MSG_ID_PARAM_REQUEST_READ: {
