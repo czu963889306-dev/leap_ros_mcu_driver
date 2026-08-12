@@ -12,6 +12,10 @@
 - 支持 MAVLink UDP、MAVLink UART 与 micro-ROS 通信模式切换。
 - 支持长按 BOOT 键清除 Wi-Fi 配置，并重启回到配网模式。
 
+## 底盘参数
+
+- `kTrackWidth` 已修改为 `131.7 mm`，源码位置：`main/control/motion_controller.cpp`。
+
 ## 协议说明
 
 MAVLink 与 micro-ROS 的消息、话题和参数说明见 [doc/protocols.md](doc/protocols.md)。

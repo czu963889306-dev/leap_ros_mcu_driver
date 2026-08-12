@@ -9,7 +9,7 @@
 static const char* TAG = "PID_CTRL";
 
 static const float kWheelDiameter = 65.0f; 
-static const float kTrackWidth = 150.0f;   
+static const float kTrackWidth = 131.7f;   
 static const float kLy = kTrackWidth / 2.0f; 
 static const float kRpmToMms = (M_PI * kWheelDiameter) / 60.0f; 
 static const float kMmsToRpm = 1.0f / kRpmToMms;
