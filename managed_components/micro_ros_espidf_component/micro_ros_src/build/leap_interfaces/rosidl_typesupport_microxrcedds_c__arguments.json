@@ -1,0 +1,21 @@
+{
+  "package_name": "leap_interfaces",
+  "output_dir": "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_typesupport_microxrcedds_c/leap_interfaces",
+  "template_dir": "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_microxrcedds_c/resource",
+  "idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces:srv/GetSpeedPid.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces:srv/SetSpeedPid.idl"
+  ],
+  "target_dependencies": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/rosidl_typesupport_microxrcedds_c/rosidl_typesupport_microxrcedds_c",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_microxrcedds_c/__init__.py",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_microxrcedds_c/resource/idl__rosidl_typesupport_microxrcedds_c.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_microxrcedds_c/resource/idl__type_support_c.c.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_microxrcedds_c/resource/msg__rosidl_typesupport_microxrcedds_c.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_microxrcedds_c/resource/msg__type_support_c.c.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_microxrcedds_c/resource/srv__rosidl_typesupport_microxrcedds_c.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_microxrcedds_c/resource/srv__type_support_c.c.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces/srv/GetSpeedPid.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces/srv/SetSpeedPid.idl"
+  ]
+}

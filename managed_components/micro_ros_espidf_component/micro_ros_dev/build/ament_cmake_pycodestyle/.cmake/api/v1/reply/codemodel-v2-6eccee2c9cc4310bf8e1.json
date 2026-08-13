@@ -1,0 +1,70 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-e2f7046eebd9808fd016.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ament_cmake_pycodestyle",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_pycodestyle_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_pycodestyle_uninstall-fb096fa2ad0721f24923.json",
+					"name" : "ament_cmake_pycodestyle_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-22a7cdf2097765da9cc0.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cmake_pycodestyle",
+		"source" : "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/src/ament_lint/ament_cmake_pycodestyle"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

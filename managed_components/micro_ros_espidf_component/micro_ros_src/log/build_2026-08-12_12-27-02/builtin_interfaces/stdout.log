@@ -1,0 +1,116 @@
+Not searching for unused variables given on the command line.
+-- The C compiler identification is GNU 14.2.0
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.14 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake/share/ament_cmake/cmake)
+-- Found Python3: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python3 (found version "3.13.5") found components: Interpreter
+-- Found rosidl_default_generators: 1.2.1 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_default_generators/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_introspection_c;rosidl_typesupport_microxrcedds_c
+-- Found rosidl_adapter: 3.1.9 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_adapter/cmake)
+-- Found ament_cmake_ros: 0.10.0 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_ros/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_introspection_c;rosidl_typesupport_microxrcedds_c
+-- Configuring done (2.7s)
+-- Generating done (0.1s)
+-- Build files have been written to: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/builtin_interfaces
+gmake[1]: Entering directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/builtin_interfaces'
+[  6%] Generating C code for ROS interfaces
+[ 12%] Building C object CMakeFiles/builtin_interfaces__rosidl_generator_c.dir/rosidl_generator_c/builtin_interfaces/msg/detail/time__functions.c.obj
+[ 18%] Building C object CMakeFiles/builtin_interfaces__rosidl_generator_c.dir/rosidl_generator_c/builtin_interfaces/msg/detail/duration__functions.c.obj
+[ 25%] Linking C static library libbuiltin_interfaces__rosidl_generator_c.a
+[ 25%] Built target builtin_interfaces__rosidl_generator_c
+[ 31%] Generating C introspection for ROS interfaces
+[ 37%] Generating C type support for eProsima Micro XRCE-DDS
+[ 43%] Generating C type support dispatch for ROS interfaces
+[ 50%] Building C object CMakeFiles/builtin_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/builtin_interfaces/msg/detail/duration__type_support.c.obj
+[ 56%] Building C object CMakeFiles/builtin_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/builtin_interfaces/msg/detail/time__type_support.c.obj
+[ 62%] Linking C static library libbuiltin_interfaces__rosidl_typesupport_introspection_c.a
+[ 62%] Built target builtin_interfaces__rosidl_typesupport_introspection_c
+[ 68%] Building CXX object CMakeFiles/builtin_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/builtin_interfaces/msg/duration__type_support.cpp.obj
+[ 75%] Building CXX object CMakeFiles/builtin_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/builtin_interfaces/msg/time__type_support.cpp.obj
+[ 81%] Building C object CMakeFiles/builtin_interfaces__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/builtin_interfaces/msg/detail/microxrcedds/duration__type_support_c.c.obj
+[ 87%] Building C object CMakeFiles/builtin_interfaces__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/builtin_interfaces/msg/detail/microxrcedds/time__type_support_c.c.obj
+[ 93%] Linking CXX static library libbuiltin_interfaces__rosidl_typesupport_c.a
+[100%] Linking C static library libbuiltin_interfaces__rosidl_typesupport_microxrcedds_c.a
+[100%] Built target builtin_interfaces__rosidl_typesupport_c
+[100%] Built target builtin_interfaces__rosidl_typesupport_microxrcedds_c
+[100%] Built target builtin_interfaces
+gmake[1]: Leaving directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/builtin_interfaces'
+-- Install configuration: "Release"
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/rosidl_interfaces/builtin_interfaces
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/rosidl_generator_c__visibility_control.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__functions.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/time__type_support.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/time__functions.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/time__functions.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__struct.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__functions.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__type_support.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/time.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/duration.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/environment/library_path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/environment/library_path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libbuiltin_interfaces__rosidl_generator_c.a
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/time__type_support.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/time__rosidl_typesupport_introspection_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__rosidl_typesupport_introspection_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__type_support.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.a
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/rosidl_typesupport_microxrcedds_c__visibility_control.h
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__rosidl_typesupport_microxrcedds_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/microxrcedds
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/builtin_interfaces/builtin_interfaces/msg/detail/time__rosidl_typesupport_microxrcedds_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libbuiltin_interfaces__rosidl_typesupport_microxrcedds_c.a
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libbuiltin_interfaces__rosidl_typesupport_c.a
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Duration.idl
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Time.idl
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Duration.msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Time.msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/package_run_dependencies/builtin_interfaces
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/parent_prefix_path/builtin_interfaces
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/environment/ament_prefix_path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/environment/ament_prefix_path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/environment/path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/environment/path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/local_setup.bash
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/local_setup.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/local_setup.zsh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/local_setup.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/package.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/packages/builtin_interfaces
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/export_builtin_interfaces__rosidl_generator_cExport.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/export_builtin_interfaces__rosidl_generator_cExport-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/builtin_interfaces__rosidl_typesupport_introspection_cExport.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/builtin_interfaces__rosidl_typesupport_introspection_cExport-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/builtin_interfaces__rosidl_typesupport_cExport.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/builtin_interfaces__rosidl_typesupport_cExport-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/rosidl_cmake-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/rosidl_cmake_aggregate_target-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/builtin_interfacesConfig.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/cmake/builtin_interfacesConfig-version.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/package.xml

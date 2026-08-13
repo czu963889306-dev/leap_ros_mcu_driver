@@ -1,0 +1,8 @@
+{
+  "package_name": "std_srvs",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/std_srvs:srv/Empty.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/std_srvs:srv/SetBool.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/std_srvs:srv/Trigger.srv"
+  ]
+}

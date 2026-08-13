@@ -1,0 +1,70 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rosgraph_msgs/msg/QoSProfile.msg
+// generated code does not contain a copyright notice
+
+#include "builtin_interfaces/msg/Duration.idl"
+
+module rosgraph_msgs {
+  module msg {
+    module QoSProfile_Constants {
+      @verbatim (language="comment", text=
+        "History policy")
+      const uint8 HISTORY_SYSTEM_DEFAULT = 0;
+      const uint8 HISTORY_KEEP_LAST = 1;
+      const uint8 HISTORY_KEEP_ALL = 2;
+      const uint8 HISTORY_UNKNOWN = 3;
+      @verbatim (language="comment", text=
+        "Reliability policy")
+      const uint8 RELIABILITY_SYSTEM_DEFAULT = 0;
+      const uint8 RELIABILITY_RELIABLE = 1;
+      const uint8 RELIABILITY_BEST_EFFORT = 2;
+      const uint8 RELIABILITY_UNKNOWN = 3;
+      const uint8 RELIABILITY_BEST_AVAILABLE = 4;
+      @verbatim (language="comment", text=
+        "Durability policy")
+      const uint8 DURABILITY_SYSTEM_DEFAULT = 0;
+      const uint8 DURABILITY_TRANSIENT_LOCAL = 1;
+      const uint8 DURABILITY_VOLATILE = 2;
+      const uint8 DURABILITY_UNKNOWN = 3;
+      const uint8 DURABILITY_BEST_AVAILABLE = 4;
+      @verbatim (language="comment", text=
+        "Liveliness policy")
+      const uint8 LIVELINESS_SYSTEM_DEFAULT = 0;
+      const uint8 LIVELINESS_AUTOMATIC = 1;
+      const uint8 LIVELINESS_MANUAL_BY_TOPIC = 3;
+      const uint8 LIVELINESS_UNKNOWN = 4;
+      const uint8 LIVELINESS_BEST_AVAILABLE = 5;
+    };
+    @verbatim (language="comment", text=
+      "Message-based representation of ROS 2 Quality of Service settings" "\n"
+      "Default values are kept in sync with RMW by integration test" "\n"
+      "Note that SYSTEM_DEFAULT and BEST_AVAILABLE values cannot be an observed value," "\n"
+      "because they resolve concretely at runtime." "\n"
+      "They are included here for completeness to match the data structures in RMW")
+    struct QoSProfile {
+      @verbatim (language="comment", text=
+        "Depth of the message queue (only meaningful when history==KEEP_LAST)")
+      uint32 depth;
+
+      @verbatim (language="comment", text=
+        "Deadline between messages (0 for no deadline)")
+      builtin_interfaces::msg::Duration deadline;
+
+      @verbatim (language="comment", text=
+        "Lifespan of each message (0 for infinite)")
+      builtin_interfaces::msg::Duration lifespan;
+
+      uint8 history;
+
+      uint8 reliability;
+
+      uint8 durability;
+
+      uint8 liveliness;
+
+      @verbatim (language="comment", text=
+        "Lease duration for liveliness (0 for infinite)")
+      builtin_interfaces::msg::Duration liveliness_lease_duration;
+    };
+  };
+};

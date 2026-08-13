@@ -1,0 +1,26 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from nav_msgs/msg/Goals.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/PoseStamped.idl"
+#include "std_msgs/msg/Header.idl"
+
+module nav_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "An array of navigation goals")
+    struct Goals {
+      @verbatim (language="comment", text=
+        "This header will store the time at which the poses were computed (not to be confused with the stamps of the poses themselves)" "\n"
+        "In the case that individual poses do not have their frame_id set or their timetamp set they will use the default value here.")
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        "An array of goals to for navigation to achieve." "\n"
+        "The goals should be executed in the order of the array." "\n"
+        "The header and stamp are intended to be used for computing the position of the goals." "\n"
+        "They may vary to support cases of goals that are moving with respect to the robot.")
+      sequence<geometry_msgs::msg::PoseStamped> goals;
+    };
+  };
+};

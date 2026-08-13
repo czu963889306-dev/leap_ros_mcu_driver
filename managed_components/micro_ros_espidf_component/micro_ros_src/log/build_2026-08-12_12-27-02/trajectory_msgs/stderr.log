@@ -1,0 +1,25 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/trajectory_msgs/rosidl_typesupport_microxrcedds_c/trajectory_msgs/msg/detail/microxrcedds/joint_trajectory_point__type_support_c.c:8:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/trajectory_msgs/rosidl_typesupport_microxrcedds_c/trajectory_msgs/msg/detail/microxrcedds/multi_dof_joint_trajectory__type_support_c.c:8:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/trajectory_msgs/rosidl_typesupport_microxrcedds_c/trajectory_msgs/msg/detail/microxrcedds/multi_dof_joint_trajectory_point__type_support_c.c:8:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/trajectory_msgs/rosidl_typesupport_microxrcedds_c/trajectory_msgs/msg/detail/microxrcedds/joint_trajectory__type_support_c.c:8:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~

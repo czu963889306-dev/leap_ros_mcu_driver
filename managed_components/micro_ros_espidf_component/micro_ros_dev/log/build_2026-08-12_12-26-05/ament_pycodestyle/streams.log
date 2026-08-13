@@ -1,0 +1,52 @@
+[1.369s] Invoking command in '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/src/ament_lint/ament_pycodestyle': PYTHONPATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/prefix_override:/root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/colcon_core/task/python/colcon_distutils_commands:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_pycodestyle build --build-base /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build install --record /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/install.log --single-version-externally-managed install_data
+[1.589s] /root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/setuptools/_distutils/dist.py:289: UserWarning: Unknown distribution option: 'tests_require'
+[1.590s]   warnings.warn(msg)
+[1.615s] /root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+[1.615s] !!
+[1.615s] 
+[1.615s]         ********************************************************************************
+[1.615s]         Please consider removing the following classifiers in favor of a SPDX license expression:
+[1.615s] 
+[1.615s]         License :: OSI Approved :: Apache Software License
+[1.615s] 
+[1.615s]         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+[1.616s]         ********************************************************************************
+[1.616s] 
+[1.616s] !!
+[1.616s]   self._finalize_license_expression()
+[1.662s] running egg_info
+[1.674s] creating ../../../build/ament_pycodestyle/ament_pycodestyle.egg-info
+[1.674s] writing ../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/PKG-INFO
+[1.674s] writing dependency_links to ../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/dependency_links.txt
+[1.674s] writing entry points to ../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/entry_points.txt
+[1.675s] writing requirements to ../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/requires.txt
+[1.675s] writing top-level names to ../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/top_level.txt
+[1.675s] writing manifest file '../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/SOURCES.txt'
+[1.700s] reading manifest file '../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/SOURCES.txt'
+[1.702s] writing manifest file '../../../build/ament_pycodestyle/ament_pycodestyle.egg-info/SOURCES.txt'
+[1.702s] running build
+[1.702s] running build_py
+[1.702s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle
+[1.703s] copying ament_pycodestyle/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle
+[1.703s] copying ament_pycodestyle/main.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle
+[1.704s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle/configuration
+[1.704s] copying ament_pycodestyle/configuration/ament_pycodestyle.ini -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle/configuration
+[1.704s] running install
+[1.715s] running install_lib
+[1.731s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle
+[1.731s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle
+[1.733s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle/configuration
+[1.733s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle/configuration/ament_pycodestyle.ini -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle/configuration
+[1.733s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build/lib/ament_pycodestyle/main.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle
+[1.733s] byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle/__init__.py to __init__.cpython-313.pyc
+[1.733s] byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle/main.py to main.cpython-313.pyc
+[1.733s] running install_data
+[1.733s] copying package.xml -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/share/ament_pycodestyle
+[1.733s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/share/ament_index/resource_index/packages
+[1.733s] copying resource/ament_pycodestyle -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/share/ament_index/resource_index/packages
+[1.733s] running install_egg_info
+[1.741s] Copying ../../../build/ament_pycodestyle/ament_pycodestyle.egg-info to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages/ament_pycodestyle-0.12.15-py3.13.egg-info
+[1.743s] running install_scripts
+[1.801s] Installing ament_pycodestyle script to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/bin
+[1.801s] writing list of installed files to '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/install.log'
+[1.917s] Invoked command in '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/src/ament_lint/ament_pycodestyle' returned '0': PYTHONPATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/prefix_override:/root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/colcon_core/task/python/colcon_distutils_commands:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pycodestyle/lib/python3.13/site-packages: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_pycodestyle build --build-base /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/build install --record /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pycodestyle/install.log --single-version-externally-managed install_data

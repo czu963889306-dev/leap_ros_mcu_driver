@@ -1,0 +1,10 @@
+{
+  "package_name": "diagnostic_msgs",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/diagnostic_msgs:msg/DiagnosticArray.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/diagnostic_msgs:msg/DiagnosticStatus.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/diagnostic_msgs:msg/KeyValue.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/diagnostic_msgs:srv/AddDiagnostics.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/diagnostic_msgs:srv/SelfTest.srv"
+  ]
+}

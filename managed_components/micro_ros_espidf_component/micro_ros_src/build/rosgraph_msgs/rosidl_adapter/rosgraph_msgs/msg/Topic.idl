@@ -1,0 +1,26 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rosgraph_msgs/msg/Topic.msg
+// generated code does not contain a copyright notice
+
+#include "rosgraph_msgs/msg/InterfaceType.idl"
+#include "rosgraph_msgs/msg/QoSProfile.idl"
+
+module rosgraph_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "Describes a single topic endpoint, which may be a Publisher or Subscription")
+    struct Topic {
+      @verbatim (language="comment", text=
+        "Fully qualified name of the topic")
+      string name;
+
+      @verbatim (language="comment", text=
+        "Type of the topic")
+      rosgraph_msgs::msg::InterfaceType type;
+
+      @verbatim (language="comment", text=
+        "Observed QoS of the endpoint")
+      rosgraph_msgs::msg::QoSProfile qos;
+    };
+  };
+};

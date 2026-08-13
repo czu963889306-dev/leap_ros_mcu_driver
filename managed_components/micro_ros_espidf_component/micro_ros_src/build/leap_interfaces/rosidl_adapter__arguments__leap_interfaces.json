@@ -1,0 +1,7 @@
+{
+  "package_name": "leap_interfaces",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/extra_packages/leap_interfaces:srv/GetSpeedPid.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/extra_packages/leap_interfaces:srv/SetSpeedPid.srv"
+  ]
+}

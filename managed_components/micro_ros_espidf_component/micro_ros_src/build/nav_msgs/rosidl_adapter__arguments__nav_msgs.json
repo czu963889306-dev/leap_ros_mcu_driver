@@ -1,0 +1,15 @@
+{
+  "package_name": "nav_msgs",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:msg/Goals.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:msg/GridCells.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:msg/MapMetaData.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:msg/OccupancyGrid.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:msg/Odometry.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:msg/Path.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:srv/GetMap.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:srv/GetPlan.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:srv/LoadMap.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/nav_msgs:srv/SetMap.srv"
+  ]
+}

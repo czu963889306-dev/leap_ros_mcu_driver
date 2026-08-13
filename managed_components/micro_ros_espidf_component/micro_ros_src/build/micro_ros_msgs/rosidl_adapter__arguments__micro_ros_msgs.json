@@ -1,0 +1,8 @@
+{
+  "package_name": "micro_ros_msgs",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/micro_ros_msgs:msg/Graph.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/micro_ros_msgs:msg/Node.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/micro_ros_msgs:msg/Entity.msg"
+  ]
+}

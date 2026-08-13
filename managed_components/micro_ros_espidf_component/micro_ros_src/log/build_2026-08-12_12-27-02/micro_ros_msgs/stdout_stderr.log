@@ -1,0 +1,151 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+Not searching for unused variables given on the command line.
+-- The C compiler identification is GNU 14.2.0
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.14 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake/share/ament_cmake/cmake)
+-- Found Python3: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python3 (found version "3.13.5") found components: Interpreter
+-- Found rosidl_default_generators: 1.2.1 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_default_generators/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_introspection_c;rosidl_typesupport_microxrcedds_c
+-- Found rosidl_adapter: 3.1.9 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_adapter/cmake)
+-- Found ament_cmake_ros: 0.10.0 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_ros/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_introspection_c;rosidl_typesupport_microxrcedds_c
+-- Configuring done (2.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/micro_ros_msgs
+gmake[1]: Entering directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/micro_ros_msgs'
+[  5%] Generating C code for ROS interfaces
+[ 10%] Building C object CMakeFiles/micro_ros_msgs__rosidl_generator_c.dir/rosidl_generator_c/micro_ros_msgs/msg/detail/graph__functions.c.obj
+[ 15%] Building C object CMakeFiles/micro_ros_msgs__rosidl_generator_c.dir/rosidl_generator_c/micro_ros_msgs/msg/detail/node__functions.c.obj
+[ 20%] Building C object CMakeFiles/micro_ros_msgs__rosidl_generator_c.dir/rosidl_generator_c/micro_ros_msgs/msg/detail/entity__functions.c.obj
+[ 25%] Linking C static library libmicro_ros_msgs__rosidl_generator_c.a
+[ 25%] Built target micro_ros_msgs__rosidl_generator_c
+[ 30%] Generating C type support dispatch for ROS interfaces
+[ 35%] Generating C type support for eProsima Micro XRCE-DDS
+[ 40%] Generating C introspection for ROS interfaces
+[ 45%] Building C object CMakeFiles/micro_ros_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/micro_ros_msgs/msg/detail/node__type_support.c.obj
+[ 50%] Building C object CMakeFiles/micro_ros_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/micro_ros_msgs/msg/detail/graph__type_support.c.obj
+[ 55%] Building C object CMakeFiles/micro_ros_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/micro_ros_msgs/msg/detail/entity__type_support.c.obj
+[ 60%] Building CXX object CMakeFiles/micro_ros_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/micro_ros_msgs/msg/node__type_support.cpp.obj
+[ 65%] Building CXX object CMakeFiles/micro_ros_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/micro_ros_msgs/msg/graph__type_support.cpp.obj
+[ 70%] Building CXX object CMakeFiles/micro_ros_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/micro_ros_msgs/msg/entity__type_support.cpp.obj
+[ 75%] Building C object CMakeFiles/micro_ros_msgs__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/micro_ros_msgs/msg/detail/microxrcedds/entity__type_support_c.c.obj
+[ 80%] Building C object CMakeFiles/micro_ros_msgs__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/micro_ros_msgs/msg/detail/microxrcedds/node__type_support_c.c.obj
+[ 85%] Building C object CMakeFiles/micro_ros_msgs__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/micro_ros_msgs/msg/detail/microxrcedds/graph__type_support_c.c.obj
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/micro_ros_msgs/rosidl_typesupport_microxrcedds_c/micro_ros_msgs/msg/detail/microxrcedds/entity__type_support_c.c:8:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/micro_ros_msgs/rosidl_typesupport_microxrcedds_c/micro_ros_msgs/msg/detail/microxrcedds/node__type_support_c.c:8:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/micro_ros_msgs/rosidl_typesupport_microxrcedds_c/micro_ros_msgs/msg/detail/microxrcedds/graph__type_support_c.c:8:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~
+[ 90%] Linking C static library libmicro_ros_msgs__rosidl_typesupport_introspection_c.a
+[ 95%] Linking CXX static library libmicro_ros_msgs__rosidl_typesupport_c.a
+[ 95%] Built target micro_ros_msgs__rosidl_typesupport_introspection_c
+[100%] Linking C static library libmicro_ros_msgs__rosidl_typesupport_microxrcedds_c.a
+[100%] Built target micro_ros_msgs__rosidl_typesupport_c
+[100%] Built target micro_ros_msgs__rosidl_typesupport_microxrcedds_c
+[100%] Built target micro_ros_msgs
+gmake[1]: Leaving directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/micro_ros_msgs'
+-- Install configuration: "Release"
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/rosidl_interfaces/micro_ros_msgs
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/rosidl_generator_c__visibility_control.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/graph.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/node__functions.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/node__struct.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/entity__type_support.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/graph__functions.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/entity__struct.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/node__type_support.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/node__functions.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/entity__functions.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/entity__functions.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/graph__functions.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/graph__type_support.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/graph__struct.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/entity.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/node.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/environment/library_path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/environment/library_path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libmicro_ros_msgs__rosidl_generator_c.a
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/node__rosidl_typesupport_introspection_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/graph__rosidl_typesupport_introspection_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/node__type_support.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/entity__rosidl_typesupport_introspection_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/graph__type_support.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/entity__type_support.c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libmicro_ros_msgs__rosidl_typesupport_introspection_c.a
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/rosidl_typesupport_microxrcedds_c__visibility_control.h
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/entity__rosidl_typesupport_microxrcedds_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/microxrcedds
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/graph__rosidl_typesupport_microxrcedds_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/micro_ros_msgs/micro_ros_msgs/msg/detail/node__rosidl_typesupport_microxrcedds_c.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libmicro_ros_msgs__rosidl_typesupport_microxrcedds_c.a
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libmicro_ros_msgs__rosidl_typesupport_c.a
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/msg/Graph.idl
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/msg/Node.idl
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/msg/Entity.idl
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/msg/Graph.msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/msg/Node.msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/msg/Entity.msg
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/package_run_dependencies/micro_ros_msgs
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/parent_prefix_path/micro_ros_msgs
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/environment/ament_prefix_path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/environment/ament_prefix_path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/environment/path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/environment/path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/local_setup.bash
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/local_setup.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/local_setup.zsh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/local_setup.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/package.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/packages/micro_ros_msgs
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/export_micro_ros_msgs__rosidl_generator_cExport.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/export_micro_ros_msgs__rosidl_generator_cExport-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/micro_ros_msgs__rosidl_typesupport_introspection_cExport.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/micro_ros_msgs__rosidl_typesupport_introspection_cExport-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/micro_ros_msgs__rosidl_typesupport_cExport.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/micro_ros_msgs__rosidl_typesupport_cExport-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/rosidl_cmake-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/rosidl_cmake_aggregate_target-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/micro_ros_msgsConfig.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/cmake/micro_ros_msgsConfig-version.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/micro_ros_msgs/package.xml

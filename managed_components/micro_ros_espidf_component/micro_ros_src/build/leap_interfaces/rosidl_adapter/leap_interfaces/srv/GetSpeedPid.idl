@@ -1,0 +1,21 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from leap_interfaces/srv/GetSpeedPid.srv
+// generated code does not contain a copyright notice
+
+
+module leap_interfaces {
+  module srv {
+    struct GetSpeedPid_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    struct GetSpeedPid_Response {
+      boolean success;
+
+      float kp;
+
+      float ki;
+
+      float kd;
+    };
+  };
+};

@@ -1,0 +1,2 @@
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc librcl_logging_interface.a CMakeFiles/rcl_logging_interface.dir/src/logging_dir.c.obj
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib librcl_logging_interface.a

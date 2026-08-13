@@ -1,0 +1,760 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"ament_environment_hooks",
+			"_ament_cmake_python_register_environment_hook",
+			"ament_python_install_package",
+			"_ament_cmake_python_install_package",
+			"_ament_cmake_export_libraries_register_environment_hook",
+			"ament_export_libraries",
+			"ament_index_register_resource",
+			"ament_cmake_environment_generate_package_run_dependencies_marker",
+			"include",
+			"ament_execute_extensions",
+			"ament_package",
+			"ament_cmake_environment_generate_parent_prefix_path_marker",
+			"ament_generate_package_environment",
+			"ament_index_register_package",
+			"_ament_package"
+		],
+		"files" : 
+		[
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/ament_environment_hooks.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_python/share/ament_cmake_python/cmake/ament_cmake_python-extras.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_python/share/ament_cmake_python/cmake/ament_python_install_package.cmake",
+			"CMakeLists.txt",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_export_libraries/share/ament_cmake_export_libraries/cmake/ament_cmake_export_libraries-extras.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_export_libraries/share/ament_cmake_export_libraries/cmake/ament_export_libraries.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/index/ament_index_register_resource.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment/ament_cmake_environment_package_hook.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/core/ament_package.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/ament_cmake_environment_hooks_package_hook.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/ament_generate_package_environment.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/index/ament_index_register_package.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/index/ament_cmake_index_package_hook.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_export_targets/share/ament_cmake_export_targets/cmake/ament_cmake_export_targets_package_hook.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 23,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 38,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 36,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 3
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 39,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 2,
+				"line" : 154,
+				"parent" : 6
+			},
+			{
+				"command" : 0,
+				"file" : 2,
+				"line" : 181,
+				"parent" : 6
+			},
+			{
+				"command" : 0,
+				"file" : 2,
+				"line" : 191,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 3,
+				"line" : 36,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 5,
+				"line" : 35,
+				"parent" : 10
+			},
+			{
+				"command" : 1,
+				"file" : 4,
+				"line" : 25,
+				"parent" : 11
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 12
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 12
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 41,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 15
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 42,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 17
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 55,
+				"parent" : 0
+			},
+			{
+				"command" : 10,
+				"file" : 9,
+				"line" : 66,
+				"parent" : 19
+			},
+			{
+				"command" : 9,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 20
+			},
+			{
+				"file" : 7,
+				"parent" : 21
+			},
+			{
+				"command" : 8,
+				"file" : 7,
+				"line" : 47,
+				"parent" : 22
+			},
+			{
+				"command" : 7,
+				"file" : 7,
+				"line" : 29,
+				"parent" : 23
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 24
+			},
+			{
+				"command" : 12,
+				"file" : 7,
+				"line" : 48,
+				"parent" : 22
+			},
+			{
+				"command" : 7,
+				"file" : 7,
+				"line" : 43,
+				"parent" : 26
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 27
+			},
+			{
+				"command" : 9,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 20
+			},
+			{
+				"file" : 10,
+				"parent" : 29
+			},
+			{
+				"command" : 1,
+				"file" : 10,
+				"line" : 20,
+				"parent" : 30
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 31
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 31
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 31
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 31
+			},
+			{
+				"command" : 13,
+				"file" : 10,
+				"line" : 26,
+				"parent" : 30
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 91,
+				"parent" : 36
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 91,
+				"parent" : 36
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 91,
+				"parent" : 36
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 107,
+				"parent" : 36
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 119,
+				"parent" : 36
+			},
+			{
+				"command" : 9,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 20
+			},
+			{
+				"file" : 13,
+				"parent" : 42
+			},
+			{
+				"command" : 14,
+				"file" : 13,
+				"line" : 16,
+				"parent" : 43
+			},
+			{
+				"command" : 7,
+				"file" : 12,
+				"line" : 29,
+				"parent" : 44
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 45
+			},
+			{
+				"command" : 9,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 20
+			},
+			{
+				"file" : 14,
+				"parent" : 47
+			},
+			{
+				"command" : 0,
+				"file" : 14,
+				"line" : 28,
+				"parent" : 48
+			},
+			{
+				"command" : 15,
+				"file" : 9,
+				"line" : 68,
+				"parent" : 19
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 50
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 50
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 50
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 50
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 50
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 150,
+				"parent" : 50
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 157,
+				"parent" : 50
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 63,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 67,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 71,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/pythonpath.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/pythonpath.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 7,
+			"component" : "Unspecified",
+			"destination" : "lib/python3.13/site-packages/rosidl_typesupport_introspection_c-3.1.9-py3.13.egg-info",
+			"paths" : 
+			[
+				{
+					"from" : "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_python/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c.egg-info",
+					"to" : "."
+				}
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 8,
+			"component" : "Unspecified",
+			"destination" : "lib/python3.13/site-packages/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				{
+					"from" : "rosidl_typesupport_introspection_c",
+					"to" : "."
+				}
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 9,
+			"component" : "Unspecified",
+			"type" : "code"
+		},
+		{
+			"backtrace" : 13,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_package/lib/python3.13/site-packages/ament_package/template/environment_hook/library_path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 14,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/library_path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 16,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/rosidl_typesupport_c",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_index/share/ament_index/resource_index/rosidl_typesupport_c/rosidl_typesupport_introspection_c"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 18,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/rosidl_runtime_packages",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_index/share/ament_index/resource_index/rosidl_runtime_packages/rosidl_typesupport_introspection_c"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 25,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/package_run_dependencies",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/rosidl_typesupport_introspection_c"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 28,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/parent_prefix_path",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/rosidl_typesupport_introspection_c"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 32,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/environment/ament_prefix_path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 33,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/ament_prefix_path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 34,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 35,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 37,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/local_setup.bash"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 38,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/local_setup.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 39,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/local_setup.zsh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 40,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/local_setup.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 41,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_environment_hooks/package.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 46,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/packages",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_index/share/ament_index/resource_index/packages/rosidl_typesupport_introspection_c"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 49,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/cmake",
+			"exportName" : "rosidl_typesupport_introspection_c",
+			"exportTargets" : 
+			[
+				{
+					"id" : "rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"index" : 3
+				}
+			],
+			"paths" : 
+			[
+				"CMakeFiles/Export/e311f381a5497150eae046bcea56c8e3/rosidl_typesupport_introspection_cExport.cmake"
+			],
+			"type" : "export"
+		},
+		{
+			"backtrace" : 51,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_core/rosidl_typesupport_introspection_c-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 52,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_export_dependencies/ament_cmake_export_dependencies-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 53,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_export_include_directories/ament_cmake_export_include_directories-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 54,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_export_libraries/ament_cmake_export_libraries-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 55,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_export_targets/ament_cmake_export_targets-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 56,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_core/rosidl_typesupport_introspection_cConfig.cmake",
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_introspection_c/ament_cmake_core/rosidl_typesupport_introspection_cConfig-version.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 57,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"package.xml"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 58,
+			"component" : "Unspecified",
+			"destination" : "lib/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"bin/rosidl_typesupport_introspection_c"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 59,
+			"component" : "Unspecified",
+			"destination" : "share/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				"cmake",
+				"resource"
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 60,
+			"component" : "Unspecified",
+			"destination" : "include/rosidl_typesupport_introspection_c",
+			"paths" : 
+			[
+				{
+					"from" : "include",
+					"to" : "."
+				}
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 61,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"librosidl_typesupport_introspection_c.a"
+			],
+			"targetId" : "rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+			"targetIndex" : 3,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

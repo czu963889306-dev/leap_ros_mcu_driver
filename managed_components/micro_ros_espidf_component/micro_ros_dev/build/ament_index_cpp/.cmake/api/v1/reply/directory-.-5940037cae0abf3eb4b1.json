@@ -1,0 +1,533 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"ament_environment_hooks",
+			"_ament_cmake_export_libraries_register_environment_hook",
+			"ament_export_targets",
+			"ament_index_register_resource",
+			"ament_cmake_environment_generate_package_run_dependencies_marker",
+			"include",
+			"ament_execute_extensions",
+			"ament_package",
+			"ament_cmake_environment_generate_parent_prefix_path_marker",
+			"ament_generate_package_environment",
+			"ament_index_register_package",
+			"_ament_package",
+			"ament_generate_version_header"
+		],
+		"files" : 
+		[
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/ament_environment_hooks.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_export_libraries/share/ament_cmake_export_libraries/cmake/ament_cmake_export_libraries-extras.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_export_targets/share/ament_cmake_export_targets/cmake/ament_export_targets.cmake",
+			"CMakeLists.txt",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/index/ament_index_register_resource.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment/ament_cmake_environment_package_hook.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/core/ament_package.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/ament_cmake_environment_hooks_package_hook.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/ament_generate_package_environment.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/index/ament_index_register_package.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/index/ament_cmake_index_package_hook.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_export_targets/share/ament_cmake_export_targets/cmake/ament_cmake_export_targets_package_hook.cmake",
+			"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_gen_version_h/share/ament_cmake_gen_version_h/cmake/ament_generate_version_header.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 37,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 59,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 25,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 3
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 3
+			},
+			{
+				"command" : 8,
+				"file" : 3,
+				"line" : 50,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 7,
+				"line" : 66,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 6,
+				"line" : 48,
+				"parent" : 7
+			},
+			{
+				"file" : 5,
+				"parent" : 8
+			},
+			{
+				"command" : 5,
+				"file" : 5,
+				"line" : 47,
+				"parent" : 9
+			},
+			{
+				"command" : 4,
+				"file" : 5,
+				"line" : 29,
+				"parent" : 10
+			},
+			{
+				"command" : 0,
+				"file" : 4,
+				"line" : 105,
+				"parent" : 11
+			},
+			{
+				"command" : 9,
+				"file" : 5,
+				"line" : 48,
+				"parent" : 9
+			},
+			{
+				"command" : 4,
+				"file" : 5,
+				"line" : 43,
+				"parent" : 13
+			},
+			{
+				"command" : 0,
+				"file" : 4,
+				"line" : 105,
+				"parent" : 14
+			},
+			{
+				"command" : 6,
+				"file" : 6,
+				"line" : 48,
+				"parent" : 7
+			},
+			{
+				"file" : 8,
+				"parent" : 16
+			},
+			{
+				"command" : 1,
+				"file" : 8,
+				"line" : 20,
+				"parent" : 17
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 18
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 18
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 18
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 18
+			},
+			{
+				"command" : 10,
+				"file" : 8,
+				"line" : 26,
+				"parent" : 17
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 91,
+				"parent" : 23
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 91,
+				"parent" : 23
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 91,
+				"parent" : 23
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 107,
+				"parent" : 23
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 119,
+				"parent" : 23
+			},
+			{
+				"command" : 6,
+				"file" : 6,
+				"line" : 48,
+				"parent" : 7
+			},
+			{
+				"file" : 11,
+				"parent" : 29
+			},
+			{
+				"command" : 11,
+				"file" : 11,
+				"line" : 16,
+				"parent" : 30
+			},
+			{
+				"command" : 4,
+				"file" : 10,
+				"line" : 29,
+				"parent" : 31
+			},
+			{
+				"command" : 0,
+				"file" : 4,
+				"line" : 105,
+				"parent" : 32
+			},
+			{
+				"command" : 6,
+				"file" : 6,
+				"line" : 48,
+				"parent" : 7
+			},
+			{
+				"file" : 12,
+				"parent" : 34
+			},
+			{
+				"command" : 0,
+				"file" : 12,
+				"line" : 28,
+				"parent" : 35
+			},
+			{
+				"command" : 12,
+				"file" : 7,
+				"line" : 68,
+				"parent" : 6
+			},
+			{
+				"command" : 0,
+				"file" : 7,
+				"line" : 122,
+				"parent" : 37
+			},
+			{
+				"command" : 0,
+				"file" : 7,
+				"line" : 150,
+				"parent" : 37
+			},
+			{
+				"command" : 0,
+				"file" : 7,
+				"line" : 157,
+				"parent" : 37
+			},
+			{
+				"command" : 13,
+				"file" : 3,
+				"line" : 51,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 13,
+				"line" : 167,
+				"parent" : 41
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 53,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 55,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_package/lib/python3.13/site-packages/ament_package/template/environment_hook/library_path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/library_path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 12,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/package_run_dependencies",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/ament_index_cpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 15,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/parent_prefix_path",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/ament_index_cpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 19,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/environment/ament_prefix_path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 20,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/ament_prefix_path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 21,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_core/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 22,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/environment",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 24,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/local_setup.bash"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 25,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/local_setup.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 26,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/local_setup.zsh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 27,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/local_setup.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 28,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_environment_hooks/package.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 33,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/packages",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_index/share/ament_index/resource_index/packages/ament_index_cpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 36,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/cmake",
+			"exportName" : "export_ament_index_cpp",
+			"exportTargets" : 
+			[
+				{
+					"id" : "ament_index_cpp::@6890427a1f51a3e7e1df",
+					"index" : 1
+				}
+			],
+			"paths" : 
+			[
+				"CMakeFiles/Export/a4902a30ca177a781c226291a0bd3d0d/export_ament_index_cppExport.cmake"
+			],
+			"type" : "export"
+		},
+		{
+			"backtrace" : 38,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_export_targets/ament_cmake_export_targets-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 39,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp/cmake",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_core/ament_index_cppConfig.cmake",
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_cmake_core/ament_index_cppConfig-version.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 40,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index_cpp",
+			"paths" : 
+			[
+				"package.xml"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 42,
+			"component" : "Unspecified",
+			"destination" : "include/ament_index_cpp/ament_index_cpp",
+			"paths" : 
+			[
+				"/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_index_cpp/ament_generate_version_header/ament_index_cpp/ament_index_cpp/version.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 43,
+			"component" : "Unspecified",
+			"destination" : "include/ament_index_cpp",
+			"paths" : 
+			[
+				{
+					"from" : "include",
+					"to" : "."
+				}
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 44,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"libament_index_cpp.so"
+			],
+			"targetId" : "ament_index_cpp::@6890427a1f51a3e7e1df",
+			"targetIndex" : 1,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

@@ -1,0 +1,10 @@
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rmw/rmw/src/validate_full_topic_name.c:17:
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rmw/rmw/src/validate_full_topic_name.c: In function 'rmw_validate_full_topic_name_with_size':
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rmw/rmw/src/validate_full_topic_name.c:106:29: warning: array subscript has type 'char' [-Wchar-subscripts]
+  106 |       if (isdigit(topic_name[i + 1]) != 0) {
+      |                   ~~~~~~~~~~^~~~~~~
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rmw/rmw/src/validate_node_name.c:17:
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rmw/rmw/src/validate_node_name.c: In function 'rmw_validate_node_name_with_size':
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rmw/rmw/src/validate_node_name.c:72:24: warning: array subscript has type 'char' [-Wchar-subscripts]
+   72 |   if (isdigit(node_name[0]) != 0) {
+      |               ~~~~~~~~~^~~

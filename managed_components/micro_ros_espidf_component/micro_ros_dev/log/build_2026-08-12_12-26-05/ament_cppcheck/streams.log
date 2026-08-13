@@ -1,0 +1,48 @@
+[0.904s] Invoking command in '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/src/ament_lint/ament_cppcheck': PYTHONPATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/prefix_override:/root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/colcon_core/task/python/colcon_distutils_commands:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_cppcheck build --build-base /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/build install --record /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/install.log --single-version-externally-managed install_data
+[1.412s] /root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/setuptools/_distutils/dist.py:289: UserWarning: Unknown distribution option: 'tests_require'
+[1.412s]   warnings.warn(msg)
+[1.412s] /root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+[1.412s] !!
+[1.412s] 
+[1.412s]         ********************************************************************************
+[1.412s]         Please consider removing the following classifiers in favor of a SPDX license expression:
+[1.412s] 
+[1.412s]         License :: OSI Approved :: Apache Software License
+[1.412s] 
+[1.412s]         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+[1.412s]         ********************************************************************************
+[1.412s] 
+[1.412s] !!
+[1.413s]   self._finalize_license_expression()
+[1.413s] running egg_info
+[1.413s] creating ../../../build/ament_cppcheck/ament_cppcheck.egg-info
+[1.413s] writing ../../../build/ament_cppcheck/ament_cppcheck.egg-info/PKG-INFO
+[1.413s] writing dependency_links to ../../../build/ament_cppcheck/ament_cppcheck.egg-info/dependency_links.txt
+[1.413s] writing entry points to ../../../build/ament_cppcheck/ament_cppcheck.egg-info/entry_points.txt
+[1.413s] writing requirements to ../../../build/ament_cppcheck/ament_cppcheck.egg-info/requires.txt
+[1.413s] writing top-level names to ../../../build/ament_cppcheck/ament_cppcheck.egg-info/top_level.txt
+[1.413s] writing manifest file '../../../build/ament_cppcheck/ament_cppcheck.egg-info/SOURCES.txt'
+[1.413s] reading manifest file '../../../build/ament_cppcheck/ament_cppcheck.egg-info/SOURCES.txt'
+[1.413s] writing manifest file '../../../build/ament_cppcheck/ament_cppcheck.egg-info/SOURCES.txt'
+[1.413s] running build
+[1.413s] running build_py
+[1.413s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/build/lib/ament_cppcheck
+[1.413s] copying ament_cppcheck/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/build/lib/ament_cppcheck
+[1.413s] copying ament_cppcheck/main.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/build/lib/ament_cppcheck
+[1.414s] running install
+[1.414s] running install_lib
+[1.414s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages/ament_cppcheck
+[1.414s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/build/lib/ament_cppcheck/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages/ament_cppcheck
+[1.414s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/build/lib/ament_cppcheck/main.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages/ament_cppcheck
+[1.414s] byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages/ament_cppcheck/__init__.py to __init__.cpython-313.pyc
+[1.414s] byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages/ament_cppcheck/main.py to main.cpython-313.pyc
+[1.414s] running install_data
+[1.414s] copying package.xml -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/share/ament_cppcheck
+[1.414s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/share/ament_index/resource_index/packages
+[1.414s] copying resource/ament_cppcheck -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/share/ament_index/resource_index/packages
+[1.414s] running install_egg_info
+[1.414s] Copying ../../../build/ament_cppcheck/ament_cppcheck.egg-info to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages/ament_cppcheck-0.12.15-py3.13.egg-info
+[1.414s] running install_scripts
+[1.414s] Installing ament_cppcheck script to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/bin
+[1.414s] writing list of installed files to '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/install.log'
+[1.416s] Invoked command in '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/src/ament_lint/ament_cppcheck' returned '0': PYTHONPATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/prefix_override:/root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/colcon_core/task/python/colcon_distutils_commands:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cppcheck/lib/python3.13/site-packages: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_cppcheck build --build-base /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/build install --record /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_cppcheck/install.log --single-version-externally-managed install_data

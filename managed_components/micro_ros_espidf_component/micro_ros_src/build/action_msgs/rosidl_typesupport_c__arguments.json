@@ -1,0 +1,31 @@
+{
+  "package_name": "action_msgs",
+  "output_dir": "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_typesupport_c/action_msgs",
+  "template_dir": "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource",
+  "idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs:msg/GoalInfo.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs:msg/GoalStatus.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs:msg/GoalStatusArray.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs:srv/CancelGoal.idl"
+  ],
+  "ros_interface_dependencies": [
+    "builtin_interfaces:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Duration.idl",
+    "builtin_interfaces:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Time.idl",
+    "unique_identifier_msgs:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/unique_identifier_msgs/msg/UUID.idl"
+  ],
+  "target_dependencies": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/rosidl_typesupport_c/rosidl_typesupport_c",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c/__init__.py",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/action__type_support.c.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/idl__type_support.cpp.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/msg__type_support.cpp.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/srv__type_support.cpp.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs/msg/GoalInfo.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs/msg/GoalStatus.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs/msg/GoalStatusArray.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/action_msgs/rosidl_adapter/action_msgs/srv/CancelGoal.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Duration.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/builtin_interfaces/msg/Time.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/unique_identifier_msgs/msg/UUID.idl"
+  ]
+}

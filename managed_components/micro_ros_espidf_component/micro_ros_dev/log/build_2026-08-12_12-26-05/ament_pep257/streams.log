@@ -1,0 +1,51 @@
+[1.109s] Invoking command in '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/src/ament_lint/ament_pep257': AMENT_PREFIX_PATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_flake8:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_lint PATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_flake8/bin:${PATH} PYTHONPATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/prefix_override:/root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/colcon_core/task/python/colcon_distutils_commands:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_flake8/lib/python3.13/site-packages:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_lint/lib/python3.13/site-packages /root/.espressif/python_env/idf5.5_py3.13_env/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_pep257 build --build-base /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build install --record /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/install.log --single-version-externally-managed install_data
+[1.403s] /root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/setuptools/_distutils/dist.py:289: UserWarning: Unknown distribution option: 'tests_require'
+[1.403s]   warnings.warn(msg)
+[1.439s] /root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+[1.439s] !!
+[1.439s] 
+[1.439s]         ********************************************************************************
+[1.439s]         Please consider removing the following classifiers in favor of a SPDX license expression:
+[1.439s] 
+[1.439s]         License :: OSI Approved :: Apache Software License
+[1.440s] 
+[1.440s]         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+[1.440s]         ********************************************************************************
+[1.440s] 
+[1.440s] !!
+[1.440s]   self._finalize_license_expression()
+[1.507s] running egg_info
+[1.519s] creating ../../../build/ament_pep257/ament_pep257.egg-info
+[1.521s] writing ../../../build/ament_pep257/ament_pep257.egg-info/PKG-INFO
+[1.521s] writing dependency_links to ../../../build/ament_pep257/ament_pep257.egg-info/dependency_links.txt
+[1.521s] writing entry points to ../../../build/ament_pep257/ament_pep257.egg-info/entry_points.txt
+[1.521s] writing requirements to ../../../build/ament_pep257/ament_pep257.egg-info/requires.txt
+[1.521s] writing top-level names to ../../../build/ament_pep257/ament_pep257.egg-info/top_level.txt
+[1.521s] writing manifest file '../../../build/ament_pep257/ament_pep257.egg-info/SOURCES.txt'
+[1.553s] reading manifest file '../../../build/ament_pep257/ament_pep257.egg-info/SOURCES.txt'
+[1.555s] writing manifest file '../../../build/ament_pep257/ament_pep257.egg-info/SOURCES.txt'
+[1.562s] running build
+[1.563s] running build_py
+[1.563s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build/lib/ament_pep257
+[1.563s] copying ament_pep257/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build/lib/ament_pep257
+[1.563s] copying ament_pep257/pytest_marker.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build/lib/ament_pep257
+[1.563s] copying ament_pep257/main.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build/lib/ament_pep257
+[1.563s] running install
+[1.572s] running install_lib
+[1.660s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257
+[1.660s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build/lib/ament_pep257/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257
+[1.661s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build/lib/ament_pep257/pytest_marker.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257
+[1.661s] copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build/lib/ament_pep257/main.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257
+[1.662s] byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257/__init__.py to __init__.cpython-313.pyc
+[1.662s] byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257/pytest_marker.py to pytest_marker.cpython-313.pyc
+[1.662s] byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257/main.py to main.cpython-313.pyc
+[1.662s] running install_data
+[1.662s] copying package.xml -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/share/ament_pep257
+[1.662s] creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/share/ament_index/resource_index/packages
+[1.662s] copying resource/ament_pep257 -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/share/ament_index/resource_index/packages
+[1.662s] running install_egg_info
+[1.662s] Copying ../../../build/ament_pep257/ament_pep257.egg-info to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages/ament_pep257-0.12.15-py3.13.egg-info
+[1.663s] running install_scripts
+[1.689s] Installing ament_pep257 script to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/bin
+[1.689s] writing list of installed files to '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/install.log'
+[1.793s] Invoked command in '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/src/ament_lint/ament_pep257' returned '0': AMENT_PREFIX_PATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_flake8:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_lint PATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_flake8/bin:${PATH} PYTHONPATH=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/prefix_override:/root/.espressif/python_env/idf5.5_py3.13_env/lib/python3.13/site-packages/colcon_core/task/python/colcon_distutils_commands:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_pep257/lib/python3.13/site-packages:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_flake8/lib/python3.13/site-packages:/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_lint/lib/python3.13/site-packages /root/.espressif/python_env/idf5.5_py3.13_env/bin/python -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_pep257 build --build-base /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/build install --record /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/ament_pep257/install.log --single-version-externally-managed install_data

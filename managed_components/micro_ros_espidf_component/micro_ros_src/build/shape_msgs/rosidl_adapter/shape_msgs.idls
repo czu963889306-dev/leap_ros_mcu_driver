@@ -1,0 +1,4 @@
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/shape_msgs/rosidl_adapter/shape_msgs:msg/Mesh.idl
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/shape_msgs/rosidl_adapter/shape_msgs:msg/MeshTriangle.idl
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/shape_msgs/rosidl_adapter/shape_msgs:msg/Plane.idl
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/shape_msgs/rosidl_adapter/shape_msgs:msg/SolidPrimitive.idl

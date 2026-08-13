@@ -1,0 +1,48 @@
+Not searching for unused variables given on the command line.
+-- The C compiler identification is GNU 14.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (1.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/microcdr
+gmake[1]: Entering directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/microcdr'
+[ 12%] Creating directories for 'ucdr'
+[ 25%] No download step for 'ucdr'
+[ 37%] No update step for 'ucdr'
+[ 50%] No patch step for 'ucdr'
+[ 62%] Performing configure step for 'ucdr'
+loading initial cache file /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/microcdr/ucdr-prefix/tmp/ucdr-cache-Release.cmake
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/microcdr
+[ 75%] Performing build step for 'ucdr'
+[ 16%] Building C object CMakeFiles/microcdr.dir/src/c/common.c.obj
+[ 33%] Building C object CMakeFiles/microcdr.dir/src/c/types/basic.c.obj
+[ 50%] Building C object CMakeFiles/microcdr.dir/src/c/types/string.c.obj
+[ 66%] Building C object CMakeFiles/microcdr.dir/src/c/types/array.c.obj
+[ 83%] Building C object CMakeFiles/microcdr.dir/src/c/types/sequence.c.obj
+[100%] Linking C static library libmicrocdr.a
+[100%] Built target microcdr
+No install step for 'ucdr'
+Completed 'ucdr'
+Built target ucdr
+gmake[1]: Leaving directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/microcdr'
+-- Install configuration: "Release"
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/libmicrocdr.a
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/ucdr
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/ucdr/microcdr.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/ucdr/visibility.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/ucdr/config.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/microcdr/cmake/microcdrTargets.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/microcdr/cmake/microcdrTargets-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/microcdr/cmake/microcdrConfig.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/microcdr/cmake/microcdrConfigVersion.cmake

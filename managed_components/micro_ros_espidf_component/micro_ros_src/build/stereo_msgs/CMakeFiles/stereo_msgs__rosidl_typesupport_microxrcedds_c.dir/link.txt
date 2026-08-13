@@ -1,0 +1,2 @@
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc libstereo_msgs__rosidl_typesupport_microxrcedds_c.a CMakeFiles/stereo_msgs__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/stereo_msgs/msg/detail/microxrcedds/disparity_image__type_support_c.c.obj
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib libstereo_msgs__rosidl_typesupport_microxrcedds_c.a

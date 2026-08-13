@@ -1,0 +1,15 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rosgraph_msgs/msg/Graph.msg
+// generated code does not contain a copyright notice
+
+#include "rosgraph_msgs/msg/Node.idl"
+
+module rosgraph_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "Represents a ROS node graph, which is only a collection of nodes")
+    struct Graph {
+      sequence<rosgraph_msgs::msg::Node> nodes;
+    };
+  };
+};

@@ -1,0 +1,30 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rosgraph_msgs/msg/Service.msg
+// generated code does not contain a copyright notice
+
+#include "rosgraph_msgs/msg/InterfaceType.idl"
+#include "rosgraph_msgs/msg/QoSProfile.idl"
+
+module rosgraph_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "Describes a single Service endpoint, which may be a Server or Client")
+    struct Service {
+      @verbatim (language="comment", text=
+        "Fully qualified name of the Service")
+      string name;
+
+      @verbatim (language="comment", text=
+        "Type and actual QoS of the request publisher (Client) or subscription (Server)")
+      rosgraph_msgs::msg::InterfaceType request_type;
+
+      rosgraph_msgs::msg::QoSProfile request_qos;
+
+      @verbatim (language="comment", text=
+        "Type and actual QoS of the request subscription (Client) or publisher (Server)")
+      rosgraph_msgs::msg::InterfaceType response_type;
+
+      rosgraph_msgs::msg::QoSProfile response_qos;
+    };
+  };
+};

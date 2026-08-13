@@ -1,0 +1,20 @@
+CMakeFiles/microxrcedds_client.dir/src/c/profile/transport/custom/custom_transport.c.obj: \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/src/c/profile/transport/custom/custom_transport.c \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/include/uxr/client/profile/transport/custom/custom_transport.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/include/uxr/client/core/communication/communication.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/microxrcedds_client/include/uxr/client/config.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/stdint.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/xtensa-esp-elf/include/stdint.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/xtensa-esp-elf/include/machine/_default_types.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/xtensa-esp-elf/include/sys/features.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/xtensa-esp-elf/include/_newlib_version.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/xtensa-esp-elf/include/sys/_intsup.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/xtensa-esp-elf/include/sys/_stdint.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/stddef.h \
+ /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include/stdbool.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/include/uxr/client/profile/transport/stream_framing/stream_framing_protocol.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/include/uxr/client/visibility.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/include/uxr/client/profile/multithread/multithread.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/include/uxr/client/core/session/stream/stream_id.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/include/uxr/client/util/time.h \
+ /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/Micro-XRCE-DDS-Client/src/c/profile/transport/custom/../stream_framing/stream_framing_protocol.h

@@ -1,0 +1,17 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/leap_interfaces__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/microxrcedds/get_speed_pid__type_support_c.c.obj"
+  "CMakeFiles/leap_interfaces__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/microxrcedds/get_speed_pid__type_support_c.c.obj.d"
+  "CMakeFiles/leap_interfaces__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/microxrcedds/set_speed_pid__type_support_c.c.obj"
+  "CMakeFiles/leap_interfaces__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/microxrcedds/set_speed_pid__type_support_c.c.obj.d"
+  "libleap_interfaces__rosidl_typesupport_microxrcedds_c.a"
+  "libleap_interfaces__rosidl_typesupport_microxrcedds_c.pdb"
+  "rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/get_speed_pid__rosidl_typesupport_microxrcedds_c.h"
+  "rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/microxrcedds/get_speed_pid__type_support_c.c"
+  "rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/microxrcedds/set_speed_pid__type_support_c.c"
+  "rosidl_typesupport_microxrcedds_c/leap_interfaces/srv/detail/set_speed_pid__rosidl_typesupport_microxrcedds_c.h"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/leap_interfaces__rosidl_typesupport_microxrcedds_c.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

@@ -1,0 +1,31 @@
+Metadata-Version: 2.4
+Name: rosidl_cli
+Version: 3.1.9
+Summary: Command line tools for ROS interface generation.
+Home-page: https://github.com/ros2/rosidl/tree/master/rosidl_cli
+Download-URL: https://github.com/ros2/rosidl/releases
+Author: Michel Hidalgo
+Author-email: michel@ekumenlabs.com
+Maintainer: Michel Hidalgo, Shane Loretz
+Maintainer-email: michel@ekumenlabs.com, sloretz@openrobotics.org
+License: Apache License, Version 2.0
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Provides-Extra: completion
+Requires-Dist: argcomplete; extra == "completion"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: provides-extra
+Dynamic: summary
+
+The tooling provides a single command line script for ROS interface source code generation.

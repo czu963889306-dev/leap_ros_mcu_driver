@@ -1,0 +1,9 @@
+{
+  "package_name": "action_msgs",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl_interfaces/action_msgs:msg/GoalInfo.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl_interfaces/action_msgs:msg/GoalStatus.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl_interfaces/action_msgs:msg/GoalStatusArray.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl_interfaces/action_msgs:srv/CancelGoal.srv"
+  ]
+}

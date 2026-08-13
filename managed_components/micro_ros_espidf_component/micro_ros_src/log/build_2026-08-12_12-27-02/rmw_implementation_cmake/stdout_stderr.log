@@ -1,0 +1,30 @@
+Not searching for unused variables given on the command line.
+-- Found ament_cmake: 1.3.14 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake/share/ament_cmake/cmake)
+-- Found Python3: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python3 (found version "3.13.5") found components: Interpreter
+-- Configuring done (1.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rmw_implementation_cmake
+gmake[1]: Entering directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rmw_implementation_cmake'
+gmake[1]: Leaving directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rmw_implementation_cmake'
+-- Install configuration: "Release"
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/package_run_dependencies/rmw_implementation_cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/parent_prefix_path/rmw_implementation_cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/environment/ament_prefix_path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/environment/ament_prefix_path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/environment/path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/environment/path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/local_setup.bash
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/local_setup.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/local_setup.zsh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/local_setup.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/package.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/packages/rmw_implementation_cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake/rmw_implementation_cmake-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake/rmw_implementation_cmakeConfig.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake/rmw_implementation_cmakeConfig-version.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/package.xml
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake/get_default_rmw_implementation.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake/get_available_rmw_implementations.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rmw_implementation_cmake/cmake/call_for_each_rmw_implementation.cmake

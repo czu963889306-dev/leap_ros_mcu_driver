@@ -1,0 +1,47 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rosgraph_msgs/msg/Node.msg
+// generated code does not contain a copyright notice
+
+#include "rcl_interfaces/msg/ParameterDescriptor.idl"
+#include "rcl_interfaces/msg/ParameterValue.idl"
+#include "rosgraph_msgs/msg/Action.idl"
+#include "rosgraph_msgs/msg/Service.idl"
+#include "rosgraph_msgs/msg/Topic.idl"
+
+module rosgraph_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "Represents the observable runtime state of a ROS Node" "\n"
+      "Therefore, does not perfectly align with the abstract specification which created it.")
+    struct Node {
+      @verbatim (language="comment", text=
+        "Fully qualified node name (FQN)")
+      string name;
+
+      @verbatim (language="comment", text=
+        "Parameter specifications for the node")
+      sequence<rcl_interfaces::msg::ParameterDescriptor> parameters;
+
+      @verbatim (language="comment", text=
+        "Current values of the node's parameters" "\n"
+        "NOTE:" "\n"
+        "  parameter_values[] must be empty, or the same size as parameters[]" "\n"
+        "  When set, parameter_values[] match 1:1 with the same index in parameters[]")
+      sequence<rcl_interfaces::msg::ParameterValue> parameter_values;
+
+      @verbatim (language="comment", text=
+        "Communications endpoints - Topics, Services, and Actions")
+      sequence<rosgraph_msgs::msg::Topic> publishers;
+
+      sequence<rosgraph_msgs::msg::Topic> subscriptions;
+
+      sequence<rosgraph_msgs::msg::Service> service_clients;
+
+      sequence<rosgraph_msgs::msg::Service> service_servers;
+
+      sequence<rosgraph_msgs::msg::Action> action_clients;
+
+      sequence<rosgraph_msgs::msg::Action> action_servers;
+    };
+  };
+};

@@ -1,0 +1,24 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+In file included from /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl/rcl_lifecycle/src/transition_map.c:20:
+/root/esp/esp-idf/components/newlib/platform_include/stdio.h:10:2: warning: #include_next is a GCC extension
+   10 | #include_next <stdio.h>
+      |  ^~~~~~~~~~~~
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl/rcl_lifecycle/src/rcl_lifecycle.c: In function 'rcl_lifecycle_state_machine_fini':
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl/rcl_lifecycle/src/rcl_lifecycle.c:265:24: warning: unused variable 'error_string' [-Wunused-variable]
+  265 |     rcl_error_string_t error_string = rcl_get_error_string();
+      |                        ^~~~~~~~~~~~
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl/rcl_lifecycle/src/rcl_lifecycle.c:275:24: warning: unused variable 'error_string' [-Wunused-variable]
+  275 |     rcl_error_string_t error_string = rcl_get_error_string();
+      |                        ^~~~~~~~~~~~
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl/rcl_lifecycle/src/rcl_lifecycle.c: In function '_trigger_transition':
+/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl/rcl_lifecycle/src/rcl_lifecycle.c:366:26: warning: unused variable 'error_string' [-Wunused-variable]
+  366 |       rcl_error_string_t error_string = rcl_get_error_string();
+      |                          ^~~~~~~~~~~~

@@ -1,0 +1,9 @@
+{
+  "package_name": "trajectory_msgs",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/trajectory_msgs:msg/JointTrajectory.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/trajectory_msgs:msg/JointTrajectoryPoint.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/trajectory_msgs:msg/MultiDOFJointTrajectory.msg",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/common_interfaces/trajectory_msgs:msg/MultiDOFJointTrajectoryPoint.msg"
+  ]
+}

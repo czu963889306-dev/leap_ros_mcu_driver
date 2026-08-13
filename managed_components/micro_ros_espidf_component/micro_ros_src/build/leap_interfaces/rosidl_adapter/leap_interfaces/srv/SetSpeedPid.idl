@@ -1,0 +1,25 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from leap_interfaces/srv/SetSpeedPid.srv
+// generated code does not contain a copyright notice
+
+
+module leap_interfaces {
+  module srv {
+    struct SetSpeedPid_Request {
+      float kp;
+
+      float ki;
+
+      float kd;
+    };
+    struct SetSpeedPid_Response {
+      boolean success;
+
+      float kp;
+
+      float ki;
+
+      float kd;
+    };
+  };
+};

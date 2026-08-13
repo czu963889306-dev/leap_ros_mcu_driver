@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: ament_pclint
+Version: 0.12.15
+Summary: Static code analysis on C/C++ code using PC-lint.
+Home-page: https://github.com/ament/ament_lint
+Download-URL: 
+Author: Juan Pablo Samper
+Author-email: jp.samper@apex.ai
+Maintainer: Michael Jeronimo, Michel Hidalgo
+Maintainer-email: michael.jeronimo@openrobotics.org, michel@ekumenlabs.com
+License: Apache License, Version 2.0
+Keywords: ament
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development
+Requires-Dist: setuptools
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: summary
+
+The ability to perform static code analysis on C/C++ code using PC-lint
+and generate xUnit test result files.

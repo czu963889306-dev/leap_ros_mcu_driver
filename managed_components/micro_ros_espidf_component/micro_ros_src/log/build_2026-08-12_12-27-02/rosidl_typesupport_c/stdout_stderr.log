@@ -1,0 +1,105 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+Not searching for unused variables given on the command line.
+-- The C compiler identification is GNU 14.2.0
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake_ros: 0.10.0 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/ament_cmake_ros/share/ament_cmake_ros/cmake)
+-- Found Python3: /root/.espressif/python_env/idf5.5_py3.13_env/bin/python3 (found version "3.13.5") found components: Interpreter
+-- Found rcutils: 5.1.7 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rcutils/cmake)
+-- Found rosidl_runtime_c: 3.1.9 (/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_runtime_c/cmake)
+-- Configuring done (1.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_c
+gmake[1]: Entering directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_c'
+[ 25%] Building CXX object CMakeFiles/rosidl_typesupport_c.dir/src/service_type_support_dispatch.cpp.obj
+[ 50%] Building CXX object CMakeFiles/rosidl_typesupport_c.dir/src/message_type_support_dispatch.cpp.obj
+[ 75%] Building C object CMakeFiles/rosidl_typesupport_c.dir/src/identifier.c.obj
+[ 75%] Built target ament_cmake_python_copy_rosidl_typesupport_c_setup
+[ 75%] Built target ament_cmake_python_copy_rosidl_typesupport_c
+[100%] Linking CXX static library librosidl_typesupport_c.a
+[100%] Built target rosidl_typesupport_c
+running egg_info
+creating rosidl_typesupport_c.egg-info
+writing rosidl_typesupport_c.egg-info/PKG-INFO
+writing dependency_links to rosidl_typesupport_c.egg-info/dependency_links.txt
+writing entry points to rosidl_typesupport_c.egg-info/entry_points.txt
+writing top-level names to rosidl_typesupport_c.egg-info/top_level.txt
+writing manifest file 'rosidl_typesupport_c.egg-info/SOURCES.txt'
+reading manifest file 'rosidl_typesupport_c.egg-info/SOURCES.txt'
+writing manifest file 'rosidl_typesupport_c.egg-info/SOURCES.txt'
+[100%] Built target ament_cmake_python_build_rosidl_typesupport_c_egg
+gmake[1]: Leaving directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_typesupport_c'
+-- Install configuration: "Release"
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/pythonpath.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/pythonpath.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c-2.0.2-py3.13.egg-info
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c-2.0.2-py3.13.egg-info/PKG-INFO
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c-2.0.2-py3.13.egg-info/top_level.txt
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c-2.0.2-py3.13.egg-info/dependency_links.txt
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c-2.0.2-py3.13.egg-info/SOURCES.txt
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c-2.0.2-py3.13.egg-info/entry_points.txt
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c/cli.py
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c/__init__.py
+Listing '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c'...
+Compiling '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c/__init__.py'...
+Compiling '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_typesupport_c/cli.py'...
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/library_path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/library_path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/rosidl_runtime_packages/rosidl_typesupport_c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/package_run_dependencies/rosidl_typesupport_c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/parent_prefix_path/rosidl_typesupport_c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/ament_prefix_path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/ament_prefix_path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/path.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/environment/path.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/local_setup.bash
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/local_setup.sh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/local_setup.zsh
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/local_setup.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/package.dsv
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/packages/rosidl_typesupport_c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/rosidl_typesupport_cExport.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/rosidl_typesupport_cExport-release.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/rosidl_typesupport_c-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/rosidl_typesupport_cConfig.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/rosidl_typesupport_cConfig-version.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/package.xml
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/rosidl_typesupport_c/rosidl_typesupport_c
+-- Up-to-date: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/rosidl_typesupport_c_generate_interfaces.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/cmake/get_used_typesupports.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/msg__type_support.cpp.em
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/srv__type_support.cpp.em
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/action__type_support.c.em
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_typesupport_c/resource/idl__type_support.cpp.em
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/rosidl_typesupport_c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/rosidl_typesupport_c/rosidl_typesupport_c
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/rosidl_typesupport_c/rosidl_typesupport_c/identifier.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/rosidl_typesupport_c/rosidl_typesupport_c/service_type_support_dispatch.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/rosidl_typesupport_c/rosidl_typesupport_c/type_support_map.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/rosidl_typesupport_c/rosidl_typesupport_c/visibility_control.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/include/rosidl_typesupport_c/rosidl_typesupport_c/message_type_support_dispatch.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/librosidl_typesupport_c.a

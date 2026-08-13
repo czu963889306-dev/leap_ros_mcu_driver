@@ -1,0 +1,8 @@
+{
+  "package_name": "composition_interfaces",
+  "non_idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl_interfaces/composition_interfaces:srv/LoadNode.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl_interfaces/composition_interfaces:srv/ListNodes.srv",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/src/rcl_interfaces/composition_interfaces:srv/UnloadNode.srv"
+  ]
+}

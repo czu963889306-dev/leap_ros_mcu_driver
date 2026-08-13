@@ -1,0 +1,22 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rosgraph_msgs/msg/InterfaceType.msg
+// generated code does not contain a copyright notice
+
+#include "rosgraph_msgs/msg/TypeHash.idl"
+
+module rosgraph_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "Represent a type of a ROS Graph Interface")
+    struct InterfaceType {
+      @verbatim (language="comment", text=
+        "The plaintext namespaced name of the type - e.g. sensor_msgs/Image")
+      string name;
+
+      @verbatim (language="comment", text=
+        "The hash uniquely identifies the exact structure of the type," "\n"
+        "the definition of which may change between package version")
+      rosgraph_msgs::msg::TypeHash hash;
+    };
+  };
+};

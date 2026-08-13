@@ -1,0 +1,26 @@
+{
+  "package_name": "leap_interfaces",
+  "output_dir": "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_generator_c/leap_interfaces",
+  "template_dir": "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource",
+  "idl_tuples": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces:srv/GetSpeedPid.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces:srv/SetSpeedPid.idl"
+  ],
+  "target_dependencies": [
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../../../lib/rosidl_generator_c/rosidl_generator_c",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../../../lib/python3.13/site-packages/rosidl_generator_c/__init__.py",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/action__type_support.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/idl.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/idl__functions.c.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/idl__functions.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/idl__struct.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/idl__type_support.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/msg__functions.c.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/msg__functions.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/msg__struct.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/msg__type_support.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_generator_c/cmake/../resource/srv__type_support.h.em",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces/srv/GetSpeedPid.idl",
+    "/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/rosidl_adapter/leap_interfaces/srv/SetSpeedPid.idl"
+  ]
+}

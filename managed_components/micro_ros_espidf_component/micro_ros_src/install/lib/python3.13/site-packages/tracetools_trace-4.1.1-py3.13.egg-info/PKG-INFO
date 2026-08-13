@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: tracetools_trace
+Version: 4.1.1
+Summary: Tools for setting up tracing sessions.
+Home-page: https://gitlab.com/ros-tracing/ros2_tracing
+Author: Christophe Bedard
+Author-email: fixed-term.christophe.bourquebedard@de.bosch.com
+Maintainer: Christophe Bedard, Ingo Luetkebohle
+Maintainer-email: bedard.christophe@gmail.com, ingo.luetkebohle@de.bosch.com
+License: Apache 2.0
+Requires-Dist: setuptools
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: requires-dist
+Dynamic: summary
+
+This package provides tools for setting up tracing sessions. It also provides basic utilities to provide CLI functionality.

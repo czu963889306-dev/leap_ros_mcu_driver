@@ -1,0 +1,33 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from geometry_msgs/msg/VelocityWithCovarianceStamped.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/TwistWithCovariance.idl"
+#include "std_msgs/msg/Header.idl"
+
+module geometry_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "A timestamped velocity of a body whose frame is 'body_frame_id', measured" "\n"
+      "relative to the reference frame 'reference_frame_id', with the velocity and" "\n"
+      "covariance both expressed in the basis of the observation frame" "\n"
+      "'header.frame_id'." "\n"
+      "" "\n"
+      "- If 'body_frame_id' and 'header.frame_id' are identical, the velocity and" "\n"
+      "  covariance are expressed in the body's own basis. This is functionally" "\n"
+      "  equivalent to the body-twist convention used by" "\n"
+      "  'geometry_msgs/TwistStamped'." "\n"
+      "" "\n"
+      "This message is the covariance-bearing analogue of" "\n"
+      "'geometry_msgs/VelocityStamped'.")
+    struct VelocityWithCovarianceStamped {
+      std_msgs::msg::Header header;
+
+      string body_frame_id;
+
+      string reference_frame_id;
+
+      geometry_msgs::msg::TwistWithCovariance velocity;
+    };
+  };
+};

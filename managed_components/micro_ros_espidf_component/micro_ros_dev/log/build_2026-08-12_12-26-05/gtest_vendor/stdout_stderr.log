@@ -1,0 +1,65 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    BUILD_TESTING
+    CMAKE_CXX_COMPILER
+    CMAKE_C_COMPILER
+
+
+-- Build files have been written to: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/gtest_vendor
+gmake[1]: Entering directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/gtest_vendor'
+gmake[1]: Leaving directory '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/build/gtest_vendor'
+-- Install configuration: ""
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/share/gtest_vendor/cmake/gtest_vendorConfig.cmake
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/share/gtest_vendor/package.xml
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/CMakeLists.txt
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-test-part.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-spi.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-death-test-internal.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-port-arch.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-filepath.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/custom
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/custom/README.md
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/custom/gtest.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/custom/gtest-printers.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/custom/gtest-port.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-string.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-internal.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-type-util.h.pump
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-param-util.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-type-util.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/internal/gtest-port.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-message.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest_pred_impl.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-death-test.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest_prod.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-printers.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-matchers.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-typed-test.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/include/gtest/gtest-param-test.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-death-test.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-port.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-filepath.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-test-part.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-matchers.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-all.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-internal-inl.h
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-typed-test.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest_main.cc
+-- Installing: /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_dev/install/gtest_vendor/src/gtest_vendor/src/gtest-printers.cc

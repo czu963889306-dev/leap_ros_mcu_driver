@@ -1,0 +1,73 @@
+running egg_info
+creating ../../../build/rosidl_cli/rosidl_cli.egg-info
+writing ../../../build/rosidl_cli/rosidl_cli.egg-info/PKG-INFO
+writing dependency_links to ../../../build/rosidl_cli/rosidl_cli.egg-info/dependency_links.txt
+writing entry points to ../../../build/rosidl_cli/rosidl_cli.egg-info/entry_points.txt
+writing requirements to ../../../build/rosidl_cli/rosidl_cli.egg-info/requires.txt
+writing top-level names to ../../../build/rosidl_cli/rosidl_cli.egg-info/top_level.txt
+writing manifest file '../../../build/rosidl_cli/rosidl_cli.egg-info/SOURCES.txt'
+reading manifest file '../../../build/rosidl_cli/rosidl_cli.egg-info/SOURCES.txt'
+writing manifest file '../../../build/rosidl_cli/rosidl_cli.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli
+copying rosidl_cli/cli.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli
+copying rosidl_cli/common.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli
+copying rosidl_cli/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli
+copying rosidl_cli/extensions.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli
+copying rosidl_cli/entry_points.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command
+copying rosidl_cli/command/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command
+copying rosidl_cli/command/helpers.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+copying rosidl_cli/command/translate/api.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+copying rosidl_cli/command/translate/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+copying rosidl_cli/command/translate/extensions.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+copying rosidl_cli/command/generate/api.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+copying rosidl_cli/command/generate/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+copying rosidl_cli/command/generate/extensions.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+running install
+running install_lib
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/cli.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/common.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/translate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/translate/api.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/translate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/translate/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/translate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/translate/extensions.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/translate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/helpers.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/generate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/generate/api.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/generate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/generate/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/generate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/command/generate/extensions.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/generate
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/extensions.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/build/lib/rosidl_cli/entry_points.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/cli.py to cli.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/common.py to common.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/__init__.py to __init__.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/__init__.py to __init__.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/translate/api.py to api.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/translate/__init__.py to __init__.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/translate/extensions.py to extensions.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/helpers.py to helpers.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/generate/api.py to api.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/generate/__init__.py to __init__.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/command/generate/extensions.py to extensions.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/extensions.py to extensions.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli/entry_points.py to entry_points.cpython-313.pyc
+running install_data
+copying resource/rosidl_cli -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/packages
+copying package.xml -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_cli
+copying resource/package.dsv -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_cli
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_cli/environment
+copying completion/rosidl-argcomplete.bash -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_cli/environment
+copying completion/rosidl-argcomplete.zsh -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/rosidl_cli/environment
+running install_egg_info
+Copying ../../../build/rosidl_cli/rosidl_cli.egg-info to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/rosidl_cli-3.1.9-py3.13.egg-info
+running install_scripts
+Installing rosidl script to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/bin
+writing list of installed files to '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_cli/install.log'

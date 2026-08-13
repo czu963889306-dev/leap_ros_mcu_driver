@@ -1,0 +1,2 @@
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc libunique_identifier_msgs__rosidl_typesupport_c.a CMakeFiles/unique_identifier_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/unique_identifier_msgs/msg/uuid__type_support.cpp.obj
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib libunique_identifier_msgs__rosidl_typesupport_c.a

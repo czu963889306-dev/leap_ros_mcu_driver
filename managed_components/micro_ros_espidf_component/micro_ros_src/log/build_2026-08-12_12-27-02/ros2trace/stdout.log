@@ -1,0 +1,39 @@
+running egg_info
+creating ../../../build/ros2trace/ros2trace.egg-info
+writing ../../../build/ros2trace/ros2trace.egg-info/PKG-INFO
+writing dependency_links to ../../../build/ros2trace/ros2trace.egg-info/dependency_links.txt
+writing entry points to ../../../build/ros2trace/ros2trace.egg-info/entry_points.txt
+writing requirements to ../../../build/ros2trace/ros2trace.egg-info/requires.txt
+writing top-level names to ../../../build/ros2trace/ros2trace.egg-info/top_level.txt
+writing manifest file '../../../build/ros2trace/ros2trace.egg-info/SOURCES.txt'
+reading manifest file '../../../build/ros2trace/ros2trace.egg-info/SOURCES.txt'
+writing manifest file '../../../build/ros2trace/ros2trace.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace
+copying ros2trace/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/command
+copying ros2trace/command/trace.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/command
+copying ros2trace/command/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/command
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/api
+copying ros2trace/api/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/api
+running install
+running install_lib
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/command
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/command/trace.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/command
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/command/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/command
+creating /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/api
+copying /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/build/lib/ros2trace/api/__init__.py -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/api
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/__init__.py to __init__.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/command/trace.py to trace.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/command/__init__.py to __init__.cpython-313.pyc
+byte-compiling /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace/api/__init__.py to __init__.cpython-313.pyc
+running install_data
+copying package.xml -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ros2trace
+copying resource/ros2trace -> /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/share/ament_index/resource_index/packages
+running install_egg_info
+Copying ../../../build/ros2trace/ros2trace.egg-info to /root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/install/lib/python3.13/site-packages/ros2trace-4.1.1-py3.13.egg-info
+running install_scripts
+writing list of installed files to '/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/ros2trace/install.log'

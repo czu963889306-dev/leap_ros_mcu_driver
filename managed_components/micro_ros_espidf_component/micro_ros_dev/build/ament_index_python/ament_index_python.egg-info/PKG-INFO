@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: ament_index_python
+Version: 1.4.1
+Summary: Python API to access the ament resource index.
+Home-page: https://github.com/ament/ament_index
+Download-URL: https://github.com/ament/ament_index/releases
+Author: Dirk Thomas
+Author-email: dthomas@osrfoundation.org
+Maintainer: Audrow Nash
+Maintainer-email: audrow@openrobotics.org
+License: Apache License, Version 2.0
+Keywords: ROS
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development
+Requires-Dist: setuptools
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: requires-dist
+Dynamic: summary
+
+A Python API to find resources based on their type in the ament resource index
+and get the content of individual resources.

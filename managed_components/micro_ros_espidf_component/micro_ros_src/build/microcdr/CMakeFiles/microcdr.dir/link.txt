@@ -1,0 +1,2 @@
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc libmicrocdr.a CMakeFiles/microcdr.dir/src/c/common.c.obj CMakeFiles/microcdr.dir/src/c/types/basic.c.obj CMakeFiles/microcdr.dir/src/c/types/string.c.obj CMakeFiles/microcdr.dir/src/c/types/array.c.obj CMakeFiles/microcdr.dir/src/c/types/sequence.c.obj
+/root/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib libmicrocdr.a
