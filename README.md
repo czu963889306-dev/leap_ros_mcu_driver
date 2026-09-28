@@ -10,6 +10,7 @@
 - 超声波改为独立 HC-SR04，TRIG 使用 `GPIO21`，ECHO 使用 `GPIO47`。
 - micro-ROS 新增 `/ultrasonic` 话题，发布超声波距离数据。
 - 支持 MAVLink UDP、MAVLink UART 与 micro-ROS 通信模式切换。
+- 支持 micro-ROS UART 模式：复用 MAVLink UART 的 UART0，921600 波特率，并保留主机握手连接。
 - 支持长按 BOOT 键清除 Wi-Fi 配置，并重启回到配网模式。
 - 接入 I²C 手柄控制：左摇杆 Y 控制前后，右摇杆 X 控制转向；断连后自动发送零速指令。
 

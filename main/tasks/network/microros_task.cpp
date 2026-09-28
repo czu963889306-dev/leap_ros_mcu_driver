@@ -5,6 +5,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "driver/gpio.h"
+#include "driver/uart.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -44,6 +46,14 @@ static const char *TAG = "MICROROS";
 static constexpr size_t kLaserScanPointCount = 360;
 static constexpr double kDegToRad = 0.017453292519943295;
 static constexpr double kGravity = 9.80665;
+static constexpr uart_port_t kMicroRosUartPort = UART_NUM_0;
+static constexpr gpio_num_t kMicroRosUartTxPin = GPIO_NUM_43;
+static constexpr gpio_num_t kMicroRosUartRxPin = GPIO_NUM_44;
+static constexpr int kMicroRosUartBaudRate = 921600;
+static constexpr size_t kMicroRosUartRxBufferSize = 4096;
+static constexpr size_t kMicroRosUartTxBufferSize = 8192;
+static constexpr int kMicroRosUartReadMaxWaitMs = 20;
+static constexpr char kMicroRosUartStartCommand[] = "MATURO_MICROROS_START";
 static constexpr TickType_t kAgentCheckIntervalTicks = pdMS_TO_TICKS(1000);
 static constexpr int kAgentPingTimeoutMs = 500;
 static constexpr uint8_t kAgentPingAttempts = 2;
@@ -58,7 +68,17 @@ struct UdpTransportContext {
     uint16_t local_port;
 };
 
+struct UartTransportContext {
+    uart_port_t port;
+};
+
 static UdpTransportContext s_udp_ctx = {};
+static UartTransportContext s_uart_ctx = {};
+static bool s_uart_transport_initialized = false;
+static bool s_uart_start_received = false;
+static uint8_t s_uart_start_filter_pending[sizeof(kMicroRosUartStartCommand) - 1] = {};
+static size_t s_uart_start_filter_pending_len = 0;
+static bool s_uart_start_filter_drop_delimiter = false;
 static geometry_msgs__msg__Twist s_cmd_vel_msg = {};
 static nav_msgs__msg__Odometry s_odom_msg = {};
 static sensor_msgs__msg__Imu s_imu_msg = {};
@@ -192,6 +212,164 @@ extern "C" size_t transport_read_udp(
 
     const int received = recv(ctx->fd, buf, len, 0);
     return received > 0 ? static_cast<size_t>(received) : 0;
+}
+
+static bool ensure_uart_driver_initialized(UartTransportContext *ctx) {
+    if (ctx == nullptr) {
+        return false;
+    }
+
+    if (s_uart_transport_initialized && uart_is_driver_installed(ctx->port)) {
+        return true;
+    }
+
+    const uart_config_t uart_config = {
+        .baud_rate = kMicroRosUartBaudRate,
+        .data_bits = UART_DATA_8_BITS,
+        .parity = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+        .rx_flow_ctrl_thresh = 0,
+        .source_clk = UART_SCLK_DEFAULT,
+        .flags = {},
+    };
+
+    const bool driver_already_installed = uart_is_driver_installed(ctx->port);
+    esp_err_t err = ESP_OK;
+    if (!driver_already_installed) {
+        err = uart_driver_install(
+            ctx->port,
+            kMicroRosUartRxBufferSize,
+            kMicroRosUartTxBufferSize,
+            0,
+            nullptr,
+            0);
+        if (err != ESP_OK) {
+            ESP_LOGE(TAG, "failed to install UART%d driver: %s",
+                     static_cast<int>(ctx->port), esp_err_to_name(err));
+            return false;
+        }
+    }
+
+    err = uart_param_config(ctx->port, &uart_config);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "failed to configure UART%d: %s",
+                 static_cast<int>(ctx->port), esp_err_to_name(err));
+        if (!driver_already_installed) {
+            uart_driver_delete(ctx->port);
+        }
+        return false;
+    }
+
+    err = uart_set_pin(
+        ctx->port,
+        kMicroRosUartTxPin,
+        kMicroRosUartRxPin,
+        UART_PIN_NO_CHANGE,
+        UART_PIN_NO_CHANGE);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "failed to set UART%d pins: %s",
+                 static_cast<int>(ctx->port), esp_err_to_name(err));
+        if (!driver_already_installed) {
+            uart_driver_delete(ctx->port);
+        }
+        return false;
+    }
+
+    uart_flush_input(ctx->port);
+    s_uart_transport_initialized = true;
+    return true;
+}
+
+static bool transport_open_uart(uxrCustomTransport *transport) {
+    if (transport == nullptr) {
+        return false;
+    }
+    return ensure_uart_driver_initialized(
+        static_cast<UartTransportContext *>(transport->args));
+}
+
+static bool transport_close_uart(uxrCustomTransport *transport) {
+    return transport != nullptr && transport->args != nullptr;
+}
+
+static size_t transport_write_uart(
+    uxrCustomTransport *transport,
+    const uint8_t *buf,
+    size_t len,
+    uint8_t *) {
+    if (transport == nullptr || transport->args == nullptr || buf == nullptr || len == 0) {
+        return 0;
+    }
+
+    auto *ctx = static_cast<UartTransportContext *>(transport->args);
+    const int written = uart_write_bytes(
+        ctx->port, reinterpret_cast<const char *>(buf), len);
+    return written > 0 ? static_cast<size_t>(written) : 0;
+}
+
+static bool uart_start_filter_is_prefix(const uint8_t *bytes, size_t len) {
+    return bytes != nullptr && len < sizeof(kMicroRosUartStartCommand) &&
+           memcmp(bytes, kMicroRosUartStartCommand, len) == 0;
+}
+
+static size_t filter_uart_start_command_bytes(uint8_t *buf, size_t len) {
+    if (buf == nullptr || len == 0) {
+        return 0;
+    }
+
+    size_t out_len = 0;
+    const size_t command_len = sizeof(kMicroRosUartStartCommand) - 1;
+    for (size_t i = 0; i < len; ++i) {
+        const uint8_t byte = buf[i];
+        if (s_uart_start_filter_drop_delimiter) {
+            if (byte == '\r' || byte == '\n') {
+                continue;
+            }
+            s_uart_start_filter_drop_delimiter = false;
+        }
+
+        if (s_uart_start_filter_pending_len < command_len) {
+            s_uart_start_filter_pending[s_uart_start_filter_pending_len++] = byte;
+        }
+        while (s_uart_start_filter_pending_len > 0 &&
+               !uart_start_filter_is_prefix(
+                   s_uart_start_filter_pending,
+                   s_uart_start_filter_pending_len)) {
+            buf[out_len++] = s_uart_start_filter_pending[0];
+            --s_uart_start_filter_pending_len;
+            if (s_uart_start_filter_pending_len > 0) {
+                memmove(
+                    s_uart_start_filter_pending,
+                    s_uart_start_filter_pending + 1,
+                    s_uart_start_filter_pending_len);
+            }
+        }
+
+        if (s_uart_start_filter_pending_len == command_len) {
+            s_uart_start_filter_pending_len = 0;
+            s_uart_start_filter_drop_delimiter = true;
+        }
+    }
+    return out_len;
+}
+
+static size_t transport_read_uart(
+    uxrCustomTransport *transport,
+    uint8_t *buf,
+    size_t len,
+    int timeout,
+    uint8_t *) {
+    if (transport == nullptr || transport->args == nullptr || buf == nullptr || len == 0) {
+        return 0;
+    }
+
+    auto *ctx = static_cast<UartTransportContext *>(transport->args);
+    const int wait_ms = timeout <= 0
+        ? 0
+        : (timeout > kMicroRosUartReadMaxWaitMs ? kMicroRosUartReadMaxWaitMs : timeout);
+    const int received = uart_read_bytes(ctx->port, buf, len, pdMS_TO_TICKS(wait_ms));
+    return received > 0 ? filter_uart_start_command_bytes(buf, static_cast<size_t>(received)) : 0;
 }
 
 static void cleanup_result(rcl_ret_t ret) {
@@ -397,7 +575,9 @@ static void publish_ultrasonic(int64_t stamp_ms) {
 }
 
 static void publish_state_timer(rcl_timer_t *timer, int64_t) {
-    if (timer == nullptr || g_wifi_comm_mode != WifiCommMode::kMicroRos) {
+    if (timer == nullptr ||
+        (g_wifi_comm_mode != WifiCommMode::kMicroRos &&
+         g_wifi_comm_mode != WifiCommMode::kMicroRosUart)) {
         return;
     }
 
@@ -432,6 +612,53 @@ static bool setup_udp_transport() {
         transport_write_udp,
         transport_read_udp);
     return true;
+}
+
+static bool setup_uart_transport() {
+    memset(&s_uart_ctx, 0, sizeof(s_uart_ctx));
+    s_uart_ctx.port = kMicroRosUartPort;
+    rmw_uros_set_custom_transport(
+        true,
+        &s_uart_ctx,
+        transport_open_uart,
+        transport_close_uart,
+        transport_write_uart,
+        transport_read_uart);
+    return true;
+}
+
+static bool wait_for_uart_start_command() {
+    s_uart_ctx.port = kMicroRosUartPort;
+    if (!ensure_uart_driver_initialized(&s_uart_ctx)) {
+        return false;
+    }
+
+    ESP_LOGI(TAG, "micro-ROS UART waiting for host start command: %s",
+             kMicroRosUartStartCommand);
+    size_t matched = 0;
+    uint8_t bytes[64] = {};
+    const size_t command_len = sizeof(kMicroRosUartStartCommand) - 1;
+    while (g_wifi_comm_mode == WifiCommMode::kMicroRosUart) {
+        const int received = uart_read_bytes(
+            kMicroRosUartPort, bytes, sizeof(bytes), pdMS_TO_TICKS(100));
+        for (int i = 0; i < received; ++i) {
+            const char ch = static_cast<char>(bytes[i]);
+            if (ch == kMicroRosUartStartCommand[matched]) {
+                ++matched;
+                if (matched >= command_len) {
+                    s_uart_start_received = true;
+                    s_uart_start_filter_pending_len = 0;
+                    s_uart_start_filter_drop_delimiter = false;
+                    uart_flush_input(kMicroRosUartPort);
+                    ESP_LOGI(TAG, "micro-ROS UART start command received");
+                    return true;
+                }
+            } else {
+                matched = (ch == kMicroRosUartStartCommand[0]) ? 1 : 0;
+            }
+        }
+    }
+    return false;
 }
 
 static bool create_ros_entities() {
@@ -796,25 +1023,49 @@ void microros_task(void *p) {
     (void)p;
 
     while (1) {
-        if (g_wifi_comm_mode == WifiCommMode::kMicroRos) {
+        const bool use_udp = g_wifi_comm_mode == WifiCommMode::kMicroRos;
+        const bool use_uart = g_wifi_comm_mode == WifiCommMode::kMicroRosUart;
+        if (use_udp || use_uart) {
             if (!s_ros_created) {
-                if (setup_udp_transport() && create_ros_entities()) {
-                    ESP_LOGI(TAG, "micro-ROS active: agent=%s:%u, pub=/odom,/imu,/scan,/battery_state,/ultrasonic, sub=/cmd_vel, srv=/set_speed_pid,/get_speed_pid",
-                             g_microros_agent_ip,
-                             static_cast<unsigned>(g_microros_agent_port));
+                if (use_uart && !s_uart_start_received && !wait_for_uart_start_command()) {
+                    vTaskDelay(pdMS_TO_TICKS(1000));
+                    continue;
+                }
+                const bool transport_ready = use_uart ? setup_uart_transport() : setup_udp_transport();
+                if (transport_ready && create_ros_entities()) {
+                    if (use_uart) {
+                        ESP_LOGI(TAG, "micro-ROS UART active: UART%d TX=%d RX=%d baud=%d, pub=/odom,/imu,/scan,/battery_state,/ultrasonic, sub=/cmd_vel, srv=/set_speed_pid,/get_speed_pid",
+                                 static_cast<int>(kMicroRosUartPort),
+                                 static_cast<int>(kMicroRosUartTxPin),
+                                 static_cast<int>(kMicroRosUartRxPin),
+                                 kMicroRosUartBaudRate);
+                    } else {
+                        ESP_LOGI(TAG, "micro-ROS active: agent=%s:%u, pub=/odom,/imu,/scan,/battery_state,/ultrasonic, sub=/cmd_vel, srv=/set_speed_pid,/get_speed_pid",
+                                 g_microros_agent_ip,
+                                 static_cast<unsigned>(g_microros_agent_port));
+                    }
                 } else {
                     destroy_ros_entities();
+                    if (use_uart) {
+                        s_uart_start_received = false;
+                    }
                     vTaskDelay(pdMS_TO_TICKS(1000));
                     continue;
                 }
             }
             if (!agent_still_reachable(xTaskGetTickCount())) {
                 destroy_ros_entities();
+                if (use_uart) {
+                    s_uart_start_received = false;
+                }
                 vTaskDelay(pdMS_TO_TICKS(1000));
                 continue;
             }
             if (!spin_once(20)) {
                 destroy_ros_entities();
+                if (use_uart) {
+                    s_uart_start_received = false;
+                }
                 vTaskDelay(pdMS_TO_TICKS(1000));
             }
         } else {
@@ -822,6 +1073,7 @@ void microros_task(void *p) {
                 destroy_ros_entities();
                 ESP_LOGI(TAG, "micro-ROS inactive");
             }
+            s_uart_start_received = false;
             vTaskDelay(pdMS_TO_TICKS(100));
         }
     }

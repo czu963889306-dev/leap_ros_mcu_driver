@@ -11,6 +11,7 @@
 | 模式 | 运行值 | 默认 |
 | --- | --- | --- |
 | micro-ROS | `micro_ros` | 是 |
+| micro-ROS UART | `microros_uart` | 否 |
 | MAVLink UDP | `mavlink_udp` | 否 |
 | MAVLink UART | `uart_mavlink` | 否 |
 
@@ -30,7 +31,9 @@
 
 ## micro-ROS
 
-传输方式：基于 Wi-Fi 的自定义 UDP 传输。
+`micro_ros` 模式使用 Wi-Fi UDP；`microros_uart` 模式使用与 MAVLink UART 相同的 UART0，不依赖 Wi-Fi 连接。UART 参数为 GPIO43 (TX)、GPIO44 (RX)、921600 波特率、8N1、无硬件流控。主机发送 `MATURO_MICROROS_START` 握手字符串后，固件建立 micro-ROS 会话；串口接收数据按二进制 XRCE-DDS 帧处理，不打印接收内容。
+
+`micro_ros` 传输方式为基于 Wi-Fi 的自定义 UDP；`microros_uart` 传输方式为 UART0 自定义串口传输。
 
 | 项目 | 值 |
 | --- | --- |

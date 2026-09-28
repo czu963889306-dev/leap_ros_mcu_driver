@@ -444,6 +444,7 @@ static const char kProvisionHtmlTemplate[] = R"HTML(
           <label id="comm-mode-label" for="comm-mode">默认通信协议</label>
           <select id="comm-mode" name="comm_mode">
             <option value="micro_ros">micro-ROS</option>
+            <option value="microros_uart">micro-ROS UART</option>
             <option value="mavlink_udp">MAVLink UDP</option>
             <option value="uart_mavlink">MAVLink UART</option>
           </select>
@@ -1107,6 +1108,10 @@ static bool parse_comm_mode(const char *value, WifiCommMode *mode) {
     }
     if (strcmp(value, "micro_ros") == 0 || strcmp(value, "microros") == 0) {
         *mode = WifiCommMode::kMicroRos;
+        return true;
+    }
+    if (strcmp(value, "microros_uart") == 0 || strcmp(value, "micro_ros_uart") == 0) {
+        *mode = WifiCommMode::kMicroRosUart;
         return true;
     }
     if (strcmp(value, "mavlink_udp") == 0 || strcmp(value, "mavlink") == 0) {

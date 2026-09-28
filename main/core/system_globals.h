@@ -11,6 +11,7 @@ enum class WifiCommMode : uint8_t {
     kMavlinkUdp = 0,
     kMicroRos = 1,
     kMavlinkUart = 2,
+    kMicroRosUart = 3,
 };
 
 struct MavlinkStatustextInfo {

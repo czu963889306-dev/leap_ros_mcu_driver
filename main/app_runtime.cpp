@@ -63,6 +63,13 @@ static void start_comm_task(void) {
         return;
     }
 
+    if (g_wifi_comm_mode != WifiCommMode::kMicroRos &&
+        g_wifi_comm_mode != WifiCommMode::kMicroRosUart) {
+        ESP_LOGW(TAG, "Unknown communication mode: %s",
+                 wifi_comm_mode_to_runtime_value(g_wifi_comm_mode));
+        return;
+    }
+
     if (xTaskCreate(microros_task, "microros", 12288, NULL, 4, NULL) == pdPASS) {
         s_comm_task_started = true;
         ESP_LOGI(TAG, "micro-ROS task started");
@@ -79,9 +86,11 @@ static void wifi_start_task(void *p) {
     }
 
     xTaskCreate(wifi_provision_task, "wifi_provision", 6144, NULL, 3, NULL);
-    if (sta_connected && g_wifi_comm_mode != WifiCommMode::kMavlinkUart) {
+    if (sta_connected && g_wifi_comm_mode != WifiCommMode::kMavlinkUart &&
+        g_wifi_comm_mode != WifiCommMode::kMicroRosUart) {
         start_comm_task();
-    } else if (!sta_connected && g_wifi_comm_mode != WifiCommMode::kMavlinkUart) {
+    } else if (!sta_connected && g_wifi_comm_mode != WifiCommMode::kMavlinkUart &&
+               g_wifi_comm_mode != WifiCommMode::kMicroRosUart) {
         ESP_LOGW(TAG, "STA not connected; communication task is not started");
     }
 
@@ -191,7 +200,8 @@ void app_runtime_startup(void) {
         ESP_LOGE(TAG, "Failed to start gamepad I2C task");
     }
     xTaskCreate(lidar_task, "lidar", 8192, NULL, 4, NULL);
-    if (g_wifi_comm_mode == WifiCommMode::kMavlinkUart) {
+    if (g_wifi_comm_mode == WifiCommMode::kMavlinkUart ||
+        g_wifi_comm_mode == WifiCommMode::kMicroRosUart) {
         start_comm_task();
     }
     xTaskCreate(camera_task, "camera_task", 4096, NULL, 3, NULL);
