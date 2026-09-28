@@ -2,6 +2,7 @@
 
 volatile bool g_emergency_stop = false;
 volatile bool g_motion_busy = false;
+volatile bool g_gamepad_override_active = false;
 volatile uint32_t g_lidar_scan_sequence = 0;
 volatile WifiCommMode g_wifi_comm_mode = WifiCommMode::kMicroRos;
 char g_microros_agent_ip[16] = "192.168.31.214";
@@ -70,6 +71,7 @@ QueueHandle_t q_battery_state = nullptr;
 
 
 QueueHandle_t q_motion_cmd = nullptr;
+QueueHandle_t q_gamepad_motion_cmd = nullptr;
 QueueHandle_t q_servo_cmd = nullptr;
 QueueHandle_t q_speedpid_cmd = nullptr;
 QueueHandle_t q_postionpid_cmd = nullptr;

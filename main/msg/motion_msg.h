@@ -10,6 +10,7 @@ enum MotionCmdSource : uint8_t {
     MOTION_SRC_UART = 4,
     MOTION_SRC_SYSTEM = 5,
     MOTION_SRC_MICROROS = 6,
+    MOTION_SRC_GAMEPAD = 7,
 };
 
 struct MotionMsg {

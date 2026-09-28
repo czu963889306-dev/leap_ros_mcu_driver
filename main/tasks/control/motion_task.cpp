@@ -12,6 +12,8 @@ void motion_task(void *p) {
     const float dt = 0.02f;
     MotionMsg cmd_msg = {};
     MotionMsg incoming_msg = {};
+    MotionMsg gamepad_cmd = {};
+    MotionMsg active_cmd = {};
     MotionMsg status_msg = {};
     PidMsg speed_msg;
     PidMsg position_msg;
@@ -19,33 +21,46 @@ void motion_task(void *p) {
     ImuMsg imu_msg = {}; 
 
     int current_mode = 0;
+    bool was_gamepad_override_active = false;
+
+    auto apply_command = [&](const MotionMsg& command) {
+        current_mode = command.control_mode;
+
+        if (current_mode == 0) {
+            robot.Drive(command.target_vx, command.target_vy, command.target_wz);
+        } else if (current_mode == 1) {
+            robot.MoveToPosition(command.target_x, command.target_y, command.target_yaw);
+        } else if (current_mode == 2) {
+            g_motion_busy = true;
+            robot.MoveRelative(command.target_x, command.target_yaw);
+        } else if (current_mode == 3) {
+            robot.SetMotorTargetVelocity((MotorID)command.motor_id, command.target_motor_v);
+        } else if (current_mode == 6) {
+            robot.SetAllMotorTargetsVelocity(command.target_vx, command.target_vy);
+        } else {
+            ESP_LOGW(TAG, "Unsupported motion mode: %d", current_mode);
+        }
+    };
     
     while (1) {
         xQueuePeek(q_imu_state, &imu_msg, 0);
                  
         // 1. 接收底层运动指令 (指令状态机)
-        if (xQueueReceive(q_motion_cmd, &incoming_msg, 0) == pdTRUE) { 
+        const bool nav_cmd_received = xQueueReceive(q_motion_cmd, &incoming_msg, 0) == pdTRUE;
+        if (nav_cmd_received) {
             cmd_msg = incoming_msg;
-            current_mode = cmd_msg.control_mode; // 记录最新模式
-
-            // 处理离散单次触发模式
-            if (current_mode == 0) {
-                robot.Drive(cmd_msg.target_vx, cmd_msg.target_vy, cmd_msg.target_wz);
-            } else if (current_mode == 1) {
-                robot.MoveToPosition(cmd_msg.target_x, cmd_msg.target_y, cmd_msg.target_yaw);
-            } else if (current_mode == 2) {
-                g_motion_busy = true;
-                robot.MoveRelative(cmd_msg.target_x, cmd_msg.target_yaw);
-            } else if (current_mode == 3) {
-                robot.SetMotorTargetVelocity((MotorID)cmd_msg.motor_id, cmd_msg.target_motor_v);
-            } else if (current_mode == 6) {
-                robot.SetAllMotorTargetsVelocity(
-                    cmd_msg.target_vx,
-                    cmd_msg.target_vy);
-            } else {
-                ESP_LOGW(TAG, "Unsupported motion mode: %d", current_mode);
-            }
         }
+
+        const bool gamepad_override_active = g_gamepad_override_active;
+        if (gamepad_override_active &&
+            xQueuePeek(q_gamepad_motion_cmd, &gamepad_cmd, 0) == pdTRUE) {
+            active_cmd = gamepad_cmd;
+            apply_command(active_cmd);
+        } else if (nav_cmd_received || was_gamepad_override_active) {
+            active_cmd = cmd_msg;
+            apply_command(active_cmd);
+        }
+        was_gamepad_override_active = gamepad_override_active;
 
         // 2. 接收 PID 指令 (速度环)
         if (xQueueReceive(q_speedpid_cmd, &speed_msg, 0) == pdTRUE) { 
@@ -82,9 +97,9 @@ void motion_task(void *p) {
 
         robot.GetAllMotorVelocities(&status_msg.vel_left, &status_msg.vel_right);
         
-        status_msg.control_mode = cmd_msg.control_mode;
-        status_msg.source = cmd_msg.source;
-        status_msg.target_vx = cmd_msg.target_vx; 
+        status_msg.control_mode = active_cmd.control_mode;
+        status_msg.source = active_cmd.source;
+        status_msg.target_vx = active_cmd.target_vx;
         
         xQueueOverwrite(q_motion_state, &status_msg);
         

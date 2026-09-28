@@ -148,6 +148,7 @@ static void create_runtime_queues(void) {
     q_temperature_state = xQueueCreate(1, sizeof(TemperatureMsg));
     q_battery_state = xQueueCreate(1, sizeof(BatteryMsg));
     q_motion_cmd = xQueueCreate(1, sizeof(MotionMsg));
+    q_gamepad_motion_cmd = xQueueCreate(1, sizeof(MotionMsg));
     q_servo_cmd = xQueueCreate(1, sizeof(ServoMsg));
     q_speedpid_cmd = xQueueCreate(1, sizeof(PidMsg));
     if (q_speedpid_cmd != nullptr) {
@@ -186,6 +187,9 @@ void app_runtime_startup(void) {
     xTaskCreate(ultrasonic_task, "ultrasonic", 4096, NULL, 4, NULL);
     xTaskCreate(battery_task, "battery", 4096, NULL, 4, NULL);
     xTaskCreate(peripheral_task, "peripheral", 4096, NULL, 3, NULL);
+    if (xTaskCreate(gamepad_i2c_task, "gamepad_i2c", 4096, NULL, 4, NULL) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to start gamepad I2C task");
+    }
     xTaskCreate(lidar_task, "lidar", 8192, NULL, 4, NULL);
     if (g_wifi_comm_mode == WifiCommMode::kMavlinkUart) {
         start_comm_task();

@@ -1,11 +1,14 @@
 #include "system_globals.h"
 
+#include <cmath>
+
 #include "board.h"
 #include "driver/i2c.h"
 #include "esp_log.h"
 #include "esp_timer.h"
 #include "i2c_bus_lock.h"
 #include "msg/gamepad_msg.h"
+#include "msg/motion_msg.h"
 
 namespace {
 
@@ -16,6 +19,10 @@ constexpr uint8_t kExpectedHeader2 = 0xAB;
 constexpr uint8_t kExpectedTail = 0xCF;
 constexpr TickType_t kGamepadPollPeriod = pdMS_TO_TICKS(50);
 constexpr uint8_t kGamepadPollCommand[] = {0x55, 0xBB};
+constexpr int kAxisDeadzone = 12;
+constexpr int kAxisFullScale = 127;
+constexpr float kMaxLinearSpeedMms = 300.0f;
+constexpr float kMaxAngularSpeedRadS = 2.5f;
 
 typedef struct {
     uint8_t header1;
@@ -136,8 +143,62 @@ void PublishGamepadState(const GamepadData_t& frame) {
     xQueueOverwrite(q_gamepad_state, &msg);
 }
 
+float NormalizeAxis(int8_t raw_value) {
+    const int value = static_cast<int>(raw_value);
+    const int magnitude = value < 0 ? -value : value;
+    if (magnitude <= kAxisDeadzone) {
+        return 0.0f;
+    }
+
+    const int limited_magnitude = magnitude > kAxisFullScale ? kAxisFullScale : magnitude;
+    const float normalized = static_cast<float>(limited_magnitude - kAxisDeadzone) /
+                             static_cast<float>(kAxisFullScale - kAxisDeadzone);
+    return value < 0 ? -normalized : normalized;
+}
+
+struct GamepadMotion {
+    float vx;
+    float wz;
+};
+
+GamepadMotion DecodeGamepadMotion(const GamepadData_t& frame) {
+    GamepadMotion motion = {};
+    motion.vx = NormalizeAxis(frame.left_x) * kMaxLinearSpeedMms;
+    motion.wz = NormalizeAxis(frame.right_y) * kMaxAngularSpeedRadS;
+    return motion;
+}
+
+bool HasGamepadMotion(const GamepadMotion& motion) {
+    return std::abs(motion.vx) > 0.001f || std::abs(motion.wz) > 0.001f;
+}
+
+void SetGamepadOverrideActive(bool active) {
+    g_gamepad_override_active = active;
+}
+
+void PublishGamepadMotion(const GamepadMotion& motion) {
+    if (q_gamepad_motion_cmd == nullptr) {
+        SetGamepadOverrideActive(false);
+        return;
+    }
+
+    MotionMsg cmd = {};
+    cmd.source = MOTION_SRC_GAMEPAD;
+    cmd.control_mode = 0;
+
+    // The stick Y axis is negative when pushed forward. ROS cmd_vel uses
+    // positive linear.x for forward and positive angular.z for a left turn.
+    cmd.target_vx = motion.vx;
+    cmd.target_vy = 0.0f;
+    cmd.target_wz = motion.wz;
+
+    xQueueOverwrite(q_gamepad_motion_cmd, &cmd);
+    SetGamepadOverrideActive(true);
+    g_emergency_stop = false;
+}
+
 void LogFrame(const GamepadData_t& frame) {
-    ESP_LOGI(
+    ESP_LOGD(
         kTag,
         "cmd=0x%02X addr=0x%02X left_btn=0x%02X right_btn=0x%02X buttons=0x%02X lx=%d ly=%d rx=%d ry=%d mask=0x%04X",
         frame.command,
@@ -157,17 +218,17 @@ void LogFrame(const GamepadData_t& frame) {
 void gamepad_i2c_task(void* p) {
     GamepadData_t frame = {};
     TickType_t last_wake_tick = xTaskGetTickCount();
+    bool was_connected = false;
 
     while (1) {
+        bool frame_valid = false;
         const esp_err_t write_ret = WriteGamepadPollCommand();
         if (write_ret != ESP_OK) {
             // ESP_LOGW(kTag, "I2C write to 0x%02X failed: %s", kGamepadI2cAddress, esp_err_to_name(write_ret));
-            PublishDisconnected();
         } else {
             const esp_err_t read_ret = ReadGamepadFrame(&frame);
             if (read_ret != ESP_OK) {
                 ESP_LOGW(kTag, "I2C read from 0x%02X failed: %s", kGamepadI2cAddress, esp_err_to_name(read_ret));
-                PublishDisconnected();
             } else if (!HasValidMarkers(frame)) {
                 ESP_LOGW(
                     kTag,
@@ -176,14 +237,33 @@ void gamepad_i2c_task(void* p) {
                     frame.header2,
                     frame.tail);
                 esp_log_buffer_hex(kTag, &frame, sizeof(frame));
-                PublishDisconnected();
             } else if (!HasValidChecksum(frame)) {
                 ESP_LOGW(kTag, "Invalid checksum: got=0x%02X expected=0x%02X", frame.checksum, CalculateChecksum(frame));
                 esp_log_buffer_hex(kTag, &frame, sizeof(frame));
-                PublishDisconnected();
             } else {
+                frame_valid = true;
                 LogFrame(frame);
                 PublishGamepadState(frame);
+                const GamepadMotion motion = DecodeGamepadMotion(frame);
+                if (HasGamepadMotion(motion)) {
+                    PublishGamepadMotion(motion);
+                } else {
+                    // Release manual control without sending zero cmd_vel.
+                    SetGamepadOverrideActive(false);
+                }
+                if (!was_connected) {
+                    ESP_LOGI(kTag, "Gamepad connected; cmd_vel control enabled");
+                }
+                was_connected = true;
+            }
+        }
+
+        if (!frame_valid) {
+            PublishDisconnected();
+            SetGamepadOverrideActive(false);
+            if (was_connected) {
+                was_connected = false;
+                ESP_LOGW(kTag, "Gamepad disconnected or frame invalid; released manual override");
             }
         }
         vTaskDelayUntil(&last_wake_tick, kGamepadPollPeriod);

@@ -30,6 +30,7 @@ const char *wifi_comm_mode_to_display_name(WifiCommMode mode);
 // ================= 全局标志位 =================
 extern volatile bool g_emergency_stop;
 extern volatile bool g_motion_busy;
+extern volatile bool g_gamepad_override_active;
 extern volatile uint32_t g_lidar_scan_sequence;
 extern volatile WifiCommMode g_wifi_comm_mode;
 extern char g_microros_agent_ip[16];
@@ -48,6 +49,7 @@ extern QueueHandle_t q_battery_state;
 
 
 extern QueueHandle_t q_motion_cmd;
+extern QueueHandle_t q_gamepad_motion_cmd;
 extern QueueHandle_t q_servo_cmd;
 extern QueueHandle_t q_speedpid_cmd;
 extern QueueHandle_t q_postionpid_cmd;
