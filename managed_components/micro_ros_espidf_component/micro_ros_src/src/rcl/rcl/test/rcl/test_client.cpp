@@ -130,7 +130,10 @@ TEST_F(TestClientFixture, test_client_nominal) {
   // Check that there were no errors while sending the request.
   int64_t sequence_number = 0;
   ret = rcl_send_request(&client, &req, &sequence_number);
+// XRCE request ids are session scoped, not per client
+#ifdef RCL_MICROROS_COMPLETE_IMPL
   EXPECT_EQ(sequence_number, 1);
+#endif  // RCL_MICROROS_COMPLETE_IMPL
   EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
   test_msgs__srv__BasicTypes_Request__fini(&req);
 }

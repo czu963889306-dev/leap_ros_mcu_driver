@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ament_cmake_ros")
-set(ament_cmake_ros_VERSION "0.10.0")
+set(ament_cmake_ros_VERSION "0.10.1")
 set(ament_cmake_ros_MAINTAINER "Michel Hidalgo <michel@ekumenlabs.com>")
 set(ament_cmake_ros_BUILD_DEPENDS "domain_coordinator")
 set(ament_cmake_ros_BUILDTOOL_DEPENDS "ament_cmake")

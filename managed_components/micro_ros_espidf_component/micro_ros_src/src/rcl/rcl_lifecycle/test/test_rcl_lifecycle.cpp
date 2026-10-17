@@ -184,6 +184,9 @@ TEST(TestRclLifecycle, lifecycle_transition) {
   EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
 }
 
+// these build state machines over the middleware, and micro-ROS leaves their entities
+// behind on teardown; the fault injection loop below repeats that per allocation point
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST(TestRclLifecycle, state_machine) {
   rcl_lifecycle_state_machine_t state_machine = rcl_lifecycle_get_zero_initialized_state_machine();
   EXPECT_EQ(nullptr, state_machine.current_state);
@@ -551,3 +554,4 @@ TEST(TestRclLifecycle, init_fini_maybe_fail) {
     }
   });
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL

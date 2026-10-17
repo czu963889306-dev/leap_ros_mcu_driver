@@ -160,10 +160,10 @@ CMakeFiles/composition_interfaces_uninstall.dir/clean:
 # Target rules for target CMakeFiles/composition_interfaces.dir
 
 # All Build rule for target.
-CMakeFiles/composition_interfaces.dir/all: CMakeFiles/composition_interfaces__rosidl_typesupport_microxrcedds_c.dir/all
-CMakeFiles/composition_interfaces.dir/all: CMakeFiles/composition_interfaces__rosidl_typesupport_c.dir/all
 CMakeFiles/composition_interfaces.dir/all: CMakeFiles/composition_interfaces__rosidl_generator_c.dir/all
+CMakeFiles/composition_interfaces.dir/all: CMakeFiles/composition_interfaces__rosidl_typesupport_c.dir/all
 CMakeFiles/composition_interfaces.dir/all: CMakeFiles/composition_interfaces__rosidl_typesupport_introspection_c.dir/all
+CMakeFiles/composition_interfaces.dir/all: CMakeFiles/composition_interfaces__rosidl_typesupport_microxrcedds_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/composition_interfaces.dir/build.make CMakeFiles/composition_interfaces.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/composition_interfaces.dir/build.make CMakeFiles/composition_interfaces.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/composition_interfaces/CMakeFiles --progress-num= "Built target composition_interfaces"
@@ -181,10 +181,10 @@ composition_interfaces: CMakeFiles/composition_interfaces.dir/rule
 .PHONY : composition_interfaces
 
 # codegen rule for target.
-CMakeFiles/composition_interfaces.dir/codegen: CMakeFiles/composition_interfaces__rosidl_typesupport_microxrcedds_c.dir/all
-CMakeFiles/composition_interfaces.dir/codegen: CMakeFiles/composition_interfaces__rosidl_typesupport_c.dir/all
 CMakeFiles/composition_interfaces.dir/codegen: CMakeFiles/composition_interfaces__rosidl_generator_c.dir/all
+CMakeFiles/composition_interfaces.dir/codegen: CMakeFiles/composition_interfaces__rosidl_typesupport_c.dir/all
 CMakeFiles/composition_interfaces.dir/codegen: CMakeFiles/composition_interfaces__rosidl_typesupport_introspection_c.dir/all
+CMakeFiles/composition_interfaces.dir/codegen: CMakeFiles/composition_interfaces__rosidl_typesupport_microxrcedds_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/composition_interfaces.dir/build.make CMakeFiles/composition_interfaces.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/composition_interfaces/CMakeFiles --progress-num= "Finished codegen for target composition_interfaces"
 .PHONY : CMakeFiles/composition_interfaces.dir/codegen

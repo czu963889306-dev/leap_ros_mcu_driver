@@ -438,9 +438,12 @@ TEST_F(CLASSNAME(TestPublisherFixture, RMW_IMPLEMENTATION), test_invalid_publish
   EXPECT_TRUE(rcl_context_is_valid(pub_context));
   EXPECT_EQ(rcl_context_get_instance_id(context_ptr), rcl_context_get_instance_id(pub_context));
 
+// liveliness assertion is not supported by rmw_microxrcedds
+#ifdef RCL_MICROROS_COMPLETE_IMPL
   EXPECT_EQ(RCL_RET_OK, rcl_publisher_assert_liveliness(&publisher));
 
   EXPECT_EQ(RCL_RET_OK, rcl_publisher_wait_for_all_acked(&publisher, 0));
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
   size_t count_size;
   test_msgs__msg__BasicTypes msg;
@@ -695,6 +698,8 @@ TEST_F(CLASSNAME(TestPublisherFixtureInit, RMW_IMPLEMENTATION), test_mock_publis
 }
 
 // Mocking rmw_publish_serialized_message to make rcl_publish_serialized_message fail
+// rmw_serialize is not supported by rmw_microxrcedds
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(
   CLASSNAME(TestPublisherFixtureInit, RMW_IMPLEMENTATION), test_mock_publish_serialized_message)
 {
@@ -740,6 +745,7 @@ TEST_F(
     rcl_reset_error();
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 // Define dummy comparison operators for rcutils_allocator_t type for use with the Mimick Library
 MOCKING_UTILS_BOOL_OPERATOR_RETURNS_FALSE(rcutils_allocator_t, ==)

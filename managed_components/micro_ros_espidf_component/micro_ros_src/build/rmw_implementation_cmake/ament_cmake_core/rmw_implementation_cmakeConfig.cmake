@@ -16,7 +16,7 @@ set(_rmw_implementation_cmake_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT rmw_implementation_cmake_FIND_QUIETLY)
-  message(STATUS "Found rmw_implementation_cmake: 6.1.3 (${rmw_implementation_cmake_DIR})")
+  message(STATUS "Found rmw_implementation_cmake: 6.1.4 (${rmw_implementation_cmake_DIR})")
 endif()
 
 # warn when using a deprecated package

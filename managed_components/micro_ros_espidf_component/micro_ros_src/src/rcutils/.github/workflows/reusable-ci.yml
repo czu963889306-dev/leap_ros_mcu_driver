@@ -4,8 +4,9 @@ on:
   workflow_call:
     inputs:
       branch:
-        description: "The rcutils branch to use for the workflow"
-        required: true
+        description: "The rcutils branch to build. Leave unset for push and pull_request."
+        required: false
+        default: ""
         type: string
       os:
         description: "The OS to use for the workflow"
@@ -33,14 +34,8 @@ jobs:
         apt-get update && apt-get install -y git
       shell: bash
 
-    - name: Sync repository
-      uses: actions/checkout@v5
-      with:
-        ref: ${{ inputs.branch }}
-        submodules: recursive
-
-    - name: Setup ROS 2 
-      uses: ros-tooling/setup-ros@0.7.15
+    - name: Setup ROS 2
+      uses: ros-tooling/setup-ros@0.7.19
       with:
         required-ros-distributions: ${{ inputs.ros-distribution }}
 
@@ -49,8 +44,11 @@ jobs:
         apt-get install ros-${{ inputs.ros-distribution }}-mimick-vendor
         apt-get -y install ros-${{ inputs.ros-distribution }}-performance-test-fixture
 
-    - uses : ros-tooling/action-ros-ci@0.4.5
+    # This action clones the repository itself, so no checkout step is needed.
+    # When ref is empty it uses the branch that triggered the run.
+    - uses : ros-tooling/action-ros-ci@0.4.8
       with:
         package-name: "rcutils"
         target-ros2-distro: ${{ inputs.ros-distribution }}
+        ref: ${{ inputs.branch }}
         skip-tests: true

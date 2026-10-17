@@ -2,6 +2,9 @@
 Changelog for package ament_cmake_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.10.1 (2026-09-06)
+-------------------
+
 0.10.0 (2022-01-13)
 -------------------
 * Refactor domain_coordinator API to use a context manager (`#12 <https://github.com/ros2/ament_cmake_ros/issues/12>`_)

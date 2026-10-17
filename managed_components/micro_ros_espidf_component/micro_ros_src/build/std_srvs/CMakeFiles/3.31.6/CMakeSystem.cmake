@@ -1,6 +1,6 @@
-set(CMAKE_HOST_SYSTEM "Linux-6.12.75+rpt-rpi-2712")
+set(CMAKE_HOST_SYSTEM "Linux-6.18.34+rpt-rpi-2712")
 set(CMAKE_HOST_SYSTEM_NAME "Linux")
-set(CMAKE_HOST_SYSTEM_VERSION "6.12.75+rpt-rpi-2712")
+set(CMAKE_HOST_SYSTEM_VERSION "6.18.34+rpt-rpi-2712")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "aarch64")
 
 include("/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/esp32_toolchain.cmake")

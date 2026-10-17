@@ -160,10 +160,10 @@ CMakeFiles/leap_interfaces_uninstall.dir/clean:
 # Target rules for target CMakeFiles/leap_interfaces.dir
 
 # All Build rule for target.
-CMakeFiles/leap_interfaces.dir/all: CMakeFiles/leap_interfaces__rosidl_generator_c.dir/all
-CMakeFiles/leap_interfaces.dir/all: CMakeFiles/leap_interfaces__rosidl_typesupport_c.dir/all
-CMakeFiles/leap_interfaces.dir/all: CMakeFiles/leap_interfaces__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/leap_interfaces.dir/all: CMakeFiles/leap_interfaces__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/leap_interfaces.dir/all: CMakeFiles/leap_interfaces__rosidl_typesupport_c.dir/all
+CMakeFiles/leap_interfaces.dir/all: CMakeFiles/leap_interfaces__rosidl_generator_c.dir/all
+CMakeFiles/leap_interfaces.dir/all: CMakeFiles/leap_interfaces__rosidl_typesupport_introspection_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/leap_interfaces.dir/build.make CMakeFiles/leap_interfaces.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/leap_interfaces.dir/build.make CMakeFiles/leap_interfaces.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/CMakeFiles --progress-num= "Built target leap_interfaces"
@@ -181,10 +181,10 @@ leap_interfaces: CMakeFiles/leap_interfaces.dir/rule
 .PHONY : leap_interfaces
 
 # codegen rule for target.
-CMakeFiles/leap_interfaces.dir/codegen: CMakeFiles/leap_interfaces__rosidl_generator_c.dir/all
-CMakeFiles/leap_interfaces.dir/codegen: CMakeFiles/leap_interfaces__rosidl_typesupport_c.dir/all
-CMakeFiles/leap_interfaces.dir/codegen: CMakeFiles/leap_interfaces__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/leap_interfaces.dir/codegen: CMakeFiles/leap_interfaces__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/leap_interfaces.dir/codegen: CMakeFiles/leap_interfaces__rosidl_typesupport_c.dir/all
+CMakeFiles/leap_interfaces.dir/codegen: CMakeFiles/leap_interfaces__rosidl_generator_c.dir/all
+CMakeFiles/leap_interfaces.dir/codegen: CMakeFiles/leap_interfaces__rosidl_typesupport_introspection_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/leap_interfaces.dir/build.make CMakeFiles/leap_interfaces.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/leap_interfaces/CMakeFiles --progress-num= "Finished codegen for target leap_interfaces"
 .PHONY : CMakeFiles/leap_interfaces.dir/codegen

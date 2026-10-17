@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rcl_lifecycle)
 
+option(RCL_MICROROS "micro-ROS build mode (used for the tests)" ON)
+
 find_package(ament_cmake_ros REQUIRED)
 find_package(ament_cmake_gen_version_h REQUIRED)
 
@@ -79,28 +81,32 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 
   # Gtests
-  ament_add_gtest(test_default_state_machine
-    test/test_default_state_machine.cpp
-  )
-  if(TARGET test_default_state_machine)
-    ament_target_dependencies(test_default_state_machine
-      "rcl"
-      "osrf_testing_tools_cpp"
+  # both build several state machines, and micro-ROS leaves their entities behind
+  # on teardown, which floods the Agent
+  if(NOT RCL_MICROROS)
+    ament_add_gtest(test_default_state_machine
+      test/test_default_state_machine.cpp
     )
-    target_link_libraries(test_default_state_machine ${PROJECT_NAME})
-    target_compile_definitions(test_default_state_machine
-      PUBLIC RCUTILS_ENABLE_FAULT_INJECTION
+    if(TARGET test_default_state_machine)
+      ament_target_dependencies(test_default_state_machine
+        "rcl"
+        "osrf_testing_tools_cpp"
+      )
+      target_link_libraries(test_default_state_machine ${PROJECT_NAME})
+      target_compile_definitions(test_default_state_machine
+        PUBLIC RCUTILS_ENABLE_FAULT_INJECTION
+      )
+    endif()
+    ament_add_gtest(test_multiple_instances
+      test/test_multiple_instances.cpp
     )
-  endif()
-  ament_add_gtest(test_multiple_instances
-    test/test_multiple_instances.cpp
-  )
-  if(TARGET test_multiple_instances)
-    ament_target_dependencies(test_multiple_instances
-      "rcl"
-      "osrf_testing_tools_cpp"
-    )
-    target_link_libraries(test_multiple_instances ${PROJECT_NAME})
+    if(TARGET test_multiple_instances)
+      ament_target_dependencies(test_multiple_instances
+        "rcl"
+        "osrf_testing_tools_cpp"
+      )
+      target_link_libraries(test_multiple_instances ${PROJECT_NAME})
+    endif()
   endif()
   ament_add_gtest(test_rcl_lifecycle
     test/test_rcl_lifecycle.cpp
@@ -114,6 +120,10 @@ if(BUILD_TESTING)
     target_compile_definitions(test_rcl_lifecycle
       PUBLIC RCUTILS_ENABLE_FAULT_INJECTION
     )
+    # ament_target_dependencies does not carry rcl's PUBLIC definition, so set it here
+    if(NOT RCL_MICROROS)
+      target_compile_definitions(test_rcl_lifecycle PUBLIC RCL_MICROROS_COMPLETE_IMPL)
+    endif()
   endif()
   ament_add_gtest(test_transition_map
     test/test_transition_map.cpp

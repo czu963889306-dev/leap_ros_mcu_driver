@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "rmw")
-set(rmw_VERSION "6.1.3")
+set(rmw_VERSION "6.1.4")
 set(rmw_MAINTAINER "Ivan Paunovic <ivanpauno@ekumenlabs.com>, William Woodall <william@openrobotics.org>")
 set(rmw_BUILD_DEPENDS "rcutils" "rosidl_runtime_c")
 set(rmw_BUILDTOOL_DEPENDS "ament_cmake_ros" "ament_cmake_version")

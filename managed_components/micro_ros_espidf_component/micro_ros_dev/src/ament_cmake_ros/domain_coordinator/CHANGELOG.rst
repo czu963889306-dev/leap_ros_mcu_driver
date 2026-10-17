@@ -2,6 +2,9 @@
 Changelog for package domain_coordinator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.10.1 (2026-09-06)
+-------------------
+
 0.10.0 (2022-01-13)
 -------------------
 * Update maintainers to Michel Hidalgo (`#13 <https://github.com/ros2/ament_cmake_ros/issues/13>`_)

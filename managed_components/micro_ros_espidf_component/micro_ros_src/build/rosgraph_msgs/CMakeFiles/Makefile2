@@ -160,10 +160,10 @@ CMakeFiles/rosgraph_msgs_uninstall.dir/clean:
 # Target rules for target CMakeFiles/rosgraph_msgs.dir
 
 # All Build rule for target.
-CMakeFiles/rosgraph_msgs.dir/all: CMakeFiles/rosgraph_msgs__rosidl_generator_c.dir/all
+CMakeFiles/rosgraph_msgs.dir/all: CMakeFiles/rosgraph_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/rosgraph_msgs.dir/all: CMakeFiles/rosgraph_msgs__rosidl_typesupport_microxrcedds_c.dir/all
 CMakeFiles/rosgraph_msgs.dir/all: CMakeFiles/rosgraph_msgs__rosidl_typesupport_c.dir/all
-CMakeFiles/rosgraph_msgs.dir/all: CMakeFiles/rosgraph_msgs__rosidl_typesupport_introspection_c.dir/all
+CMakeFiles/rosgraph_msgs.dir/all: CMakeFiles/rosgraph_msgs__rosidl_generator_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rosgraph_msgs.dir/build.make CMakeFiles/rosgraph_msgs.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rosgraph_msgs.dir/build.make CMakeFiles/rosgraph_msgs.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosgraph_msgs/CMakeFiles --progress-num= "Built target rosgraph_msgs"
@@ -181,10 +181,10 @@ rosgraph_msgs: CMakeFiles/rosgraph_msgs.dir/rule
 .PHONY : rosgraph_msgs
 
 # codegen rule for target.
-CMakeFiles/rosgraph_msgs.dir/codegen: CMakeFiles/rosgraph_msgs__rosidl_generator_c.dir/all
+CMakeFiles/rosgraph_msgs.dir/codegen: CMakeFiles/rosgraph_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/rosgraph_msgs.dir/codegen: CMakeFiles/rosgraph_msgs__rosidl_typesupport_microxrcedds_c.dir/all
 CMakeFiles/rosgraph_msgs.dir/codegen: CMakeFiles/rosgraph_msgs__rosidl_typesupport_c.dir/all
-CMakeFiles/rosgraph_msgs.dir/codegen: CMakeFiles/rosgraph_msgs__rosidl_typesupport_introspection_c.dir/all
+CMakeFiles/rosgraph_msgs.dir/codegen: CMakeFiles/rosgraph_msgs__rosidl_generator_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rosgraph_msgs.dir/build.make CMakeFiles/rosgraph_msgs.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosgraph_msgs/CMakeFiles --progress-num= "Finished codegen for target rosgraph_msgs"
 .PHONY : CMakeFiles/rosgraph_msgs.dir/codegen

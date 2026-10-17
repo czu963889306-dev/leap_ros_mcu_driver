@@ -10,7 +10,6 @@ jobs:
   jazzy-ci:
     uses: ./.github/workflows/reusable-ci.yml
     with:
-      branch: ${{ github.ref }}
       os: ubuntu-24.04
       docker-image: ubuntu:noble
       ros-distribution: jazzy

@@ -160,10 +160,10 @@ CMakeFiles/stereo_msgs_uninstall.dir/clean:
 # Target rules for target CMakeFiles/stereo_msgs.dir
 
 # All Build rule for target.
-CMakeFiles/stereo_msgs.dir/all: CMakeFiles/stereo_msgs__rosidl_typesupport_c.dir/all
 CMakeFiles/stereo_msgs.dir/all: CMakeFiles/stereo_msgs__rosidl_generator_c.dir/all
 CMakeFiles/stereo_msgs.dir/all: CMakeFiles/stereo_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/stereo_msgs.dir/all: CMakeFiles/stereo_msgs__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/stereo_msgs.dir/all: CMakeFiles/stereo_msgs__rosidl_typesupport_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/stereo_msgs.dir/build.make CMakeFiles/stereo_msgs.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/stereo_msgs.dir/build.make CMakeFiles/stereo_msgs.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/stereo_msgs/CMakeFiles --progress-num= "Built target stereo_msgs"
@@ -181,10 +181,10 @@ stereo_msgs: CMakeFiles/stereo_msgs.dir/rule
 .PHONY : stereo_msgs
 
 # codegen rule for target.
-CMakeFiles/stereo_msgs.dir/codegen: CMakeFiles/stereo_msgs__rosidl_typesupport_c.dir/all
 CMakeFiles/stereo_msgs.dir/codegen: CMakeFiles/stereo_msgs__rosidl_generator_c.dir/all
 CMakeFiles/stereo_msgs.dir/codegen: CMakeFiles/stereo_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/stereo_msgs.dir/codegen: CMakeFiles/stereo_msgs__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/stereo_msgs.dir/codegen: CMakeFiles/stereo_msgs__rosidl_typesupport_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/stereo_msgs.dir/build.make CMakeFiles/stereo_msgs.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/stereo_msgs/CMakeFiles --progress-num= "Finished codegen for target stereo_msgs"
 .PHONY : CMakeFiles/stereo_msgs.dir/codegen

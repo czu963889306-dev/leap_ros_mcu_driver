@@ -974,6 +974,8 @@ TEST_F(TestActionServerCancelPolicy, test_action_process_cancel_request_by_time_
   EXPECT_EQ(RCL_RET_OK, rcl_action_cancel_response_fini(&cancel_response));
 }
 
+// fault injection reaches error paths micro-ROS does not build
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(TestActionServer, action_server_init_fini_maybe_fail)
 {
   rcl_allocator_t allocator = rcl_get_default_allocator();
@@ -1022,6 +1024,7 @@ TEST_F(TestActionServer, action_server_init_fini_maybe_fail)
     }
   });
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 TEST_F(TestActionServerCancelPolicy, test_action_process_cancel_request_maybe_fail)
 {

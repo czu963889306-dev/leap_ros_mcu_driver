@@ -658,9 +658,16 @@ TEST_F(
   ret = rcl_count_publishers(this->node_ptr, nullptr, &count);
   EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
   rcl_reset_error();
-  // TODO(wjwwood): test valid strings with invalid topic names in them
+  // invalid topic name contents
+  ret = rcl_count_publishers(this->node_ptr, "/invalid_topic?", &count);
+  EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
+  rcl_reset_error();
   // invalid count
   ret = rcl_count_publishers(this->node_ptr, topic_name, nullptr);
+  EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
+  rcl_reset_error();
+  // empty string
+  ret = rcl_count_publishers(this->node_ptr, "", &count);
   EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
   rcl_reset_error();
   // valid call
@@ -695,9 +702,16 @@ TEST_F(
   ret = rcl_count_subscribers(this->node_ptr, nullptr, &count);
   EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
   rcl_reset_error();
-  // TODO(wjwwood): test valid strings with invalid topic names in them
+  // invalid topic name contents
+  ret = rcl_count_subscribers(this->node_ptr, "/invalid_topic?", &count);
+  EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
+  rcl_reset_error();
   // invalid count
   ret = rcl_count_subscribers(this->node_ptr, topic_name, nullptr);
+  EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
+  rcl_reset_error();
+  // empty string
+  ret = rcl_count_subscribers(this->node_ptr, "", &count);
   EXPECT_EQ(RCL_RET_INVALID_ARGUMENT, ret) << rcl_get_error_string().str;
   rcl_reset_error();
   // valid call

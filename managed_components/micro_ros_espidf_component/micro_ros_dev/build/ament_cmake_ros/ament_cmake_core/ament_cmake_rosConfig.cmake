@@ -16,7 +16,7 @@ set(_ament_cmake_ros_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ament_cmake_ros_FIND_QUIETLY)
-  message(STATUS "Found ament_cmake_ros: 0.10.0 (${ament_cmake_ros_DIR})")
+  message(STATUS "Found ament_cmake_ros: 0.10.1 (${ament_cmake_ros_DIR})")
 endif()
 
 # warn when using a deprecated package

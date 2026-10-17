@@ -260,6 +260,9 @@ RCL_COMMAND_LINE_ENABLED:BOOL=OFF
 //Enable/disable logging
 RCL_LOGGING_ENABLED:BOOL=OFF
 
+//micro-ROS build mode (used for the tests)
+RCL_MICROROS:BOOL=ON
+
 //No help, variable specified on the command line.
 THIRDPARTY:UNINITIALIZED=ON
 

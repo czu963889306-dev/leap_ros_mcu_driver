@@ -29,19 +29,19 @@ extern "C"
 
 #ifdef RCL_COMMAND_LINE_ENABLED
 #include "rcl/arguments.h"
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 #include "rcl/domain_id.h"
 #include "rcl/error_handling.h"
 #include "rcl/localhost.h"
 #ifdef RCL_LOGGING_ENABLED
 #include "rcl/logging.h"
-#endif // RCL_LOGGING_ENABLED
+#endif  // RCL_LOGGING_ENABLED
 #include "rcl/security.h"
 #include "rcl/validate_enclave_name.h"
 
 #ifdef RCL_COMMAND_LINE_ENABLED
 #include "./arguments_impl.h"
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 #include "./common.h"
 #include "./context_impl.h"
 #include "./init_options_impl.h"
@@ -87,7 +87,7 @@ rcl_init(
 #ifdef RCL_COMMAND_LINE_ENABLED
   // Zero initialize global arguments.
   context->global_arguments = rcl_get_zero_initialized_arguments();
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   // Setup impl for context.
   // use zero_allocate so the cleanup function will not try to clean up uninitialized parts later
@@ -137,7 +137,7 @@ rcl_init(
     RCUTILS_LOG_ERROR_NAMED(ROS_PACKAGE_NAME, "Failed to parse global arguments");
     goto fail;
   }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   // Set the instance id.
   static uint32_t next_instance_id = 0;
@@ -216,7 +216,17 @@ rcl_init(
     fail_ret = ret;
     goto fail;
   }
-#endif //RCL_COMMAND_LINE_ENABLED
+#else
+  // without the command line there is no enclave to read, and rmw_microxrcedds
+  // expects a valid one rather than NULL
+  context->impl->init_options.impl->rmw_init_options.enclave = rcutils_strdup(
+    "/", context->impl->allocator);
+  if (!context->impl->init_options.impl->rmw_init_options.enclave) {
+    RCL_SET_ERROR_MSG("failed to set context name");
+    fail_ret = RCL_RET_BAD_ALLOC;
+    goto fail;
+  }
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   // Initialize rmw_init.
   rmw_ret_t rmw_ret = rmw_init(

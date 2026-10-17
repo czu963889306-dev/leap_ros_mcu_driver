@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "rmw_implementation_cmake")
-set(rmw_implementation_cmake_VERSION "6.1.3")
+set(rmw_implementation_cmake_VERSION "6.1.4")
 set(rmw_implementation_cmake_MAINTAINER "Ivan Paunovic <ivanpauno@ekumenlabs.com>, William Woodall <william@openrobotics.org>")
 set(rmw_implementation_cmake_BUILD_DEPENDS )
 set(rmw_implementation_cmake_BUILDTOOL_DEPENDS "ament_cmake")

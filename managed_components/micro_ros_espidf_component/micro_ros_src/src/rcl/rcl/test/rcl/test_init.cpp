@@ -175,6 +175,7 @@ TEST_F(CLASSNAME(TestRCLFixture, RMW_IMPLEMENTATION), test_rcl_init_invalid_argu
     rcl_reset_error();
     ASSERT_FALSE(rcl_context_is_valid(&context));
   }
+#ifdef RCL_MICROROS_COMPLETE_IMPL
   {
     // If an invalid ROS arg is given, init should fail.
     rcl_context_t context = rcl_get_zero_initialized_context();
@@ -197,6 +198,9 @@ TEST_F(CLASSNAME(TestRCLFixture, RMW_IMPLEMENTATION), test_rcl_init_invalid_argu
     rcl_reset_error();
     ASSERT_FALSE(rcl_context_is_valid(&context));
   }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
+// the security options are read inside the command line block, which micro-ROS leaves out
+#ifdef RCL_MICROROS_COMPLETE_IMPL
   {
     // If security keystore is invalid, init should fail.
     ASSERT_TRUE(rcutils_set_env(ROS_SECURITY_ENABLE_VAR_NAME, "true"));
@@ -220,6 +224,7 @@ TEST_F(CLASSNAME(TestRCLFixture, RMW_IMPLEMENTATION), test_rcl_init_invalid_argu
     rcl_reset_error();
     ASSERT_FALSE(rcl_context_is_valid(&context));
   }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
   {
     // If either the allocate or deallocate function pointers are not set,
     // it should be invalid arg.
@@ -467,7 +472,10 @@ TEST_F(CLASSNAME(TestRCLFixture, RMW_IMPLEMENTATION), test_rcl_init_options_acce
   rmw_init_options_t * options = rcl_init_options_get_rmw_init_options(&init_options);
   ASSERT_NE(nullptr, options);
   EXPECT_EQ(0u, options->instance_id);
+#ifdef RCL_MICROROS_COMPLETE_IMPL
+  // rmw_microxrcedds allocates options->impl already at initialization
   EXPECT_EQ(nullptr, options->impl);
+#endif  // RCL_MICROROS_COMPLETE_IMPL
   EXPECT_EQ(NULL, rcl_init_options_get_rmw_init_options(nullptr));
   EXPECT_EQ(NULL, rcl_init_options_get_rmw_init_options(&not_ini_init_options));
 

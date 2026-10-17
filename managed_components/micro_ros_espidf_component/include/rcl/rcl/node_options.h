@@ -25,7 +25,7 @@ extern "C"
 #include "rcl/allocator.h"
 #ifdef RCL_COMMAND_LINE_ENABLED
 #include "rcl/arguments.h"
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 #include "rcl/macros.h"
 
 #include "rcl/domain_id.h"
@@ -52,7 +52,7 @@ typedef struct rcl_node_options_s
 #ifdef RCL_COMMAND_LINE_ENABLED
   /// Command line arguments that apply only to this node.
   rcl_arguments_t arguments;
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   /// Flag to enable rosout for this node
   bool enable_rosout;

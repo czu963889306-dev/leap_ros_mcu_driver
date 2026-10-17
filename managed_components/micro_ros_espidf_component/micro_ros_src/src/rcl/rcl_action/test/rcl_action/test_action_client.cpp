@@ -246,6 +246,8 @@ protected:
   rcl_action_client_t action_client;
 };
 
+// rcl_action_server_is_available needs the graph, unavailable in micro-ROS
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(TestActionClientFixture, test_action_server_is_available) {
   bool is_available = false;
   rcl_ret_t ret = rcl_action_server_is_available(nullptr, &this->action_client, &is_available);
@@ -267,6 +269,7 @@ TEST_F(TestActionClientFixture, test_action_server_is_available) {
   EXPECT_EQ(ret, RCL_RET_OK);
   EXPECT_FALSE(is_available);
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 TEST_F(TestActionClientFixture, test_action_client_is_valid) {
   bool is_valid = rcl_action_client_is_valid(nullptr);

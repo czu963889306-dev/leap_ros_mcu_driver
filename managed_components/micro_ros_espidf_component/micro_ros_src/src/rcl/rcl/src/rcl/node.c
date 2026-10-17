@@ -26,14 +26,14 @@ extern "C"
 
 #ifdef RCL_COMMAND_LINE_ENABLED
 #include "rcl/arguments.h"
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 #include "rcl/error_handling.h"
 #include "rcl/init_options.h"
 #include "rcl/localhost.h"
 #ifdef RCL_LOGGING_ENABLED
 #include "rcl/logging.h"
 #include "rcl/logging_rosout.h"
-#endif // RCL_LOGGING_ENABLED
+#endif  // RCL_LOGGING_ENABLED
 #include "rcl/rcl.h"
 #include "rcl/remap.h"
 #include "rcl/security.h"
@@ -245,7 +245,7 @@ rcl_node_init(
     should_free_local_namespace_ = true;
     local_namespace_ = remapped_namespace;
   }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   // compute fully qualfied name of the node.
   if ('/' == local_namespace_[strlen(local_namespace_) - 1]) {
@@ -259,7 +259,7 @@ rcl_node_init(
   node->impl->logger_name = rcl_create_node_logger_name(name, local_namespace_, allocator);
   RCL_CHECK_FOR_NULL_WITH_MSG(
     node->impl->logger_name, "creating logger name failed", goto fail);
-#endif // RCL_LOGGING_ENABLED
+#endif  // RCL_LOGGING_ENABLED
 
   RCUTILS_LOG_DEBUG_NAMED(
     ROS_PACKAGE_NAME, "Using domain ID of '%zu'", context->impl->rmw_context.actual_domain_id);
@@ -302,7 +302,7 @@ rcl_node_init(
       goto fail;
     }
   }
-#endif // RCL_LOGGING_ENABLED
+#endif  // RCL_LOGGING_ENABLED
   RCUTILS_LOG_DEBUG_NAMED(ROS_PACKAGE_NAME, "Node initialized");
   ret = RCL_RET_OK;
   TRACEPOINT(
@@ -325,7 +325,7 @@ fail:
         ROS_PACKAGE_NAME, "Failed to fini publisher for node: %i", ret);
       allocator->deallocate((char *)node->impl->logger_name, allocator->state);
     }
-#endif // RCL_LOGGING_ENABLED
+#endif  // RCL_LOGGING_ENABLED
     if (node->impl->fq_name) {
       allocator->deallocate((char *)node->impl->fq_name, allocator->state);
     }
@@ -359,7 +359,7 @@ fail:
         );
       }
     }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
     allocator->deallocate(node->impl, allocator->state);
   }
   *node = rcl_get_zero_initialized_node();
@@ -397,7 +397,7 @@ rcl_node_fini(rcl_node_t * node)
       result = RCL_RET_ERROR;
     }
   }
-#endif // RCL_LOGGING_ENABLED
+#endif  // RCL_LOGGING_ENABLED
   rmw_ret_t rmw_ret = rmw_destroy_node(node->impl->rmw_node_handle);
   if (rmw_ret != RMW_RET_OK) {
     RCL_SET_ERROR_MSG(rmw_get_error_string().str);
@@ -419,7 +419,7 @@ rcl_node_fini(rcl_node_t * node)
       return ret;
     }
   }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
   allocator.deallocate(node->impl, allocator.state);
   node->impl = NULL;
   RCUTILS_LOG_DEBUG_NAMED(ROS_PACKAGE_NAME, "Node finalized");

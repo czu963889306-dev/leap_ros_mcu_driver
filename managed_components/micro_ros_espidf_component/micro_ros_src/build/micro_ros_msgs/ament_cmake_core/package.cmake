@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "micro_ros_msgs")
 set(micro_ros_msgs_VERSION "3.0.1")
-set(micro_ros_msgs_MAINTAINER "Eugenio Collado <eugeniocollado@eprosima.com>, Carlos Espinoza <carlosespinoza@eprosima.com>")
+set(micro_ros_msgs_MAINTAINER "Eugenio Collado <eugeniocollado@eprosima.com>, David Laseca <davidlaseca@eprosima.com>")
 set(micro_ros_msgs_BUILD_DEPENDS "rosidl_default_generators")
 set(micro_ros_msgs_BUILDTOOL_DEPENDS "ament_cmake")
 set(micro_ros_msgs_BUILD_EXPORT_DEPENDS )

@@ -16,7 +16,7 @@ set(_rmw_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT rmw_FIND_QUIETLY)
-  message(STATUS "Found rmw: 6.1.3 (${rmw_DIR})")
+  message(STATUS "Found rmw: 6.1.4 (${rmw_DIR})")
 endif()
 
 # warn when using a deprecated package

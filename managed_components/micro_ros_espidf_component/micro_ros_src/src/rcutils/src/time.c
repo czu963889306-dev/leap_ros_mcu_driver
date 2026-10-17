@@ -19,8 +19,9 @@ extern "C"
 
 #include "rcutils/time.h"
 
-#include <inttypes.h>
 #include <stdio.h>
+#include <inttypes.h>
+
 #include <stdlib.h>
 #include <time.h>
 

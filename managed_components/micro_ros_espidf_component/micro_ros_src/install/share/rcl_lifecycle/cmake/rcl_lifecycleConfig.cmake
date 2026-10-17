@@ -16,7 +16,7 @@ set(_rcl_lifecycle_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT rcl_lifecycle_FIND_QUIETLY)
-  message(STATUS "Found rcl_lifecycle: 5.3.10 (${rcl_lifecycle_DIR})")
+  message(STATUS "Found rcl_lifecycle: 5.3.13 (${rcl_lifecycle_DIR})")
 endif()
 
 # warn when using a deprecated package

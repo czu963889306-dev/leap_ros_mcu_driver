@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "rcl_action")
-set(rcl_action_VERSION "5.3.10")
+set(rcl_action_VERSION "5.3.13")
 set(rcl_action_MAINTAINER "Ivan Paunovic <ivanpauno@ekumenlabs.com>, Jacob Perron <jacob@openrobotics.org>, William Woodall <william@openrobotics.org>")
 set(rcl_action_BUILD_DEPENDS "action_msgs" "rcl" "rcutils" "rmw" "rosidl_runtime_c")
 set(rcl_action_BUILDTOOL_DEPENDS "ament_cmake_ros" "ament_cmake_gen_version_h")

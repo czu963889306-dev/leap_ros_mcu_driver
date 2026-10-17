@@ -2,6 +2,23 @@
 Changelog for package rcl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+5.3.13 (2026-04-20)
+-------------------
+* Added rcl_timer_get_next_call_time (`#1146 <https://github.com/ros2/rcl/issues/1146>`_) (`#1237 <https://github.com/ros2/rcl/issues/1237>`_)
+* Fujitatomoya/improve rcl test graph (backport `#1296 <https://github.com/ros2/rcl/issues/1296>`_) (`#1299 <https://github.com/ros2/rcl/issues/1299>`_)
+* Contributors: mergify[bot], n8hui
+
+5.3.12 (2026-01-19)
+-------------------
+* Fix REP url locations (`#1271 <https://github.com/ros2/rcl/issues/1271>`_) (`#1274 <https://github.com/ros2/rcl/issues/1274>`_)
+* Contributors: mergify[bot]
+
+5.3.11 (2025-10-21)
+-------------------
+* Add a test for the subscription option 'ignore_local_publications' (backport `#1239 <https://github.com/ros2/rcl/issues/1239>`_) (`#1243 <https://github.com/ros2/rcl/issues/1243>`_)
+* Fix typos: occurrs->occurs, successfull->successful (`#1259 <https://github.com/ros2/rcl/issues/1259>`_) (`#1263 <https://github.com/ros2/rcl/issues/1263>`_)
+* Contributors: mergify[bot]
+
 5.3.10 (2025-07-16)
 -------------------
 * Fix a dangling pointer discovered by a fresh Clang (`#1222 <https://github.com/ros2/rcl/issues/1222>`_) (`#1224 <https://github.com/ros2/rcl/issues/1224>`_)

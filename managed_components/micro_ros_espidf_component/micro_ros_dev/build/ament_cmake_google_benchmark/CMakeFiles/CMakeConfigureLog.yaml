@@ -7,5 +7,5 @@ events:
       - "/usr/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:205 (message)"
       - "CMakeLists.txt:2 (project)"
     message: |
-      The system is: Linux - 6.12.75+rpt-rpi-2712 - aarch64
+      The system is: Linux - 6.18.34+rpt-rpi-2712 - aarch64
 ...

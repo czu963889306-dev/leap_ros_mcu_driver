@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 find_package(ament_cmake_gtest REQUIRED)
 
@@ -58,3 +58,4 @@ rmw_test(test-topic       test_topic.cpp)
 rmw_test(test-rmw         test_rmw.cpp)
 rmw_test(test-sizes       test_sizes.cpp)
 rmw_test(test-guardcond   test_guard_condition.cpp)
+rmw_test(test-wait        test_wait.cpp)

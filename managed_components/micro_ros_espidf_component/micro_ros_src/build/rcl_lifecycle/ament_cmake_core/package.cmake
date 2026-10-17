@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "rcl_lifecycle")
-set(rcl_lifecycle_VERSION "5.3.10")
+set(rcl_lifecycle_VERSION "5.3.13")
 set(rcl_lifecycle_MAINTAINER "Ivan Paunovic <ivanpauno@ekumenlabs.com>, William Woodall <william@openrobotics.org>")
 set(rcl_lifecycle_BUILD_DEPENDS "lifecycle_msgs" "rcl" "rcutils" "rmw" "rosidl_runtime_c" "tracetools")
 set(rcl_lifecycle_BUILDTOOL_DEPENDS "ament_cmake_ros" "ament_cmake_gen_version_h")

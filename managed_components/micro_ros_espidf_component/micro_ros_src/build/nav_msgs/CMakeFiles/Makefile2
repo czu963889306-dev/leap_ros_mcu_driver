@@ -160,10 +160,10 @@ CMakeFiles/nav_msgs_uninstall.dir/clean:
 # Target rules for target CMakeFiles/nav_msgs.dir
 
 # All Build rule for target.
-CMakeFiles/nav_msgs.dir/all: CMakeFiles/nav_msgs__rosidl_typesupport_c.dir/all
 CMakeFiles/nav_msgs.dir/all: CMakeFiles/nav_msgs__rosidl_generator_c.dir/all
 CMakeFiles/nav_msgs.dir/all: CMakeFiles/nav_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/nav_msgs.dir/all: CMakeFiles/nav_msgs__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/nav_msgs.dir/all: CMakeFiles/nav_msgs__rosidl_typesupport_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/nav_msgs.dir/build.make CMakeFiles/nav_msgs.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/nav_msgs.dir/build.make CMakeFiles/nav_msgs.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/nav_msgs/CMakeFiles --progress-num= "Built target nav_msgs"
@@ -181,10 +181,10 @@ nav_msgs: CMakeFiles/nav_msgs.dir/rule
 .PHONY : nav_msgs
 
 # codegen rule for target.
-CMakeFiles/nav_msgs.dir/codegen: CMakeFiles/nav_msgs__rosidl_typesupport_c.dir/all
 CMakeFiles/nav_msgs.dir/codegen: CMakeFiles/nav_msgs__rosidl_generator_c.dir/all
 CMakeFiles/nav_msgs.dir/codegen: CMakeFiles/nav_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/nav_msgs.dir/codegen: CMakeFiles/nav_msgs__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/nav_msgs.dir/codegen: CMakeFiles/nav_msgs__rosidl_typesupport_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/nav_msgs.dir/build.make CMakeFiles/nav_msgs.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/nav_msgs/CMakeFiles --progress-num= "Finished codegen for target nav_msgs"
 .PHONY : CMakeFiles/nav_msgs.dir/codegen

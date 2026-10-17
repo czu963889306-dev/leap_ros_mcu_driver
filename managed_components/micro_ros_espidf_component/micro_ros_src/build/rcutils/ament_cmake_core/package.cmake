@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "rcutils")
-set(rcutils_VERSION "5.1.7")
+set(rcutils_VERSION "5.1.10")
 set(rcutils_MAINTAINER "Chris Lalancette <clalancette@openrobotics.org>, Alejandro Hernandez Cordero <alejandro@openrobotics.org>")
 set(rcutils_BUILD_DEPENDS "libatomic")
 set(rcutils_BUILDTOOL_DEPENDS "ament_cmake_ros" "python3-empy")

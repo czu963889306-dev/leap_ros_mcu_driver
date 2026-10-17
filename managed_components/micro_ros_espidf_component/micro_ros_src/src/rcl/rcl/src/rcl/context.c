@@ -35,7 +35,7 @@ rcl_get_zero_initialized_context(void)
   // this is not constexpr so it cannot be in the struct initialization
 #ifdef RCL_COMMAND_LINE_ENABLED
   context.global_arguments = rcl_get_zero_initialized_arguments();
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
   return context;
 }
 
@@ -121,7 +121,7 @@ __cleanup_context(rcl_context_t * context)
       rcl_reset_error();
     }
   }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   // if impl is null, nothing else can be cleaned up
   if (NULL != context->impl) {

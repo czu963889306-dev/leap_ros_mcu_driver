@@ -16,7 +16,7 @@ set(_rcutils_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT rcutils_FIND_QUIETLY)
-  message(STATUS "Found rcutils: 5.1.7 (${rcutils_DIR})")
+  message(STATUS "Found rcutils: 5.1.10 (${rcutils_DIR})")
 endif()
 
 # warn when using a deprecated package

@@ -160,10 +160,10 @@ CMakeFiles/statistics_msgs_uninstall.dir/clean:
 # Target rules for target CMakeFiles/statistics_msgs.dir
 
 # All Build rule for target.
-CMakeFiles/statistics_msgs.dir/all: CMakeFiles/statistics_msgs__rosidl_generator_c.dir/all
-CMakeFiles/statistics_msgs.dir/all: CMakeFiles/statistics_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/statistics_msgs.dir/all: CMakeFiles/statistics_msgs__rosidl_typesupport_c.dir/all
 CMakeFiles/statistics_msgs.dir/all: CMakeFiles/statistics_msgs__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/statistics_msgs.dir/all: CMakeFiles/statistics_msgs__rosidl_typesupport_introspection_c.dir/all
+CMakeFiles/statistics_msgs.dir/all: CMakeFiles/statistics_msgs__rosidl_generator_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/statistics_msgs.dir/build.make CMakeFiles/statistics_msgs.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/statistics_msgs.dir/build.make CMakeFiles/statistics_msgs.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/statistics_msgs/CMakeFiles --progress-num= "Built target statistics_msgs"
@@ -181,10 +181,10 @@ statistics_msgs: CMakeFiles/statistics_msgs.dir/rule
 .PHONY : statistics_msgs
 
 # codegen rule for target.
-CMakeFiles/statistics_msgs.dir/codegen: CMakeFiles/statistics_msgs__rosidl_generator_c.dir/all
-CMakeFiles/statistics_msgs.dir/codegen: CMakeFiles/statistics_msgs__rosidl_typesupport_introspection_c.dir/all
 CMakeFiles/statistics_msgs.dir/codegen: CMakeFiles/statistics_msgs__rosidl_typesupport_c.dir/all
 CMakeFiles/statistics_msgs.dir/codegen: CMakeFiles/statistics_msgs__rosidl_typesupport_microxrcedds_c.dir/all
+CMakeFiles/statistics_msgs.dir/codegen: CMakeFiles/statistics_msgs__rosidl_typesupport_introspection_c.dir/all
+CMakeFiles/statistics_msgs.dir/codegen: CMakeFiles/statistics_msgs__rosidl_generator_c.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/statistics_msgs.dir/build.make CMakeFiles/statistics_msgs.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/statistics_msgs/CMakeFiles --progress-num= "Finished codegen for target statistics_msgs"
 .PHONY : CMakeFiles/statistics_msgs.dir/codegen

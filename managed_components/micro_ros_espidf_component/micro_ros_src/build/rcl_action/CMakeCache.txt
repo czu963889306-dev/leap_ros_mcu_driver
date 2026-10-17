@@ -254,6 +254,9 @@ IDF_INCLUDES:UNINITIALIZED=-I/root/maturo_project/leap_low_v1/managed_components
 //Path to a program.
 Python3_EXECUTABLE:FILEPATH=/root/.espressif/python_env/idf5.5_py3.13_env/bin/python3
 
+//micro-ROS build mode
+RCL_MICROROS:BOOL=ON
+
 //No help, variable specified on the command line.
 THIRDPARTY:UNINITIALIZED=ON
 

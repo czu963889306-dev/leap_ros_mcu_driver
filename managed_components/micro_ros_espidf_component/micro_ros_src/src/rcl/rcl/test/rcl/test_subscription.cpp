@@ -268,6 +268,8 @@ TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription
 
 /* Basic nominal test of a subscription
  */
+// waits for a matched subscription, needs RMW_UXRCE_GRAPH=ON
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription_nominal) {
   rcl_ret_t ret;
   rcl_publisher_t publisher = rcl_get_zero_initialized_publisher();
@@ -338,9 +340,12 @@ TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription
   #endif
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* Basic nominal test of a publisher with a string.
  */
+// waits for a matched subscription, needs RMW_UXRCE_GRAPH=ON
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription_nominal_string) {
   rcl_ret_t ret;
   rcl_publisher_t publisher = rcl_get_zero_initialized_publisher();
@@ -387,9 +392,12 @@ TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription
     ASSERT_EQ(std::string(test_string), std::string(msg.string_value.data, msg.string_value.size));
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* Basic nominal test of a subscription taking a sequence.
  */
+// waits for a matched subscription, needs RMW_UXRCE_GRAPH=ON
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(
   CLASSNAME(
     TestSubscriptionFixture,
@@ -557,9 +565,12 @@ TEST_F(
       std::string(seq->data[0].string_value.data, seq->data[0].string_value.size));
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* Basic nominal test of a subscription with take_serialize msg
  */
+// waits for a matched subscription, needs RMW_UXRCE_GRAPH=ON
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription_serialized) {
   rcl_ret_t ret;
   rcl_publisher_t publisher = rcl_get_zero_initialized_publisher();
@@ -633,9 +644,12 @@ TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription
       rmw_serialized_message_fini(&serialized_msg_rcv)) << rcl_get_error_string().str;
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* Basic test for subscription loan functions
  */
+// loaned messages are not supported by rmw_microxrcedds
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription_loaned) {
   rcl_ret_t ret;
   rcl_publisher_t publisher = rcl_get_zero_initialized_publisher();
@@ -714,6 +728,7 @@ TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription
     EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_subscription_loan_disable) {
   rcl_subscription_t subscription = rcl_get_zero_initialized_subscription();
@@ -888,6 +903,8 @@ TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_bad_return_l
 
 /* A subscription with a content filtered topic setting.
  */
+// content filters are not supported by rmw_microxrcedds
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(
   CLASSNAME(
     TestSubscriptionFixture,
@@ -1155,9 +1172,12 @@ TEST_F(
       std::string(msg.string_value.data, msg.string_value.size));
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* A subscription without a content filtered topic setting at beginning.
  */
+// content filters are not supported by rmw_microxrcedds
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(
   CLASSNAME(
     TestSubscriptionFixture,
@@ -1311,6 +1331,7 @@ TEST_F(
     ASSERT_TRUE(test_filtered_value == msg.int32_value);
   }
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 TEST_F(CLASSNAME(TestSubscriptionFixture, RMW_IMPLEMENTATION), test_get_options) {
   rcl_ret_t ret;
@@ -1373,6 +1394,157 @@ TEST_F(CLASSNAME(TestSubscriptionFixtureInit, RMW_IMPLEMENTATION), test_subscrip
     RCL_RET_ERROR, rcl_take(&subscription, &msg, &message_info, nullptr));
   rcl_reset_error();
 }
+
+// waits for a matched subscription, needs RMW_UXRCE_GRAPH=ON
+#ifdef RCL_MICROROS_COMPLETE_IMPL
+TEST_F(
+  CLASSNAME(TestSubscriptionFixtureInit, RMW_IMPLEMENTATION),
+  test_subscription_option_ignore_local_publications)
+{
+  // The current Implementations for ignoring local publications
+  // While creating a subscription, the ignore_local_publications option is set to true
+  //                                                      Notification of message
+  //                   Connected to local publications    from local publication      Take data
+  //                   -------------------------------    -----------------------      ---------
+  // rmw_fastrtps               Yes                               Yes                     No
+  // rmw_cyclonedds             No                                No                      No
+  // rmw_connextdds             Yes                               Yes                     No
+
+  rcl_ret_t ret;
+
+  // Create a publisher
+  rcl_publisher_t pub = rcl_get_zero_initialized_publisher();
+  const rosidl_message_type_support_t * ts =
+    ROSIDL_GET_MSG_TYPE_SUPPORT(test_msgs, msg, Strings);
+  constexpr char topic[] = "rcl_test_subscription_option_ignore_local_publications";
+  rcl_publisher_options_t publisher_options = rcl_publisher_get_default_options();
+  ret = rcl_publisher_init(&pub, this->node_ptr, ts, topic, &publisher_options);
+  ASSERT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  OSRF_TESTING_TOOLS_CPP_SCOPE_EXIT(
+  {
+    rcl_ret_t ret = rcl_publisher_fini(&pub, this->node_ptr);
+    EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  });
+
+  // Create two subscriptions: one with ignore_local_publications set to false,
+  // and another with it set to true.
+  rcl_subscription_t sub = rcl_get_zero_initialized_subscription();
+  rcl_subscription_t sub_ignorelocal = rcl_get_zero_initialized_subscription();
+  rcl_subscription_options_t sub_opts = rcl_subscription_get_default_options();
+
+  // sub with ignore_local_publications set to false
+  ret = rcl_subscription_init(&sub, this->node_ptr, ts, topic, &sub_opts);
+  ASSERT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  OSRF_TESTING_TOOLS_CPP_SCOPE_EXIT(
+  {
+    rcl_ret_t ret = rcl_subscription_fini(&sub, this->node_ptr);
+    EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  });
+
+  // sub_ignorelocal with ignore_local_publications set to true
+  sub_opts.rmw_subscription_options.ignore_local_publications = true;
+  ret = rcl_subscription_init(&sub_ignorelocal, this->node_ptr, ts, topic, &sub_opts);
+  ASSERT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  OSRF_TESTING_TOOLS_CPP_SCOPE_EXIT(
+  {
+    rcl_ret_t ret = rcl_subscription_fini(&sub_ignorelocal, this->node_ptr);
+    EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  });
+
+  // Wait for at least 1 subscription to be established
+  ASSERT_TRUE(wait_for_established_subscription(&pub, 5, 1000));
+
+  // Test with rcl_take
+  // publish a message
+  constexpr char test_string[] = "message";
+  {
+    test_msgs__msg__Strings msg;
+    test_msgs__msg__Strings__init(&msg);
+    ASSERT_TRUE(rosidl_runtime_c__String__assign(&msg.string_value, test_string));
+    ret = rcl_publish(&pub, &msg, nullptr);
+    test_msgs__msg__Strings__fini(&msg);
+    ASSERT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  }
+
+  // Wait for one subscription to be ready
+  ASSERT_TRUE(wait_for_subscription_to_be_ready(&sub, context_ptr, 2, 1000));
+
+  // ignore_local_publications is false
+  {
+    test_msgs__msg__Strings msg;
+    test_msgs__msg__Strings__init(&msg);
+    OSRF_TESTING_TOOLS_CPP_SCOPE_EXIT(
+    {
+      test_msgs__msg__Strings__fini(&msg);
+    });
+    ret = rcl_take(&sub, &msg, nullptr, nullptr);
+    ASSERT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+    ASSERT_EQ(
+      std::string(test_string),
+      std::string(msg.string_value.data, msg.string_value.size));
+  }
+
+  // ignore_local_publications is true
+  {
+    test_msgs__msg__Strings msg;
+    test_msgs__msg__Strings__init(&msg);
+    OSRF_TESTING_TOOLS_CPP_SCOPE_EXIT(
+    {
+      test_msgs__msg__Strings__fini(&msg);
+    });
+    ret = rcl_take(&sub, &msg, nullptr, nullptr);
+    ASSERT_EQ(RCL_RET_SUBSCRIPTION_TAKE_FAILED, ret);
+  }
+
+  // Test with rcl_take_serialized_message
+  // publish message again
+  {
+    test_msgs__msg__Strings msg;
+    test_msgs__msg__Strings__init(&msg);
+    ASSERT_TRUE(rosidl_runtime_c__String__assign(&msg.string_value, test_string));
+    ret = rcl_publish(&pub, &msg, nullptr);
+    test_msgs__msg__Strings__fini(&msg);
+    ASSERT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  }
+
+  // Wait for one subscription to be ready
+  ASSERT_TRUE(wait_for_subscription_to_be_ready(&sub, context_ptr, 2, 1000));
+
+  // ignore_local_publications is false
+  {
+    rmw_serialized_message_t serialized_msg = rmw_get_zero_initialized_serialized_message();
+    size_t initial_serialization_capacity = 0u;
+    auto allocator = rcl_get_default_allocator();
+    rmw_message_info_t message_info;
+    ASSERT_EQ(
+      RCL_RET_OK,
+      rmw_serialized_message_init(&serialized_msg, initial_serialization_capacity, &allocator));
+    OSRF_TESTING_TOOLS_CPP_SCOPE_EXIT(
+    {
+      EXPECT_EQ(RCL_RET_OK, rmw_serialized_message_fini(&serialized_msg));
+    });
+    ret = rcl_take_serialized_message(&sub, &serialized_msg, &message_info, nullptr);
+    ASSERT_EQ(RCL_RET_OK, ret) << rcl_get_error_string().str;
+  }
+
+  // ignore_local_publications is true
+  {
+    rmw_serialized_message_t serialized_msg = rmw_get_zero_initialized_serialized_message();
+    size_t initial_serialization_capacity = 0u;
+    auto allocator = rcl_get_default_allocator();
+    rmw_message_info_t message_info;
+    ASSERT_EQ(
+      RCL_RET_OK,
+      rmw_serialized_message_init(&serialized_msg, initial_serialization_capacity, &allocator));
+    OSRF_TESTING_TOOLS_CPP_SCOPE_EXIT(
+    {
+      EXPECT_EQ(RCL_RET_OK, rmw_serialized_message_fini(&serialized_msg));
+    });
+    ret = rcl_take_serialized_message(&sub_ignorelocal, &serialized_msg, &message_info, nullptr);
+    ASSERT_EQ(RCL_RET_SUBSCRIPTION_TAKE_FAILED, ret);
+  }
+}
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* bad take_serialized
 */

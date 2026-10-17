@@ -23,12 +23,12 @@ extern "C"
 
 #ifdef RCL_COMMAND_LINE_ENABLED
 #include "rcl/arguments.h"
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 #include "rcl/domain_id.h"
 #include "rcl/error_handling.h"
 #ifdef RCL_LOGGING_ENABLED
 #include "rcl/logging_rosout.h"
-#endif // RCL_LOGGING_ENABLED
+#endif  // RCL_LOGGING_ENABLED
 
 rcl_node_options_t
 rcl_node_get_default_options()
@@ -39,13 +39,13 @@ rcl_node_get_default_options()
     .use_global_arguments = true,
   #ifdef RCL_COMMAND_LINE_ENABLED
     .arguments = rcl_get_zero_initialized_arguments(),
-  #endif // RCL_COMMAND_LINE_ENABLED
+  #endif  // RCL_COMMAND_LINE_ENABLED
   #ifdef RCL_LOGGING_ENABLED
     .enable_rosout = true,
     .rosout_qos = rcl_qos_profile_rosout_default,
   #else
     .enable_rosout = false,
-  #endif // RCL_LOGGING_ENABLED
+  #endif  // RCL_LOGGING_ENABLED
   };
   return default_options;
 }
@@ -68,7 +68,7 @@ rcl_node_options_copy(
     RCL_SET_ERROR_MSG("Options out must be zero initialized");
     return RCL_RET_INVALID_ARGUMENT;
   }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   options_out->allocator = options->allocator;
   options_out->use_global_arguments = options->use_global_arguments;
@@ -78,7 +78,7 @@ rcl_node_options_copy(
   if (NULL != options->arguments.impl) {
     return rcl_arguments_copy(&(options->arguments), &(options_out->arguments));
   }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
   return RCL_RET_OK;
 }
 
@@ -98,7 +98,7 @@ rcl_node_options_fini(
       return ret;
     }
   }
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 
   return RCL_RET_OK;
 }

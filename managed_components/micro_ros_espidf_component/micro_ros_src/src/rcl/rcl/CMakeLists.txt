@@ -5,6 +5,8 @@ project(rcl)
 option(RCL_COMMAND_LINE_ENABLED "Enable/disable the rcl_yaml_param_parser tool" OFF)
 option(RCL_LOGGING_ENABLED "Enable/disable logging" OFF)
 
+option(RCL_MICROROS "micro-ROS build mode (used for the tests)" ON)
+
 find_package(ament_cmake_ros REQUIRED)
 find_package(ament_cmake_gen_version_h REQUIRED)
 
@@ -107,7 +109,15 @@ target_compile_definitions(${PROJECT_NAME}
   PRIVATE
     $<$<BOOL:${RCL_COMMAND_LINE_ENABLED}>:RCL_COMMAND_LINE_ENABLED>
     $<$<BOOL:${RCL_LOGGING_ENABLED}>:RCL_LOGGING_ENABLED>
+)
+
+# PUBLIC so the tests inherit it and can guard what micro-ROS does not provide
+if(NOT RCL_MICROROS)
+  target_compile_definitions(${PROJECT_NAME}
+    PUBLIC
+      RCL_MICROROS_COMPLETE_IMPL
   )
+endif()
 
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.

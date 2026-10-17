@@ -27,7 +27,7 @@ extern "C"
 #include "rcl/allocator.h"
 #ifdef RCL_COMMAND_LINE_ENABLED
 #include "rcl/arguments.h"
-#endif // RCL_COMMAND_LINE_ENABLED
+#endif  // RCL_COMMAND_LINE_ENABLED
 #include "rcl/context.h"
 #include "rcl/guard_condition.h"
 #include "rcl/macros.h"

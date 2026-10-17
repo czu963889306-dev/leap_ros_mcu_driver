@@ -78,6 +78,8 @@ public:
 
 /* Basic nominal test of a service.
  */
+// waits for the server through the graph, unavailable in micro-ROS
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(CLASSNAME(TestServiceFixture, RMW_IMPLEMENTATION), test_service_nominal) {
   rcl_ret_t ret;
   const rosidl_service_type_support_t * ts = ROSIDL_GET_SRV_TYPE_SUPPORT(
@@ -237,9 +239,12 @@ TEST_F(CLASSNAME(TestServiceFixture, RMW_IMPLEMENTATION), test_service_nominal) 
 
   test_msgs__srv__BasicTypes_Response__fini(&client_response);
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* Basic nominal test of a service with rcl_take_response
  */
+// waits for the server through the graph, unavailable in micro-ROS
+#ifdef RCL_MICROROS_COMPLETE_IMPL
 TEST_F(CLASSNAME(TestServiceFixture, RMW_IMPLEMENTATION), test_service_without_info) {
   rcl_ret_t ret;
   const rosidl_service_type_support_t * ts = ROSIDL_GET_SRV_TYPE_SUPPORT(
@@ -336,6 +341,7 @@ TEST_F(CLASSNAME(TestServiceFixture, RMW_IMPLEMENTATION), test_service_without_i
 
   test_msgs__srv__BasicTypes_Response__fini(&client_response);
 }
+#endif  // RCL_MICROROS_COMPLETE_IMPL
 
 /* Passing bad/invalid arguments to service functions
  */

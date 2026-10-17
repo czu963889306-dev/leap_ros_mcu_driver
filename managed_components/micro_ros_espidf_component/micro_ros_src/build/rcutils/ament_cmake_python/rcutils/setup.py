@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='rcutils',
-    version='5.1.7',
+    version='5.1.10',
     packages=find_packages(
         include=('rcutils', 'rcutils.*')),
 )

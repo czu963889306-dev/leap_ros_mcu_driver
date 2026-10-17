@@ -69,7 +69,7 @@ rcl_logging_configure_with_output_handler(
   const char * config_file = global_args->impl->external_log_config_file;
   bool global_disable = false;
   #ifdef RCUTILS_NO_LOGGING
-    global_disable = true;
+  global_disable = true;
   #endif
   g_rcl_logging_stdout_enabled = !global_args->impl->log_stdout_disabled && !global_disable;
   g_rcl_logging_rosout_enabled = !global_args->impl->log_rosout_disabled && !global_disable;

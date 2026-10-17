@@ -20,8 +20,8 @@ set(VERSION_TEMPLATE_FILE "/root/maturo_project/leap_low_v1/managed_components/m
 
 set(VERSION_MAJOR "5")
 set(VERSION_MINOR "3")
-set(VERSION_PATCH "10")
-set(VERSION_STR "5.3.10")
+set(VERSION_PATCH "13")
+set(VERSION_STR "5.3.13")
 
 set(PROJECT_NAME_UPPER "RCL")
 

@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: domain_coordinator
-Version: 0.10.0
+Version: 0.10.1
 Summary: A tool to coordinate unique ROS_DOMAIN_IDs across multiple processes
 Home-page: https://github.com/ros2/ament_cmake_ros
 Download-URL: https://github.com/ros2/ament_cmake_ros/releases

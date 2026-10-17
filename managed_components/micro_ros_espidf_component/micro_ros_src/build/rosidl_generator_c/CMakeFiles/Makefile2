@@ -214,8 +214,8 @@ CMakeFiles/ament_cmake_python_copy_rosidl_generator_c_setup.dir/clean:
 # Target rules for target CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir
 
 # All Build rule for target.
-CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/all: CMakeFiles/ament_cmake_python_copy_rosidl_generator_c_setup.dir/all
 CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/all: CMakeFiles/ament_cmake_python_copy_rosidl_generator_c.dir/all
+CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/all: CMakeFiles/ament_cmake_python_copy_rosidl_generator_c_setup.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/build.make CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/build.make CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_generator_c/CMakeFiles --progress-num= "Built target ament_cmake_python_build_rosidl_generator_c_egg"
@@ -233,8 +233,8 @@ ament_cmake_python_build_rosidl_generator_c_egg: CMakeFiles/ament_cmake_python_b
 .PHONY : ament_cmake_python_build_rosidl_generator_c_egg
 
 # codegen rule for target.
-CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/codegen: CMakeFiles/ament_cmake_python_copy_rosidl_generator_c_setup.dir/all
 CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/codegen: CMakeFiles/ament_cmake_python_copy_rosidl_generator_c.dir/all
+CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/codegen: CMakeFiles/ament_cmake_python_copy_rosidl_generator_c_setup.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/build.make CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/root/maturo_project/leap_low_v1/managed_components/micro_ros_espidf_component/micro_ros_src/build/rosidl_generator_c/CMakeFiles --progress-num= "Finished codegen for target ament_cmake_python_build_rosidl_generator_c_egg"
 .PHONY : CMakeFiles/ament_cmake_python_build_rosidl_generator_c_egg.dir/codegen
