@@ -510,8 +510,8 @@ static const char kProvisionHtmlTemplate[] = R"HTML(
         <div class="kv"><span>SSID</span><strong id="stat-wifi-ssid">--</strong></div>
         <div class="kv"><span>RSSI</span><strong id="stat-wifi-rssi">--</strong></div>
         <div class="kv"><span>AP IP</span><strong id="stat-ap-ip">--</strong></div>
-        <div class="kv"><span>主机 Hostname</span><strong id="stat-mavlink-hostname">--</strong></div>
-        <div class="kv"><span>主机 IP</span><strong id="stat-mavlink-ip">--</strong></div>
+        <div class="kv"><span>主机 Hostname</span><strong id="stat-hostname">--</strong></div>
+        <div class="kv"><span>主机 IP</span><strong id="stat-hostip">--</strong></div>
       </div>
         <div class="status-panel">
           <h3 id="panel-camera-title">摄像头</h3>
@@ -890,7 +890,7 @@ static const char kProvisionHtmlTemplate[] = R"HTML(
       const pid = data.pid || {};
       const runtime = data.runtime || {};
       const camera = data.camera || {};
-      const mavlink = data.mavlink || {};
+      const targetHost = data.target_host || {};
 
       text('metric-device', data.device_name || '--');
       text('metric-wifi', wifi.sta_connected ? i18n.connected : `${wifi.mode || '--'}`);
@@ -928,8 +928,8 @@ static const char kProvisionHtmlTemplate[] = R"HTML(
       text('stat-wifi-ssid', wifi.ssid || '--');
       text('stat-wifi-rssi', Number.isFinite(wifi.rssi) ? `${wifi.rssi} dBm` : '--');
       text('stat-ap-ip', wifi.ap_ip || '--');
-      text('stat-mavlink-hostname', mavlink.valid ? (mavlink.device_name || '--') : '--');
-      text('stat-mavlink-ip', mavlink.valid ? (mavlink.ip || '--') : '--');
+      text('stat-hostname', targetHost.valid ? (targetHost.hostname || '--') : '--');
+      text('stat-hostip', targetHost.valid ? (targetHost.hostip || '--') : '--');
 
       text('stat-camera-state', camera.reachable ? (camera.valid ? i18n.connected : i18n.invalid) : i18n.disconnected);
       text('stat-camera-name', camera.name || '--');
@@ -1329,7 +1329,9 @@ static bool append_camera_status_json(
 
 static esp_err_t send_provision_page(httpd_req_t *req) {
     httpd_resp_set_type(req, "text/html; charset=utf-8");
-    httpd_resp_set_hdr(req, "Cache-Control", "no-store");
+    httpd_resp_set_hdr(req, "Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+    httpd_resp_set_hdr(req, "Pragma", "no-cache");
+    httpd_resp_set_hdr(req, "Expires", "0");
 
     const char *cursor = kProvisionHtmlTemplate;
     const char *placeholder = nullptr;
@@ -1467,6 +1469,10 @@ static esp_err_t status_get_handler(httpd_req_t *req) {
     TemperatureMsg temperature = {};
     BatteryMsg battery = {};
     LidarMsg lidar = {};
+    TargetHostInfo target_host = {};
+    portENTER_CRITICAL(&g_target_host_info_lock);
+    target_host = g_target_host_info;
+    portEXIT_CRITICAL(&g_target_host_info_lock);
 
     const bool has_imu = q_imu_state != nullptr && xQueuePeek(q_imu_state, &imu, 0) == pdTRUE;
     const bool has_motion = q_motion_state != nullptr && xQueuePeek(q_motion_state, &motion, 0) == pdTRUE;
@@ -1690,24 +1696,23 @@ static esp_err_t status_get_handler(httpd_req_t *req) {
         g_position_pid_state.ki,
         g_position_pid_state.kd);
 
-    ok = ok && append_text(s_status_json, kStatusJsonSize, &offset, ",\"mavlink\":{");
+    ok = ok && append_text(s_status_json, kStatusJsonSize, &offset, ",\"target_host\":{");
     ok = ok && append_format(
         s_status_json,
         kStatusJsonSize,
         &offset,
-        "\"valid\":%s,\"severity\":%u,\"last_update_ms\":%lu,\"device_name\":",
-        g_mavlink_statustext.valid ? "true" : "false",
-        static_cast<unsigned>(g_mavlink_statustext.severity),
-        static_cast<unsigned long>(g_mavlink_statustext.last_update_ms));
+        "\"valid\":%s,\"last_update_ms\":%lu,\"hostname\":",
+        target_host.valid ? "true" : "false",
+        static_cast<unsigned long>(target_host.last_update_ms));
     ok = ok && append_json_string(
         s_status_json,
         kStatusJsonSize,
         &offset,
-        g_mavlink_statustext.device_name);
-    ok = ok && append_text(s_status_json, kStatusJsonSize, &offset, ",\"ip\":");
-    ok = ok && append_json_string(s_status_json, kStatusJsonSize, &offset, g_mavlink_statustext.ip);
+        target_host.hostname);
+    ok = ok && append_text(s_status_json, kStatusJsonSize, &offset, ",\"hostip\":");
+    ok = ok && append_json_string(s_status_json, kStatusJsonSize, &offset, target_host.hostip);
     ok = ok && append_text(s_status_json, kStatusJsonSize, &offset, ",\"text\":");
-    ok = ok && append_json_string(s_status_json, kStatusJsonSize, &offset, g_mavlink_statustext.text);
+    ok = ok && append_json_string(s_status_json, kStatusJsonSize, &offset, target_host.text);
     ok = ok && append_text(s_status_json, kStatusJsonSize, &offset, "}");
 
     ok = ok && append_text(s_status_json, kStatusJsonSize, &offset, "}");

@@ -8,14 +8,14 @@ volatile WifiCommMode g_wifi_comm_mode = WifiCommMode::kMicroRos;
 char g_microros_agent_ip[16] = "192.168.31.214";
 uint16_t g_microros_agent_port = 8888;
 char g_device_name[32] = "Maturo_UNKNOWN";
-MavlinkStatustextInfo g_mavlink_statustext = {
+TargetHostInfo g_target_host_info = {
     .valid = false,
-    .severity = 0,
     .last_update_ms = 0,
-    .device_name = {0},
-    .ip = {0},
+    .hostname = {0},
+    .hostip = {0},
     .text = {0},
 };
+portMUX_TYPE g_target_host_info_lock = portMUX_INITIALIZER_UNLOCKED;
 
 bool wifi_comm_mode_is_valid(WifiCommMode mode) {
     return mode == WifiCommMode::kMavlinkUdp ||

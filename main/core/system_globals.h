@@ -14,13 +14,12 @@ enum class WifiCommMode : uint8_t {
     kMicroRosUart = 3,
 };
 
-struct MavlinkStatustextInfo {
+struct TargetHostInfo {
     bool valid;
-    uint8_t severity;
     uint32_t last_update_ms;
-    char device_name[32];
-    char ip[16];
-    char text[51];
+    char hostname[32];
+    char hostip[16];
+    char text[96];
 };
 
 bool wifi_comm_mode_is_valid(WifiCommMode mode);
@@ -37,7 +36,8 @@ extern volatile WifiCommMode g_wifi_comm_mode;
 extern char g_microros_agent_ip[16];
 extern uint16_t g_microros_agent_port;
 extern char g_device_name[32];
-extern MavlinkStatustextInfo g_mavlink_statustext;
+extern TargetHostInfo g_target_host_info;
+extern portMUX_TYPE g_target_host_info_lock;
 
 // ================= 消息队列句柄 =================
 extern QueueHandle_t q_imu_state;

@@ -15,7 +15,6 @@
 #include "esp_flash.h"
 #include "esp_partition.h"
 #include "esp_wifi.h"
-#include "esp_timer.h"
 #include "freertos/task.h"
 #include <stdio.h>
 #include <string.h>
@@ -90,62 +89,6 @@ static constexpr MaturoParamDef kMaturoParams[] = {
 
 static constexpr uint16_t kMaturoParamCount =
     static_cast<uint16_t>(sizeof(kMaturoParams) / sizeof(kMaturoParams[0]));
-
-static void CopyStatustextField(char *dst, size_t dst_size, const char *src, size_t len) {
-    if (dst == nullptr || dst_size == 0) {
-        return;
-    }
-    size_t copy_len = len;
-    if (copy_len >= dst_size) {
-        copy_len = dst_size - 1;
-    }
-    if (src != nullptr && copy_len > 0) {
-        memcpy(dst, src, copy_len);
-    }
-    dst[copy_len] = '\0';
-}
-
-static bool ExtractStatustextToken(const char *text, const char *key, char *out, size_t out_size) {
-    if (text == nullptr || key == nullptr || out == nullptr || out_size == 0) {
-        return false;
-    }
-
-    const char *start = strstr(text, key);
-    if (start == nullptr) {
-        return false;
-    }
-    start += strlen(key);
-
-    const char *end = start;
-    while (*end != '\0' && *end != ' ' && *end != ',' && *end != ';') {
-        ++end;
-    }
-
-    CopyStatustextField(out, out_size, start, static_cast<size_t>(end - start));
-    return out[0] != '\0';
-}
-
-static void HandleStatustextMessage(const mavlink_statustext_t &statustext) {
-    char text[sizeof(statustext.text) + 1] = {0};
-    memcpy(text, statustext.text, sizeof(statustext.text));
-    text[sizeof(statustext.text)] = '\0';
-
-    char hostname[sizeof(g_mavlink_statustext.device_name)] = {0};
-    char ip[sizeof(g_mavlink_statustext.ip)] = {0};
-    const bool has_hostname = ExtractStatustextToken(text, "hostname=", hostname, sizeof(hostname));
-    const bool has_ip = ExtractStatustextToken(text, "ip=", ip, sizeof(ip));
-
-    if (!has_hostname || !has_ip) {
-        return;
-    }
-
-    g_mavlink_statustext.valid = true;
-    g_mavlink_statustext.severity = statustext.severity;
-    g_mavlink_statustext.last_update_ms = static_cast<uint32_t>(esp_timer_get_time() / 1000ULL);
-    snprintf(g_mavlink_statustext.device_name, sizeof(g_mavlink_statustext.device_name), "%s", hostname);
-    snprintf(g_mavlink_statustext.ip, sizeof(g_mavlink_statustext.ip), "%s", ip);
-    snprintf(g_mavlink_statustext.text, sizeof(g_mavlink_statustext.text), "%s", text);
-}
 
 static float WheelMmsToRpm(float velocity_mms) {
     return velocity_mms * 60.0f / (M_PI * MATURO_WHEEL_DIAMETER_MM);
@@ -992,12 +935,6 @@ void mavlink_common_handle_message(
             HandleParamSet(route, sys_id, comp_id, msg);
             break;
         }
-        case MAVLINK_MSG_ID_STATUSTEXT: {
-            mavlink_statustext_t statustext;
-            mavlink_msg_statustext_decode(msg, &statustext);
-            HandleStatustextMessage(statustext);
-            break;
-        }
         default:
             break;
     }
@@ -1101,11 +1038,6 @@ void mavlink_common_publish(
             mavlink_msg_heartbeat_pack(sys_id, comp_id, &tx_msg, MAV_TYPE_GROUND_ROVER, MAV_AUTOPILOT_GENERIC, 0, 0, MAV_STATE_ACTIVE);
             SendMavlinkMessage(tx_route, tx_msg);
 
-            char device_text[50] = {0};
-            snprintf(device_text, sizeof(device_text), "DEVICE_NAME:%s", g_device_name);
-            mavlink_msg_statustext_pack(sys_id, comp_id, &tx_msg, MAV_SEVERITY_INFO, device_text, 0, 0);
-            SendMavlinkMessage(tx_route, tx_msg);
-
             TemperatureMsg temperature_state = {};
             const bool has_temperature =
                 xQueuePeek(q_temperature_state, &temperature_state, 0) == pdTRUE &&
@@ -1135,7 +1067,7 @@ void mavlink_common_publish(
 
                 snprintf(vendor_name, sizeof(vendor_name), "Maturo");
                 snprintf(model_name, sizeof(model_name), "Driver");
-                snprintf(software_version, sizeof(software_version), "v1.4");
+                snprintf(software_version, sizeof(software_version), "v2.1");
                 snprintf(hardware_version, sizeof(hardware_version), "ESP32");
                 snprintf(serial_number, sizeof(serial_number), "%s", g_device_name);
 

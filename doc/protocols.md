@@ -1,6 +1,6 @@
 # Leap Low v1 MAVLink 与 micro-ROS 协议说明
 
-软件版本：`v1.5`
+软件版本：`v2.1`
 
 本文档说明 `leap_low_v1` 固件提供的网络与串口通信协议。
 
@@ -31,13 +31,13 @@
 
 ## micro-ROS
 
-`micro_ros` 模式使用 Wi-Fi UDP；`microros_uart` 模式使用与 MAVLink UART 相同的 UART0，不依赖 Wi-Fi 连接。UART 参数为 GPIO43 (TX)、GPIO44 (RX)、921600 波特率、8N1、无硬件流控。主机发送 `MATURO_MICROROS_START` 握手字符串后，固件建立 micro-ROS 会话；串口接收数据按二进制 XRCE-DDS 帧处理，不打印接收内容。
+`micro_ros` 模式使用 Wi-Fi UDP；`microros_uart` 模式使用与 MAVLink UART 相同的 UART0，不依赖 Wi-Fi 连接。UART 参数为 GPIO43 (TX)、GPIO44 (RX)、921600 波特率、8N1、无硬件流控。进入 UART 模式后固件会等待系统启动 5 秒，再建立 micro-ROS 会话，无需额外握手；串口接收数据按二进制 XRCE-DDS 帧处理，不打印接收内容。
 
 `micro_ros` 传输方式为基于 Wi-Fi 的自定义 UDP；`microros_uart` 传输方式为 UART0 自定义串口传输。
 
 | 项目 | 值 |
 | --- | --- |
-| 节点名称 | `leap_low_driver` |
+| 节点名称 | `leap_ros` |
 | 本地 UDP 端口 | `CONFIG_MICRO_ROS_LOCAL_PORT`，默认 `8888` |
 | Agent 地址 | 运行时 `g_microros_agent_ip:g_microros_agent_port`，默认 `192.168.31.214:8888` |
 | 定时器周期 | 20 ms |
@@ -47,6 +47,7 @@
 | 话题 | 类型 | QoS | 映射 |
 | --- | --- | --- | --- |
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | sensor data | `linear.x/y` 由 m/s 转为目标 `vx/vy`，单位 mm/s；`angular.z` 转为目标 `wz`，单位 rad/s |
+| `/host_info` | `std_msgs/msg/String` | sensor data | 目标主机信息：`hostname=<name> ip=<ipv4>` 或 `hostname=<name> hostip=<ipv4>` |
 
 收到 `/cmd_vel` 后会向 `q_motion_cmd` 写入速度指令，将控制来源标记为 micro-ROS，并清除 `g_emergency_stop`。
 
@@ -70,6 +71,7 @@
 | `/scan` | `sensor_msgs/msg/LaserScan` | 10 Hz | `laser_frame` | 360 个点，角度增量 1 度，范围 0.02-12.0 m |
 | `/battery_state` | `sensor_msgs/msg/BatteryState` | 10 Hz | `battery` | 电压与电量百分比；锂电池，放电状态 |
 | `/ultrasonic` | `sensor_msgs/msg/Range` | 10 Hz | `ultrasonic_link` | HC-SR04 超声波距离，单位 m |
+| `/wifi_config` | `std_msgs/msg/String` | 1 Hz | 无 | 已保存的 STA 凭据 JSON：`{"ssid":"<name>","password":"<password>"}` |
 
 `/battery_state` 字段：
 
@@ -198,7 +200,6 @@ MAVLink 参数协议暴露以下参数：
 | 消息 | 内容 |
 | --- | --- |
 | `HEARTBEAT` | 地面车心跳 |
-| `STATUSTEXT` | `hostname=<device_name> ip=<sta_ipv4>` |
 | `ONBOARD_COMPUTER_STATUS` | 堆内存、Flash、Wi-Fi 链路估计、有效时的板载温度 |
 | `SYS_STATUS` | 电池电压，单位 mV；剩余电量百分比 |
 | `BATTERY_STATUS` | 锂电池电压与剩余电量百分比 |
@@ -207,7 +208,7 @@ MAVLink 参数协议暴露以下参数：
 
 | 消息 | 内容 |
 | --- | --- |
-| `COMPONENT_INFORMATION_BASIC` | vendor `Maturo`，model `Driver`，software `v1.4`，hardware `ESP32`，serial 为设备名 |
+| `COMPONENT_INFORMATION_BASIC` | vendor `Maturo`，model `Driver`，software `v2.1`，hardware `ESP32`，serial 为设备名 |
 
 MAVLink 发布行为遵循当前启用的通信模式和对应传输方式。
 

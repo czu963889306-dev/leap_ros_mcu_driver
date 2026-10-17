@@ -99,6 +99,26 @@ static esp_err_t load_saved_sta_credentials(char *ssid, size_t ssid_size,
     return err;
 }
 
+esp_err_t wifi_load_sta_credentials_or_default(char *ssid, size_t ssid_size,
+                                               char *password, size_t password_size) {
+    if (ssid == NULL || ssid_size == 0 || password == NULL || password_size == 0) {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    ssid[0] = '\0';
+    password[0] = '\0';
+    const esp_err_t err = load_saved_sta_credentials(ssid, ssid_size, password, password_size);
+    if (err == ESP_OK || err == kProvisionOnlyCredentials) {
+        return err;
+    }
+
+    strncpy(ssid, kDefaultStaSsid, ssid_size - 1);
+    ssid[ssid_size - 1] = '\0';
+    strncpy(password, kDefaultStaPassword, password_size - 1);
+    password[password_size - 1] = '\0';
+    return ESP_OK;
+}
+
 static void fill_sta_config(wifi_config_t *wifi_config, const char *ssid, const char *password) {
     memset(wifi_config, 0, sizeof(*wifi_config));
     strncpy(reinterpret_cast<char *>(wifi_config->sta.ssid), ssid, sizeof(wifi_config->sta.ssid) - 1);

@@ -18,6 +18,7 @@
 #include "msg/motion_msg.h"
 #include "msg/ultrasonic_msg.h"
 #include "pid_config.h"
+#include "wifi_app.h"
 
 #include "geometry_msgs/msg/twist.h"
 #include "leap_interfaces/srv/get_speed_pid.h"
@@ -40,6 +41,7 @@
 #include "sensor_msgs/msg/imu.h"
 #include "sensor_msgs/msg/laser_scan.h"
 #include "sensor_msgs/msg/range.h"
+#include "std_msgs/msg/string.h"
 #include "uxr/client/profile/transport/custom/custom_transport.h"
 
 static const char *TAG = "MICROROS";
@@ -53,10 +55,11 @@ static constexpr int kMicroRosUartBaudRate = 921600;
 static constexpr size_t kMicroRosUartRxBufferSize = 4096;
 static constexpr size_t kMicroRosUartTxBufferSize = 8192;
 static constexpr int kMicroRosUartReadMaxWaitMs = 20;
-static constexpr char kMicroRosUartStartCommand[] = "MATURO_MICROROS_START";
-static constexpr TickType_t kAgentCheckIntervalTicks = pdMS_TO_TICKS(1000);
-static constexpr int kAgentPingTimeoutMs = 500;
-static constexpr uint8_t kAgentPingAttempts = 2;
+static constexpr uint32_t kMicroRosUartStartupDelayMs = 5000;
+static constexpr int kTimeSyncTimeoutMs = 1000;
+static constexpr size_t kHostInfoTextCapacity = 96;
+static constexpr size_t kWifiConfigTextCapacity = 256;
+static constexpr uint32_t kWifiConfigPublishTicks = 50;
 
 #ifndef CONFIG_MICRO_ROS_LOCAL_PORT
 #define CONFIG_MICRO_ROS_LOCAL_PORT "8888"
@@ -75,22 +78,22 @@ struct UartTransportContext {
 static UdpTransportContext s_udp_ctx = {};
 static UartTransportContext s_uart_ctx = {};
 static bool s_uart_transport_initialized = false;
-static bool s_uart_start_received = false;
-static uint8_t s_uart_start_filter_pending[sizeof(kMicroRosUartStartCommand) - 1] = {};
-static size_t s_uart_start_filter_pending_len = 0;
-static bool s_uart_start_filter_drop_delimiter = false;
 static geometry_msgs__msg__Twist s_cmd_vel_msg = {};
 static nav_msgs__msg__Odometry s_odom_msg = {};
 static sensor_msgs__msg__Imu s_imu_msg = {};
 static sensor_msgs__msg__LaserScan s_scan_msg = {};
 static sensor_msgs__msg__BatteryState s_battery_msg = {};
 static sensor_msgs__msg__Range s_ultrasonic_msg = {};
+static std_msgs__msg__String s_host_info_msg = {};
+static std_msgs__msg__String s_wifi_config_msg = {};
 static rcl_publisher_t s_odom_publisher = {};
 static rcl_publisher_t s_imu_publisher = {};
 static rcl_publisher_t s_scan_publisher = {};
 static rcl_publisher_t s_battery_publisher = {};
 static rcl_publisher_t s_ultrasonic_publisher = {};
+static rcl_publisher_t s_wifi_config_publisher = {};
 static rcl_subscription_t s_cmd_vel_subscriber = {};
+static rcl_subscription_t s_host_info_subscriber = {};
 static rcl_service_t s_set_speed_pid_service = {};
 static rcl_service_t s_get_speed_pid_service = {};
 static rclc_executor_t s_service_executor = {};
@@ -117,7 +120,9 @@ static bool s_scan_publisher_initialized = false;
 static bool s_battery_msg_initialized = false;
 static bool s_battery_publisher_initialized = false;
 static bool s_ultrasonic_publisher_initialized = false;
+static bool s_wifi_config_publisher_initialized = false;
 static bool s_cmd_vel_subscriber_initialized = false;
+static bool s_host_info_subscriber_initialized = false;
 static bool s_set_speed_pid_service_initialized = false;
 static bool s_get_speed_pid_service_initialized = false;
 static bool s_service_executor_initialized = false;
@@ -125,8 +130,9 @@ static bool s_clock_initialized = false;
 static bool s_timer_initialized = false;
 static bool s_wait_set_initialized = false;
 static uint32_t s_publish_tick = 0;
-static TickType_t s_last_agent_check_tick = 0;
-static bool s_ros_session_error = false;
+static char s_host_info_data[kHostInfoTextCapacity] = {};
+static char s_wifi_config_data[kWifiConfigTextCapacity] = {};
+static char s_last_wifi_config_ssid[33] = {};
 
 #define RCCHECK(fn) do { \
     rcl_ret_t rc = (fn); \
@@ -140,14 +146,6 @@ static bool s_ros_session_error = false;
     rcl_ret_t rc = (fn); \
     if (rc != RCL_RET_OK) { \
         ESP_LOGW(TAG, "rcl status line %d: %d", __LINE__, static_cast<int>(rc)); \
-    } \
-} while (0)
-
-#define RCPUBLISHCHECK(fn) do { \
-    rcl_ret_t rc = (fn); \
-    if (rc != RCL_RET_OK) { \
-        s_ros_session_error = true; \
-        ESP_LOGW(TAG, "rcl publish failed line %d: %d", __LINE__, static_cast<int>(rc)); \
     } \
 } while (0)
 
@@ -308,52 +306,6 @@ static size_t transport_write_uart(
     return written > 0 ? static_cast<size_t>(written) : 0;
 }
 
-static bool uart_start_filter_is_prefix(const uint8_t *bytes, size_t len) {
-    return bytes != nullptr && len < sizeof(kMicroRosUartStartCommand) &&
-           memcmp(bytes, kMicroRosUartStartCommand, len) == 0;
-}
-
-static size_t filter_uart_start_command_bytes(uint8_t *buf, size_t len) {
-    if (buf == nullptr || len == 0) {
-        return 0;
-    }
-
-    size_t out_len = 0;
-    const size_t command_len = sizeof(kMicroRosUartStartCommand) - 1;
-    for (size_t i = 0; i < len; ++i) {
-        const uint8_t byte = buf[i];
-        if (s_uart_start_filter_drop_delimiter) {
-            if (byte == '\r' || byte == '\n') {
-                continue;
-            }
-            s_uart_start_filter_drop_delimiter = false;
-        }
-
-        if (s_uart_start_filter_pending_len < command_len) {
-            s_uart_start_filter_pending[s_uart_start_filter_pending_len++] = byte;
-        }
-        while (s_uart_start_filter_pending_len > 0 &&
-               !uart_start_filter_is_prefix(
-                   s_uart_start_filter_pending,
-                   s_uart_start_filter_pending_len)) {
-            buf[out_len++] = s_uart_start_filter_pending[0];
-            --s_uart_start_filter_pending_len;
-            if (s_uart_start_filter_pending_len > 0) {
-                memmove(
-                    s_uart_start_filter_pending,
-                    s_uart_start_filter_pending + 1,
-                    s_uart_start_filter_pending_len);
-            }
-        }
-
-        if (s_uart_start_filter_pending_len == command_len) {
-            s_uart_start_filter_pending_len = 0;
-            s_uart_start_filter_drop_delimiter = true;
-        }
-    }
-    return out_len;
-}
-
 static size_t transport_read_uart(
     uxrCustomTransport *transport,
     uint8_t *buf,
@@ -369,7 +321,8 @@ static size_t transport_read_uart(
         ? 0
         : (timeout > kMicroRosUartReadMaxWaitMs ? kMicroRosUartReadMaxWaitMs : timeout);
     const int received = uart_read_bytes(ctx->port, buf, len, pdMS_TO_TICKS(wait_ms));
-    return received > 0 ? filter_uart_start_command_bytes(buf, static_cast<size_t>(received)) : 0;
+    taskYIELD();
+    return received > 0 ? static_cast<size_t>(received) : 0;
 }
 
 static void cleanup_result(rcl_ret_t ret) {
@@ -384,7 +337,9 @@ static void reset_ros_handles() {
     s_scan_publisher = rcl_get_zero_initialized_publisher();
     s_battery_publisher = rcl_get_zero_initialized_publisher();
     s_ultrasonic_publisher = rcl_get_zero_initialized_publisher();
+    s_wifi_config_publisher = rcl_get_zero_initialized_publisher();
     s_cmd_vel_subscriber = rcl_get_zero_initialized_subscription();
+    s_host_info_subscriber = rcl_get_zero_initialized_subscription();
     s_set_speed_pid_service = rcl_get_zero_initialized_service();
     s_get_speed_pid_service = rcl_get_zero_initialized_service();
     s_service_executor = rclc_executor_get_zero_initialized_executor();
@@ -409,6 +364,163 @@ static void handle_cmd_vel(const geometry_msgs__msg__Twist *msg) {
     cmd.target_wz = static_cast<float>(msg->angular.z);
     xQueueOverwrite(q_motion_cmd, &cmd);
     g_emergency_stop = false;
+}
+
+static void copy_host_info_field(char *out, size_t out_size, const char *start, size_t len) {
+    if (out == nullptr || out_size == 0) {
+        return;
+    }
+    const size_t copy_len = len < out_size - 1 ? len : out_size - 1;
+    if (copy_len > 0 && start != nullptr) {
+        memcpy(out, start, copy_len);
+    }
+    out[copy_len] = '\0';
+}
+
+static bool extract_host_info_token(const char *text, const char *key, char *out, size_t out_size) {
+    if (text == nullptr || key == nullptr || out == nullptr || out_size == 0) {
+        return false;
+    }
+
+    const char *start = strstr(text, key);
+    if (start == nullptr) {
+        out[0] = '\0';
+        return false;
+    }
+    start += strlen(key);
+
+    const char *end = start;
+    while (*end != '\0' && *end != ' ' && *end != ',' && *end != ';') {
+        ++end;
+    }
+    copy_host_info_field(out, out_size, start, static_cast<size_t>(end - start));
+    return out[0] != '\0';
+}
+
+static void reset_host_info_state() {
+    const TargetHostInfo empty = {};
+    portENTER_CRITICAL(&g_target_host_info_lock);
+    g_target_host_info = empty;
+    portEXIT_CRITICAL(&g_target_host_info_lock);
+}
+
+static void handle_host_info(const std_msgs__msg__String *msg) {
+    if (msg == nullptr || msg->data.data == nullptr || msg->data.size == 0) {
+        return;
+    }
+
+    char text[kHostInfoTextCapacity] = {};
+    const size_t text_len = msg->data.size < sizeof(text) - 1 ? msg->data.size : sizeof(text) - 1;
+    memcpy(text, msg->data.data, text_len);
+    text[text_len] = '\0';
+
+    char hostname[sizeof(g_target_host_info.hostname)] = {};
+    char hostip[sizeof(g_target_host_info.hostip)] = {};
+    const bool has_hostname = extract_host_info_token(text, "hostname=", hostname, sizeof(hostname));
+    bool has_hostip = extract_host_info_token(text, "hostip=", hostip, sizeof(hostip));
+    if (!has_hostip) {
+        has_hostip = extract_host_info_token(text, "ip=", hostip, sizeof(hostip));
+    }
+    if (!has_hostname || !has_hostip) {
+        ESP_LOGW(TAG, "Invalid host_info text: %s", text);
+        return;
+    }
+
+    TargetHostInfo updated = {};
+    updated.valid = true;
+    updated.last_update_ms = static_cast<uint32_t>(xTaskGetTickCount() * portTICK_PERIOD_MS);
+    snprintf(updated.hostname, sizeof(updated.hostname), "%s", hostname);
+    snprintf(updated.hostip, sizeof(updated.hostip), "%s", hostip);
+    snprintf(updated.text, sizeof(updated.text), "%s", text);
+    portENTER_CRITICAL(&g_target_host_info_lock);
+    g_target_host_info = updated;
+    portEXIT_CRITICAL(&g_target_host_info_lock);
+    ESP_LOGI(TAG, "Host info received: hostname=%s hostip=%s text=%s",
+             updated.hostname, updated.hostip, updated.text);
+}
+
+static bool append_json_char(char *out, size_t out_size, size_t *offset, char ch) {
+    if (out == nullptr || offset == nullptr || *offset + 1 >= out_size) {
+        return false;
+    }
+    out[(*offset)++] = ch;
+    out[*offset] = '\0';
+    return true;
+}
+
+static bool append_json_literal(char *out, size_t out_size, size_t *offset, const char *text) {
+    if (text == nullptr) {
+        return false;
+    }
+    while (*text != '\0') {
+        if (!append_json_char(out, out_size, offset, *text++)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool append_json_escaped(char *out, size_t out_size, size_t *offset, const char *text) {
+    if (text == nullptr) {
+        return false;
+    }
+    while (*text != '\0') {
+        const char ch = *text++;
+        if ((ch == '"' || ch == '\\') && !append_json_char(out, out_size, offset, '\\')) {
+            return false;
+        }
+        if (!append_json_char(out, out_size, offset, ch)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool build_wifi_config_payload(char *ssid_out, size_t ssid_out_size) {
+    if (ssid_out == nullptr || ssid_out_size == 0) {
+        return false;
+    }
+
+    char ssid[33] = {};
+    char password[65] = {};
+    if (wifi_load_sta_credentials_or_default(ssid, sizeof(ssid), password, sizeof(password)) != ESP_OK ||
+        ssid[0] == '\0') {
+        return false;
+    }
+
+    size_t offset = 0;
+    s_wifi_config_data[0] = '\0';
+    bool ok = append_json_literal(s_wifi_config_data, sizeof(s_wifi_config_data), &offset, "{\"ssid\":\"");
+    ok = ok && append_json_escaped(s_wifi_config_data, sizeof(s_wifi_config_data), &offset, ssid);
+    ok = ok && append_json_literal(s_wifi_config_data, sizeof(s_wifi_config_data), &offset, "\",\"password\":\"");
+    ok = ok && append_json_escaped(s_wifi_config_data, sizeof(s_wifi_config_data), &offset, password);
+    ok = ok && append_json_literal(s_wifi_config_data, sizeof(s_wifi_config_data), &offset, "\"}");
+    if (!ok) {
+        s_wifi_config_data[0] = '\0';
+        return false;
+    }
+
+    snprintf(ssid_out, ssid_out_size, "%s", ssid);
+    return true;
+}
+
+static void publish_wifi_config() {
+    if (!s_wifi_config_publisher_initialized || s_wifi_config_msg.data.data == nullptr) {
+        return;
+    }
+
+    char ssid[33] = {};
+    if (!build_wifi_config_payload(ssid, sizeof(ssid))) {
+        return;
+    }
+
+    s_wifi_config_msg.data.size = strlen(s_wifi_config_data);
+    s_wifi_config_msg.data.capacity = sizeof(s_wifi_config_data);
+    RCSOFTCHECK(rcl_publish(&s_wifi_config_publisher, &s_wifi_config_msg, nullptr));
+    if (strcmp(s_last_wifi_config_ssid, ssid) != 0) {
+        snprintf(s_last_wifi_config_ssid, sizeof(s_last_wifi_config_ssid), "%s", ssid);
+        ESP_LOGI(TAG, "Publishing wifi_config every 1s for SSID: %s", ssid);
+    }
 }
 
 static void set_speed_pid_response(
@@ -497,7 +609,7 @@ static void publish_odom(int64_t stamp_ms) {
     s_odom_msg.twist.twist.linear.x = motion.vx / 1000.0;
     s_odom_msg.twist.twist.linear.y = motion.vy / 1000.0;
     s_odom_msg.twist.twist.angular.z = motion.wz;
-    RCPUBLISHCHECK(rcl_publish(&s_odom_publisher, &s_odom_msg, nullptr));
+    RCSOFTCHECK(rcl_publish(&s_odom_publisher, &s_odom_msg, nullptr));
 }
 
 static void publish_imu(int64_t stamp_ms) {
@@ -517,7 +629,7 @@ static void publish_imu(int64_t stamp_ms) {
     s_imu_msg.linear_acceleration.x = imu.acc_x * kGravity;
     s_imu_msg.linear_acceleration.y = imu.acc_y * kGravity;
     s_imu_msg.linear_acceleration.z = imu.acc_z * kGravity;
-    RCPUBLISHCHECK(rcl_publish(&s_imu_publisher, &s_imu_msg, nullptr));
+    RCSOFTCHECK(rcl_publish(&s_imu_publisher, &s_imu_msg, nullptr));
 }
 
 static void publish_scan(int64_t stamp_ms) {
@@ -532,7 +644,7 @@ static void publish_scan(int64_t stamp_ms) {
             ? static_cast<float>(lidar.distances[i]) / 1000.0f
             : 0.0f;
     }
-    RCPUBLISHCHECK(rcl_publish(&s_scan_publisher, &s_scan_msg, nullptr));
+    RCSOFTCHECK(rcl_publish(&s_scan_publisher, &s_scan_msg, nullptr));
 }
 
 static void publish_battery(int64_t stamp_ms) {
@@ -557,7 +669,7 @@ static void publish_battery(int64_t stamp_ms) {
     s_battery_msg.power_supply_technology =
         sensor_msgs__msg__BatteryState__POWER_SUPPLY_TECHNOLOGY_LIPO;
     s_battery_msg.present = true;
-    RCPUBLISHCHECK(rcl_publish(&s_battery_publisher, &s_battery_msg, nullptr));
+    RCSOFTCHECK(rcl_publish(&s_battery_publisher, &s_battery_msg, nullptr));
 }
 
 static void publish_ultrasonic(int64_t stamp_ms) {
@@ -571,7 +683,7 @@ static void publish_ultrasonic(int64_t stamp_ms) {
     s_ultrasonic_msg.range = ultrasonic.distance_cm > 0.0f
         ? ultrasonic.distance_cm / 100.0f
         : NAN;
-    RCPUBLISHCHECK(rcl_publish(&s_ultrasonic_publisher, &s_ultrasonic_msg, nullptr));
+    RCSOFTCHECK(rcl_publish(&s_ultrasonic_publisher, &s_ultrasonic_msg, nullptr));
 }
 
 static void publish_state_timer(rcl_timer_t *timer, int64_t) {
@@ -589,6 +701,9 @@ static void publish_state_timer(rcl_timer_t *timer, int64_t) {
         publish_scan(stamp_ms);
         publish_battery(stamp_ms);
         publish_ultrasonic(stamp_ms);
+    }
+    if ((s_publish_tick % kWifiConfigPublishTicks) == 0) {
+        publish_wifi_config();
     }
 }
 
@@ -627,45 +742,19 @@ static bool setup_uart_transport() {
     return true;
 }
 
-static bool wait_for_uart_start_command() {
-    s_uart_ctx.port = kMicroRosUartPort;
-    if (!ensure_uart_driver_initialized(&s_uart_ctx)) {
-        return false;
-    }
-
-    ESP_LOGI(TAG, "micro-ROS UART waiting for host start command: %s",
-             kMicroRosUartStartCommand);
-    size_t matched = 0;
-    uint8_t bytes[64] = {};
-    const size_t command_len = sizeof(kMicroRosUartStartCommand) - 1;
-    while (g_wifi_comm_mode == WifiCommMode::kMicroRosUart) {
-        const int received = uart_read_bytes(
-            kMicroRosUartPort, bytes, sizeof(bytes), pdMS_TO_TICKS(100));
-        for (int i = 0; i < received; ++i) {
-            const char ch = static_cast<char>(bytes[i]);
-            if (ch == kMicroRosUartStartCommand[matched]) {
-                ++matched;
-                if (matched >= command_len) {
-                    s_uart_start_received = true;
-                    s_uart_start_filter_pending_len = 0;
-                    s_uart_start_filter_drop_delimiter = false;
-                    uart_flush_input(kMicroRosUartPort);
-                    ESP_LOGI(TAG, "micro-ROS UART start command received");
-                    return true;
-                }
-            } else {
-                matched = (ch == kMicroRosUartStartCommand[0]) ? 1 : 0;
-            }
-        }
-    }
-    return false;
-}
-
 static bool create_ros_entities() {
     s_publish_tick = 0;
-    s_last_agent_check_tick = xTaskGetTickCount();
-    s_ros_session_error = false;
     reset_ros_handles();
+    reset_host_info_state();
+    memset(s_host_info_data, 0, sizeof(s_host_info_data));
+    s_host_info_msg.data.data = s_host_info_data;
+    s_host_info_msg.data.size = 0;
+    s_host_info_msg.data.capacity = sizeof(s_host_info_data);
+    memset(s_wifi_config_data, 0, sizeof(s_wifi_config_data));
+    s_wifi_config_msg.data.data = s_wifi_config_data;
+    s_wifi_config_msg.data.size = 0;
+    s_wifi_config_msg.data.capacity = sizeof(s_wifi_config_data);
+    s_last_wifi_config_ssid[0] = '\0';
 
     rosidl_runtime_c__String__init(&s_odom_msg.header.frame_id);
     rosidl_runtime_c__String__init(&s_odom_msg.child_frame_id);
@@ -729,13 +818,13 @@ static bool create_ros_entities() {
     s_context_initialized = true;
 
     if (!rmw_uros_epoch_synchronized()) {
-        (void)rmw_uros_sync_session(1000);
+        (void)rmw_uros_sync_session(kTimeSyncTimeoutMs);
     }
 
     s_node = rcl_get_zero_initialized_node();
     rcl_node_options_t node_options = rcl_node_get_default_options();
     node_options.enable_rosout = false;
-    const rcl_ret_t node_ret = rcl_node_init(&s_node, "leap_low_driver", "", &s_context, &node_options);
+    const rcl_ret_t node_ret = rcl_node_init(&s_node, "leap_ros", "", &s_context, &node_options);
     cleanup_result(rcl_node_options_fini(&node_options));
     if (node_ret != RCL_RET_OK) {
         ESP_LOGW(TAG, "rcl status line %d: %d", __LINE__, static_cast<int>(node_ret));
@@ -743,16 +832,15 @@ static bool create_ros_entities() {
     }
     s_node_initialized = true;
 
-    rcl_publisher_options_t pub_options = rcl_publisher_get_default_options();
-    rcl_publisher_options_t sensor_pub_options = rcl_publisher_get_default_options();
-    sensor_pub_options.qos = rmw_qos_profile_sensor_data;
+    rcl_publisher_options_t state_pub_options = rcl_publisher_get_default_options();
+    state_pub_options.qos = rmw_qos_profile_sensor_data;
     s_odom_publisher = rcl_get_zero_initialized_publisher();
     RCCHECK(rcl_publisher_init(
         &s_odom_publisher,
         &s_node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, Odometry),
         "odom",
-        &pub_options));
+        &state_pub_options));
     s_odom_publisher_initialized = true;
 
     s_imu_publisher = rcl_get_zero_initialized_publisher();
@@ -761,7 +849,7 @@ static bool create_ros_entities() {
         &s_node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Imu),
         "imu",
-        &sensor_pub_options));
+        &state_pub_options));
     s_imu_publisher_initialized = true;
 
     s_scan_publisher = rcl_get_zero_initialized_publisher();
@@ -770,7 +858,7 @@ static bool create_ros_entities() {
         &s_node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, LaserScan),
         "scan",
-        &pub_options));
+        &state_pub_options));
     s_scan_publisher_initialized = true;
 
     s_battery_publisher = rcl_get_zero_initialized_publisher();
@@ -779,7 +867,7 @@ static bool create_ros_entities() {
         &s_node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, BatteryState),
         "battery_state",
-        &sensor_pub_options));
+        &state_pub_options));
     s_battery_publisher_initialized = true;
 
     s_ultrasonic_publisher = rcl_get_zero_initialized_publisher();
@@ -788,8 +876,19 @@ static bool create_ros_entities() {
         &s_node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Range),
         "ultrasonic",
-        &sensor_pub_options));
+        &state_pub_options));
     s_ultrasonic_publisher_initialized = true;
+
+    rcl_publisher_options_t wifi_config_pub_options = rcl_publisher_get_default_options();
+    wifi_config_pub_options.qos = rmw_qos_profile_sensor_data;
+    s_wifi_config_publisher = rcl_get_zero_initialized_publisher();
+    RCCHECK(rcl_publisher_init(
+        &s_wifi_config_publisher,
+        &s_node,
+        ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String),
+        "wifi_config",
+        &wifi_config_pub_options));
+    s_wifi_config_publisher_initialized = true;
 
     rcl_subscription_options_t sub_options = rcl_subscription_get_default_options();
     sub_options.qos = rmw_qos_profile_sensor_data;
@@ -801,6 +900,17 @@ static bool create_ros_entities() {
         "cmd_vel",
         &sub_options));
     s_cmd_vel_subscriber_initialized = true;
+
+    rcl_subscription_options_t host_info_sub_options = rcl_subscription_get_default_options();
+    host_info_sub_options.qos = rmw_qos_profile_sensor_data;
+    s_host_info_subscriber = rcl_get_zero_initialized_subscription();
+    RCCHECK(rcl_subscription_init(
+        &s_host_info_subscriber,
+        &s_node,
+        ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String),
+        "host_info",
+        &host_info_sub_options));
+    s_host_info_subscriber_initialized = true;
 
     rcl_service_options_t service_options = rcl_service_get_default_options();
     service_options.qos = rmw_qos_profile_services_default;
@@ -849,7 +959,7 @@ static bool create_ros_entities() {
     s_timer_initialized = true;
 
     s_wait_set = rcl_get_zero_initialized_wait_set();
-    RCCHECK(rcl_wait_set_init(&s_wait_set, 1, 0, 1, 0, 0, 0, &s_context, s_allocator));
+    RCCHECK(rcl_wait_set_init(&s_wait_set, 2, 0, 1, 0, 0, 0, &s_context, s_allocator));
     s_wait_set_initialized = true;
     s_ros_created = true;
     return true;
@@ -887,6 +997,10 @@ static void destroy_ros_entities() {
         cleanup_result(rcl_publisher_fini(&s_ultrasonic_publisher, &s_node));
         s_ultrasonic_publisher_initialized = false;
     }
+    if (s_wifi_config_publisher_initialized) {
+        cleanup_result(rcl_publisher_fini(&s_wifi_config_publisher, &s_node));
+        s_wifi_config_publisher_initialized = false;
+    }
     if (s_scan_publisher_initialized) {
         cleanup_result(rcl_publisher_fini(&s_scan_publisher, &s_node));
         s_scan_publisher_initialized = false;
@@ -906,6 +1020,10 @@ static void destroy_ros_entities() {
     if (s_cmd_vel_subscriber_initialized) {
         cleanup_result(rcl_subscription_fini(&s_cmd_vel_subscriber, &s_node));
         s_cmd_vel_subscriber_initialized = false;
+    }
+    if (s_host_info_subscriber_initialized) {
+        cleanup_result(rcl_subscription_fini(&s_host_info_subscriber, &s_node));
+        s_host_info_subscriber_initialized = false;
     }
     if (s_service_executor_initialized) {
         cleanup_result(rclc_executor_fini(&s_service_executor));
@@ -950,7 +1068,6 @@ static void destroy_ros_entities() {
     }
 
     s_ros_created = false;
-    s_ros_session_error = false;
     reset_ros_handles();
 }
 
@@ -969,6 +1086,11 @@ static bool spin_once(int timeout_ms) {
         ESP_LOGW(TAG, "rcl_wait_set_add_subscription failed: %d", static_cast<int>(ret));
         return false;
     }
+    ret = rcl_wait_set_add_subscription(&s_wait_set, &s_host_info_subscriber, nullptr);
+    if (ret != RCL_RET_OK) {
+        ESP_LOGW(TAG, "rcl_wait_set_add_subscription failed: %d", static_cast<int>(ret));
+        return false;
+    }
     ret = rcl_wait_set_add_timer(&s_wait_set, &s_publish_timer, nullptr);
     if (ret != RCL_RET_OK) {
         ESP_LOGW(TAG, "rcl_wait_set_add_timer failed: %d", static_cast<int>(ret));
@@ -977,6 +1099,7 @@ static bool spin_once(int timeout_ms) {
 
     ret = rcl_wait(&s_wait_set, RCL_MS_TO_NS(timeout_ms));
     if (ret == RCL_RET_TIMEOUT) {
+        spin_pid_services();
         return true;
     }
     if (ret != RCL_RET_OK) {
@@ -993,79 +1116,61 @@ static bool spin_once(int timeout_ms) {
         }
     }
 
+    if (s_wait_set.subscriptions[1] != nullptr) {
+        const rcl_ret_t take_ret = rcl_take(&s_host_info_subscriber, &s_host_info_msg, nullptr, nullptr);
+        if (take_ret == RCL_RET_OK) {
+            handle_host_info(&s_host_info_msg);
+        } else if (take_ret != RCL_RET_SUBSCRIPTION_TAKE_FAILED) {
+            ESP_LOGW(TAG, "rcl_take host_info failed: %d", static_cast<int>(take_ret));
+        }
+    }
+
     if (s_wait_set.timers[0] != nullptr) {
         RCSOFTCHECK(rcl_timer_call(&s_publish_timer));
     }
     spin_pid_services();
-    if (s_ros_session_error) {
-        ESP_LOGW(TAG, "micro-ROS publish failed, recreating session");
-        return false;
-    }
     return true;
-}
-
-static bool agent_still_reachable(TickType_t now) {
-    if ((now - s_last_agent_check_tick) < kAgentCheckIntervalTicks) {
-        return true;
-    }
-
-    s_last_agent_check_tick = now;
-    const rmw_ret_t ping_ret = rmw_uros_ping_agent(kAgentPingTimeoutMs, kAgentPingAttempts);
-    if (ping_ret == RMW_RET_OK) {
-        return true;
-    }
-
-    ESP_LOGW(TAG, "micro-ROS agent unreachable, recreating session");
-    return false;
 }
 
 void microros_task(void *p) {
     (void)p;
+
+    // UART0 is also the boot console. Leave it at the console settings long
+    // enough for the Wi-Fi/IP startup logs to be emitted before micro-ROS
+    // switches it to the XRCE-DDS UART transport (921600 baud).
+    if (g_wifi_comm_mode == WifiCommMode::kMicroRosUart) {
+        ESP_LOGI(TAG, "Delaying micro-ROS UART startup for %u ms",
+                 static_cast<unsigned>(kMicroRosUartStartupDelayMs));
+        vTaskDelay(pdMS_TO_TICKS(kMicroRosUartStartupDelayMs));
+    }
 
     while (1) {
         const bool use_udp = g_wifi_comm_mode == WifiCommMode::kMicroRos;
         const bool use_uart = g_wifi_comm_mode == WifiCommMode::kMicroRosUart;
         if (use_udp || use_uart) {
             if (!s_ros_created) {
-                if (use_uart && !s_uart_start_received && !wait_for_uart_start_command()) {
-                    vTaskDelay(pdMS_TO_TICKS(1000));
-                    continue;
-                }
                 const bool transport_ready = use_uart ? setup_uart_transport() : setup_udp_transport();
                 if (transport_ready && create_ros_entities()) {
                     if (use_uart) {
-                        ESP_LOGI(TAG, "micro-ROS UART active: UART%d TX=%d RX=%d baud=%d, pub=/odom,/imu,/scan,/battery_state,/ultrasonic, sub=/cmd_vel, srv=/set_speed_pid,/get_speed_pid",
+                        ESP_LOGI(TAG, "micro-ROS UART active: UART%d TX=%d RX=%d baud=%d, pub=/odom,/imu,/scan,/battery_state,/ultrasonic,/wifi_config, sub=/cmd_vel,/host_info, srv=/set_speed_pid,/get_speed_pid",
                                  static_cast<int>(kMicroRosUartPort),
                                  static_cast<int>(kMicroRosUartTxPin),
                                  static_cast<int>(kMicroRosUartRxPin),
                                  kMicroRosUartBaudRate);
                     } else {
-                        ESP_LOGI(TAG, "micro-ROS active: agent=%s:%u, pub=/odom,/imu,/scan,/battery_state,/ultrasonic, sub=/cmd_vel, srv=/set_speed_pid,/get_speed_pid",
+                        ESP_LOGI(TAG, "micro-ROS active: agent=%s:%u, pub=/odom,/imu,/scan,/battery_state,/ultrasonic,/wifi_config, sub=/cmd_vel,/host_info, srv=/set_speed_pid,/get_speed_pid",
                                  g_microros_agent_ip,
                                  static_cast<unsigned>(g_microros_agent_port));
                     }
                 } else {
                     destroy_ros_entities();
-                    if (use_uart) {
-                        s_uart_start_received = false;
-                    }
                     vTaskDelay(pdMS_TO_TICKS(1000));
                     continue;
                 }
             }
-            if (!agent_still_reachable(xTaskGetTickCount())) {
-                destroy_ros_entities();
-                if (use_uart) {
-                    s_uart_start_received = false;
-                }
-                vTaskDelay(pdMS_TO_TICKS(1000));
-                continue;
-            }
             if (!spin_once(20)) {
+                ESP_LOGW(TAG, "micro-ROS transport stopped; recreating session");
                 destroy_ros_entities();
-                if (use_uart) {
-                    s_uart_start_received = false;
-                }
                 vTaskDelay(pdMS_TO_TICKS(1000));
             }
         } else {
@@ -1073,7 +1178,6 @@ void microros_task(void *p) {
                 destroy_ros_entities();
                 ESP_LOGI(TAG, "micro-ROS inactive");
             }
-            s_uart_start_received = false;
             vTaskDelay(pdMS_TO_TICKS(100));
         }
     }
