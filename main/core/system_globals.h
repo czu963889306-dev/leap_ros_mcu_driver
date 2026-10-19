@@ -22,43 +22,62 @@ struct TargetHostInfo {
     char text[96];
 };
 
-bool wifi_comm_mode_is_valid(WifiCommMode mode);
-WifiCommMode wifi_comm_mode_next(WifiCommMode mode);
-const char *wifi_comm_mode_to_runtime_value(WifiCommMode mode);
-const char *wifi_comm_mode_to_display_name(WifiCommMode mode);
+struct SystemFlags {
+    volatile bool emergency_stop = false;
+    volatile bool motion_busy = false;
+    volatile bool gamepad_override_active = false;
+    volatile uint32_t lidar_scan_sequence = 0;
+};
 
-// ================= 全局标志位 =================
-extern volatile bool g_emergency_stop;
-extern volatile bool g_motion_busy;
-extern volatile bool g_gamepad_override_active;
-extern volatile uint32_t g_lidar_scan_sequence;
-extern volatile WifiCommMode g_wifi_comm_mode;
-extern char g_microros_agent_ip[16];
-extern uint16_t g_microros_agent_port;
-extern char g_device_name[32];
-extern TargetHostInfo g_target_host_info;
-extern portMUX_TYPE g_target_host_info_lock;
+struct RuntimeSettings {
+    volatile WifiCommMode wifi_comm_mode = WifiCommMode::kMicroRos;
+    char microros_agent_ip[16] = {};
+    uint16_t microros_agent_port = 0;
+    char device_name[32] = {};
+    TargetHostInfo target_host_info = {};
+};
 
-// ================= 消息队列句柄 =================
-extern QueueHandle_t q_imu_state;
-extern QueueHandle_t q_motion_state;
-extern QueueHandle_t q_ultrasonic_state;
-extern QueueHandle_t q_lidar_state;   
-extern QueueHandle_t q_gamepad_state;
-extern QueueHandle_t q_temperature_state;
-extern QueueHandle_t q_battery_state;
+struct AppQueues {
+    QueueHandle_t imu_state = nullptr;
+    QueueHandle_t motion_state = nullptr;
+    QueueHandle_t ultrasonic_state = nullptr;
+    QueueHandle_t lidar_state = nullptr;
+    QueueHandle_t gamepad_state = nullptr;
+    QueueHandle_t temperature_state = nullptr;
+    QueueHandle_t battery_state = nullptr;
+    QueueHandle_t motion_cmd = nullptr;
+    QueueHandle_t gamepad_motion_cmd = nullptr;
+    QueueHandle_t servo_cmd = nullptr;
+    QueueHandle_t speedpid_cmd = nullptr;
+    QueueHandle_t positionpid_cmd = nullptr;
+};
 
+struct ControlState {
+    PidMsg speed_pid = {};
+    PidMsg position_pid = {};
+};
 
-extern QueueHandle_t q_motion_cmd;
-extern QueueHandle_t q_gamepad_motion_cmd;
-extern QueueHandle_t q_servo_cmd;
-extern QueueHandle_t q_speedpid_cmd;
-extern QueueHandle_t q_postionpid_cmd;
+class SystemGlobals {
+ public:
+    static SystemGlobals& Instance();
+    static bool IsWifiCommModeValid(WifiCommMode mode);
+    static WifiCommMode NextWifiCommMode(WifiCommMode mode);
+    static const char *WifiCommModeToRuntimeValue(WifiCommMode mode);
+    static const char *WifiCommModeToDisplayName(WifiCommMode mode);
 
-extern PidMsg g_speed_pid_state;
-extern PidMsg g_position_pid_state;
+    SystemFlags flags;
+    RuntimeSettings runtime;
+    AppQueues queues;
+    ControlState control;
+    portMUX_TYPE target_host_info_lock = portMUX_INITIALIZER_UNLOCKED;
 
-// ================= 任务入口函数声明 =================
+ private:
+    SystemGlobals();
+};
+
+SystemGlobals& system_globals();
+
+// Task entry declarations.
 void motion_task(void *p);
 void imu_task(void *p);
 void ultrasonic_task(void *p);

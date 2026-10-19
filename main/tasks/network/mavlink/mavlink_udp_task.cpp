@@ -1,3 +1,4 @@
+#include "network_config.h"
 #include "system_globals.h"
 #include "mavlink_common.h"
 
@@ -7,8 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAVLINK_PORT 14550
-#define UDP_RX_BUFFER_SIZE 32768
+namespace net_cfg = leap_config::network;
 
 struct UdpMavlinkTransportContext {
     int sock;
@@ -31,7 +31,7 @@ static void WriteUdpMavlinkBytes(const uint8_t *data, size_t len, void *ctx) {
 }
 
 void mavlink_udp_task(void *pvParameters) {
-    static char rx_buffer[UDP_RX_BUFFER_SIZE];
+    static char rx_buffer[net_cfg::kMavlinkUdpRxBufferSize];
     struct sockaddr_in client_addr;
     socklen_t socklen = sizeof(client_addr);
 
@@ -39,7 +39,7 @@ void mavlink_udp_task(void *pvParameters) {
     struct sockaddr_in mav_server_addr = {};
     mav_server_addr.sin_family = AF_INET;
     mav_server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    mav_server_addr.sin_port = htons(MAVLINK_PORT);
+    mav_server_addr.sin_port = htons(net_cfg::kMavlinkUdpPort);
     bind(sock_mav, reinterpret_cast<struct sockaddr *>(&mav_server_addr), sizeof(mav_server_addr));
 
     int broadcast_enable = 1;
@@ -48,7 +48,7 @@ void mavlink_udp_task(void *pvParameters) {
 
     struct sockaddr_in mav_target_addr = {};
     mav_target_addr.sin_family = AF_INET;
-    mav_target_addr.sin_port = htons(MAVLINK_PORT);
+    mav_target_addr.sin_port = htons(net_cfg::kMavlinkUdpPort);
     mav_target_addr.sin_addr.s_addr = inet_addr("255.255.255.255");
 
     UdpMavlinkTransportContext udp_ctx = {
@@ -61,10 +61,10 @@ void mavlink_udp_task(void *pvParameters) {
     MavlinkPublishState publish_state = {};
 
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xFrequency = pdMS_TO_TICKS(20);
+    const TickType_t xFrequency = pdMS_TO_TICKS(net_cfg::kMavlinkPublishPeriodMs);
 
     while (true) {
-        const bool udp_enabled = g_wifi_comm_mode == WifiCommMode::kMavlinkUdp;
+        const bool udp_enabled = system_globals().runtime.wifi_comm_mode == WifiCommMode::kMavlinkUdp;
         MavlinkTransport transports[1] = {};
         size_t transport_count = 0;
 

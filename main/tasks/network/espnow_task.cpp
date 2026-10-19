@@ -52,8 +52,8 @@ static void on_espnow_recv(const esp_now_recv_info_t *esp_now_info, const uint8_
         cmd_msg.target_wz = -map_joystick_to_velocity(recv_data.joy2_y, 100.0f);
 
         // 将指令覆盖写入全局运动控制队列
-        if (q_motion_cmd != nullptr) {
-            xQueueOverwrite(q_motion_cmd, &cmd_msg);
+        if (system_globals().queues.motion_cmd != nullptr) {
+            xQueueOverwrite(system_globals().queues.motion_cmd, &cmd_msg);
         }
     } else {
         ESP_LOGW(TAG, "收到未知大小数据包: %d 字节", data_len);

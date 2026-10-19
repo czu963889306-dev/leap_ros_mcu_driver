@@ -1,3 +1,4 @@
+#include "network_config.h"
 #include "system_globals.h"
 #include "mavlink_common.h"
 
@@ -11,13 +12,7 @@
 
 static const char *TAG = "MAVLINK_UART";
 
-static constexpr uart_port_t kMavlinkUartPort = UART_NUM_0;
-static constexpr gpio_num_t kMavlinkUartTxPin = GPIO_NUM_43;
-static constexpr gpio_num_t kMavlinkUartRxPin = GPIO_NUM_44;
-static constexpr int kMavlinkUartBaudRate = 230400;
-static constexpr size_t kMavlinkUartRxBufferSize = 2048;
-static constexpr size_t kMavlinkUartTxBufferSize = 8192;
-static constexpr size_t kMavlinkReadBufferSize = 256;
+namespace net_cfg = leap_config::network;
 
 struct UartMavlinkTransportContext {
     uart_port_t port;
@@ -42,7 +37,7 @@ static void WriteUartMavlinkBytes(const uint8_t *data, size_t len, void *ctx) {
 
 static esp_err_t InitMavlinkUart(void) {
     const uart_config_t uart_config = {
-        .baud_rate = kMavlinkUartBaudRate,
+        .baud_rate = net_cfg::kMavlinkUartBaudRate,
         .data_bits = UART_DATA_8_BITS,
         .parity = UART_PARITY_DISABLE,
         .stop_bits = UART_STOP_BITS_1,
@@ -52,13 +47,13 @@ static esp_err_t InitMavlinkUart(void) {
         .flags = {},
     };
 
-    const bool driver_already_installed = uart_is_driver_installed(kMavlinkUartPort);
+    const bool driver_already_installed = uart_is_driver_installed(net_cfg::kMavlinkUartPort);
     esp_err_t err = ESP_OK;
     if (!driver_already_installed) {
         err = uart_driver_install(
-            kMavlinkUartPort,
-            kMavlinkUartRxBufferSize,
-            kMavlinkUartTxBufferSize,
+            net_cfg::kMavlinkUartPort,
+            net_cfg::kMavlinkUartRxBufferSize,
+            net_cfg::kMavlinkUartTxBufferSize,
             0,
             nullptr,
             0);
@@ -67,28 +62,28 @@ static esp_err_t InitMavlinkUart(void) {
         }
     }
 
-    err = uart_param_config(kMavlinkUartPort, &uart_config);
+    err = uart_param_config(net_cfg::kMavlinkUartPort, &uart_config);
     if (err != ESP_OK) {
         if (!driver_already_installed) {
-            uart_driver_delete(kMavlinkUartPort);
+            uart_driver_delete(net_cfg::kMavlinkUartPort);
         }
         return err;
     }
 
     err = uart_set_pin(
-        kMavlinkUartPort,
-        kMavlinkUartTxPin,
-        kMavlinkUartRxPin,
+        net_cfg::kMavlinkUartPort,
+        net_cfg::kMavlinkUartTxPin,
+        net_cfg::kMavlinkUartRxPin,
             UART_PIN_NO_CHANGE,
             UART_PIN_NO_CHANGE);
     if (err != ESP_OK) {
         if (!driver_already_installed) {
-            uart_driver_delete(kMavlinkUartPort);
+            uart_driver_delete(net_cfg::kMavlinkUartPort);
         }
         return err;
     }
 
-    uart_flush_input(kMavlinkUartPort);
+    uart_flush_input(net_cfg::kMavlinkUartPort);
     return ESP_OK;
 }
 
@@ -98,23 +93,23 @@ void mavlink_uart_task(void *pvParameters) {
     const esp_err_t err = InitMavlinkUart();
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to init UART%d: %s",
-                 static_cast<int>(kMavlinkUartPort),
+                 static_cast<int>(net_cfg::kMavlinkUartPort),
                  esp_err_to_name(err));
         vTaskDelete(nullptr);
         return;
     }
 
     ESP_LOGI(TAG, "MAVLink UART started on UART%d, baud=%d",
-             static_cast<int>(kMavlinkUartPort),
-             kMavlinkUartBaudRate);
+             static_cast<int>(net_cfg::kMavlinkUartPort),
+             net_cfg::kMavlinkUartBaudRate);
 
-    uint8_t rx_buffer[kMavlinkReadBufferSize] = {};
+    uint8_t rx_buffer[net_cfg::kMavlinkReadBufferSize] = {};
     mavlink_message_t rx_msg = {};
     mavlink_status_t uart_status = {};
     MavlinkPublishState publish_state = {};
 
     UartMavlinkTransportContext uart_ctx = {
-        .port = kMavlinkUartPort,
+        .port = net_cfg::kMavlinkUartPort,
     };
     MavlinkTransport uart_transport = {
         .write = WriteUartMavlinkBytes,
@@ -125,10 +120,10 @@ void mavlink_uart_task(void *pvParameters) {
     const TickType_t frequency = pdMS_TO_TICKS(20);
 
     while (true) {
-        const bool uart_enabled = g_wifi_comm_mode == WifiCommMode::kMavlinkUart;
+        const bool uart_enabled = system_globals().runtime.wifi_comm_mode == WifiCommMode::kMavlinkUart;
         if (uart_enabled) {
             const int len = uart_read_bytes(
-                kMavlinkUartPort,
+                net_cfg::kMavlinkUartPort,
                 rx_buffer,
                 sizeof(rx_buffer),
                 0);

@@ -1,3 +1,4 @@
+#include "motion_config.h"
 #include "system_globals.h"
 #include "mavlink_common.h"
 #include "msg/motion_msg.h"
@@ -19,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <math.h> 
+#include <math.h>
 #include <stdint.h>
 #include <stddef.h>
 #include "my_robot/mavlink.h"
@@ -29,7 +30,6 @@
 #endif
 #define DEG2RAD(x) ((x) * M_PI / 180.0f)
 
-#define MATURO_WHEEL_DIAMETER_MM 65.0f
 #define MATURO_OBSTACLE_DISTANCE_BINS 72
 #define MATURO_OBSTACLE_TOTAL_DEGREES 360
 #define MATURO_OBSTACLE_INCREMENT_DEG 1
@@ -91,7 +91,7 @@ static constexpr uint16_t kMaturoParamCount =
     static_cast<uint16_t>(sizeof(kMaturoParams) / sizeof(kMaturoParams[0]));
 
 static float WheelMmsToRpm(float velocity_mms) {
-    return velocity_mms * 60.0f / (M_PI * MATURO_WHEEL_DIAMETER_MM);
+    return velocity_mms * 60.0f / (M_PI * leap_config::motion::kWheelDiameterMm);
 }
 
 static uint16_t ClampDistanceCm(float distance_cm) {
@@ -250,7 +250,7 @@ static bool IsFiniteMotionMode(uint8_t control_mode) {
 }
 
 static bool IsMavlinkMotionLocked() {
-    if (IsFiniteMotionMode(s_mavlink_motion_mode) && !g_motion_busy) {
+    if (IsFiniteMotionMode(s_mavlink_motion_mode) && !system_globals().flags.motion_busy) {
         s_mavlink_motion_mode = MATURO_MOTION_VELOCITY;
     }
     return s_mavlink_motion_mode != MATURO_MOTION_VELOCITY;
@@ -383,9 +383,9 @@ static void WritePidField(PidMsg *state, uint8_t field, float value) {
 static PidMsg *GetPidState(uint8_t target) {
     switch (target) {
         case MATURO_PARAM_SPEED_PID:
-            return &g_speed_pid_state;
+            return &system_globals().control.speed_pid;
         case MATURO_PARAM_POSITION_PID:
-            return &g_position_pid_state;
+            return &system_globals().control.position_pid;
         default:
             return nullptr;
     }
@@ -394,9 +394,9 @@ static PidMsg *GetPidState(uint8_t target) {
 static QueueHandle_t GetPidQueue(uint8_t target) {
     switch (target) {
         case MATURO_PARAM_SPEED_PID:
-            return q_speedpid_cmd;
+            return system_globals().queues.speedpid_cmd;
         case MATURO_PARAM_POSITION_PID:
-            return q_postionpid_cmd;
+            return system_globals().queues.positionpid_cmd;
         default:
             return nullptr;
     }
@@ -775,8 +775,8 @@ static void HandleParamSet(
 
 static void SendMotionCommand(const MotionMsg &cmd) {
     s_mavlink_motion_mode = cmd.control_mode;
-    xQueueOverwrite(q_motion_cmd, &cmd);
-    g_emergency_stop = false;
+    xQueueOverwrite(system_globals().queues.motion_cmd, &cmd);
+    system_globals().flags.emergency_stop = false;
 }
 
 static uint8_t HandleSetPositionTargetLocalNed(const mavlink_message_t *msg, uint8_t motion_source) {
@@ -829,10 +829,10 @@ static uint8_t HandleCommandLong(const mavlink_message_t *msg, uint8_t motion_so
                 stop_cmd.source = motion_source;
                 stop_cmd.control_mode = MATURO_MOTION_VELOCITY;
                 SendMotionCommand(stop_cmd);
-                g_motion_busy = false;
+                system_globals().flags.motion_busy = false;
                 return MAV_RESULT_ACCEPTED;
             }
-            g_emergency_stop = false;
+            system_globals().flags.emergency_stop = false;
             return MAV_RESULT_ACCEPTED;
         }
         case MAV_CMD_PREFLIGHT_SET_SENSOR_OFFSETS: {
@@ -842,7 +842,7 @@ static uint8_t HandleCommandLong(const mavlink_message_t *msg, uint8_t motion_so
         case MAV_CMD_DO_SET_SERVO: {
             ServoMsg servo_cmd = {};
             servo_cmd.angle = command.param2;
-            xQueueOverwrite(q_servo_cmd, &servo_cmd);
+            xQueueOverwrite(system_globals().queues.servo_cmd, &servo_cmd);
             return MAV_RESULT_ACCEPTED;
         }
         case MAV_CMD_DO_SET_ACTUATOR: {
@@ -866,7 +866,7 @@ static uint8_t HandleCommandLong(const mavlink_message_t *msg, uint8_t motion_so
             relative_cmd.control_mode = MATURO_MOTION_RELATIVE;
             relative_cmd.target_x = command.param1;
             relative_cmd.target_yaw = command.param2;
-            g_motion_busy = true;
+            system_globals().flags.motion_busy = true;
             SendMotionCommand(relative_cmd);
             return MAV_RESULT_ACCEPTED;
         }
@@ -878,10 +878,10 @@ static uint8_t HandleCommandLong(const mavlink_message_t *msg, uint8_t motion_so
 
             switch (static_cast<int>(command.param1)) {
                 case MATURO_PID_SPEED:
-                    xQueueOverwrite(q_speedpid_cmd, &pid_msg);
+                    xQueueOverwrite(system_globals().queues.speedpid_cmd, &pid_msg);
                     return MAV_RESULT_ACCEPTED;
                 case MATURO_PID_POSITION:
-                    xQueueOverwrite(q_postionpid_cmd, &pid_msg);
+                    xQueueOverwrite(system_globals().queues.positionpid_cmd, &pid_msg);
                     return MAV_RESULT_ACCEPTED;
                 default:
                     return MAV_RESULT_DENIED;
@@ -960,7 +960,7 @@ void mavlink_common_publish(
         state->loop_counter++;
 
         ImuMsg imu_state;
-        if (xQueuePeek(q_imu_state, &imu_state, 0) == pdTRUE) {
+        if (xQueuePeek(system_globals().queues.imu_state, &imu_state, 0) == pdTRUE) {
             float roll_rad = DEG2RAD(imu_state.roll);
             float pitch_rad = DEG2RAD(imu_state.pitch);
             float yaw_rad = DEG2RAD(imu_state.yaw);
@@ -994,7 +994,7 @@ void mavlink_common_publish(
         }
 
         MotionMsg motion_state;
-        if (xQueuePeek(q_motion_state, &motion_state, 0) == pdTRUE) {
+        if (xQueuePeek(system_globals().queues.motion_state, &motion_state, 0) == pdTRUE) {
             const uint64_t time_usec = static_cast<uint64_t>(time_boot_ms) * 1000ULL;
 
             float q[4] = {
@@ -1040,7 +1040,7 @@ void mavlink_common_publish(
 
             TemperatureMsg temperature_state = {};
             const bool has_temperature =
-                xQueuePeek(q_temperature_state, &temperature_state, 0) == pdTRUE &&
+                xQueuePeek(system_globals().queues.temperature_state, &temperature_state, 0) == pdTRUE &&
                 temperature_state.valid;
             SendOnboardComputerStatus(
                 tx_route,
@@ -1052,7 +1052,7 @@ void mavlink_common_publish(
 
             BatteryMsg battery_state = {};
             const bool has_battery =
-                xQueuePeek(q_battery_state, &battery_state, 0) == pdTRUE &&
+                xQueuePeek(system_globals().queues.battery_state, &battery_state, 0) == pdTRUE &&
                 battery_state.valid;
             SendSysStatus(tx_route, sys_id, comp_id, battery_state, has_battery);
             SendBatteryStatus(tx_route, sys_id, comp_id, battery_state, has_battery);
@@ -1069,7 +1069,7 @@ void mavlink_common_publish(
                 snprintf(model_name, sizeof(model_name), "Driver");
                 snprintf(software_version, sizeof(software_version), "v2.1");
                 snprintf(hardware_version, sizeof(hardware_version), "ESP32");
-                snprintf(serial_number, sizeof(serial_number), "%s", g_device_name);
+                snprintf(serial_number, sizeof(serial_number), "%s", system_globals().runtime.device_name);
 
                 mavlink_msg_component_information_basic_pack(
                     sys_id,
@@ -1090,7 +1090,7 @@ void mavlink_common_publish(
 
         if (state->loop_counter % 5 == 0) {
             UltrasonicMsg ultrasonic_state;
-            if (xQueuePeek(q_ultrasonic_state, &ultrasonic_state, 0) == pdTRUE) {
+            if (xQueuePeek(system_globals().queues.ultrasonic_state, &ultrasonic_state, 0) == pdTRUE) {
                 const float q[4] = {0.0f, 0.0f, 0.0f, 0.0f};
                 const uint16_t distance_cm = ClampDistanceCm(ultrasonic_state.distance_cm);
 
@@ -1119,11 +1119,11 @@ void mavlink_common_publish(
                 &tx_msg,
                 time_boot_ms,
                 MATURO_DEBUG_MOTION_BUSY,
-                g_motion_busy ? 1.0f : 0.0f);
+                system_globals().flags.motion_busy ? 1.0f : 0.0f);
             SendMavlinkMessage(tx_route, tx_msg);
 
             MotionMsg wheel_state;
-            if (xQueuePeek(q_motion_state, &wheel_state, 0) == pdTRUE) {
+            if (xQueuePeek(system_globals().queues.motion_state, &wheel_state, 0) == pdTRUE) {
                 SendRawRpm(
                     tx_route,
                     sys_id,
@@ -1139,10 +1139,10 @@ void mavlink_common_publish(
             }
         }
 
-        const uint32_t lidar_sequence = g_lidar_scan_sequence;
+        const uint32_t lidar_sequence = system_globals().flags.lidar_scan_sequence;
         if (lidar_sequence != state->last_lidar_sequence) {
             LidarMsg lidar_state;
-            if (xQueuePeek(q_lidar_state, &lidar_state, 0) == pdTRUE) {
+            if (xQueuePeek(system_globals().queues.lidar_state, &lidar_state, 0) == pdTRUE) {
                 SendObstacleDistanceFullScan(
                     tx_route,
                     sys_id,
@@ -1152,5 +1152,5 @@ void mavlink_common_publish(
                 state->last_lidar_sequence = lidar_sequence;
             }
         }
-        
+
 }

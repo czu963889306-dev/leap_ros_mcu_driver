@@ -1,6 +1,7 @@
 // Copyright 2026. All rights reserved.
 
 #include "motion_controller.h"
+#include "motion_config.h"
 #include "esp_log.h"
 #include <algorithm>
 #include <cmath>
@@ -8,17 +9,7 @@
 #define DEBUG_PID 0
 static const char* TAG = "PID_CTRL";
 
-static const float kWheelDiameter = 65.0f; 
-static const float kTrackWidth = 131.7f;   
-static const float kLy = kTrackWidth / 2.0f; 
-static const float kRpmToMms = (M_PI * kWheelDiameter) / 60.0f; 
-static const float kMmsToRpm = 1.0f / kRpmToMms;
-
-static const float kKp = 1.0f, kKi = 6.0f, kKd = 0.0f, kMaxPwm = 255.0f;
-static const float kMaxPosVel = 250.0f;   
-static const float kMaxPosYaw = 3.0f;     
-static const int kRelativeTurnSettleMaxCycles = 5;
-static const float kRelativeTurnSettleVxMms = 10.0f;
+namespace motion_cfg = leap_config::motion;
 
 static float MoveTowards(float current, float target, float max_step) {
   return target > current ? std::min(current + max_step, target) : std::max(current - max_step, target);
@@ -40,14 +31,14 @@ MotionController::MotionController(
     : motors_{&left_motor, &right_motor},
       encs_{&left_encoder, &right_encoder},
       pid_vel_{
-        PidController(PidMode::kIncremental, kKp, kKi, kKd, -kMaxPwm, kMaxPwm),
-        PidController(PidMode::kIncremental, kKp, kKi, kKd, -kMaxPwm, kMaxPwm)
+        PidController(PidMode::kIncremental, motion_cfg::kDefaultSpeedKp, motion_cfg::kDefaultSpeedKi, motion_cfg::kDefaultSpeedKd, -motion_cfg::kMaxPwm, motion_cfg::kMaxPwm),
+        PidController(PidMode::kIncremental, motion_cfg::kDefaultSpeedKp, motion_cfg::kDefaultSpeedKi, motion_cfg::kDefaultSpeedKd, -motion_cfg::kMaxPwm, motion_cfg::kMaxPwm)
       },
-      pid_pos_x_(PidMode::kPositional, 2.1f, 0.0f, 0.5f, -kMaxPosVel, kMaxPosVel),
-      pid_pos_y_(PidMode::kPositional, 2.1f, 0.0f, 0.5f, -kMaxPosVel, kMaxPosVel),
-      pid_pos_yaw_(PidMode::kPositional, 2.5f, 0.0f, 0.5f, -kMaxPosYaw, kMaxPosYaw) {}
+      pid_pos_x_(PidMode::kPositional, motion_cfg::kDefaultPositionKp, motion_cfg::kDefaultPositionKi, motion_cfg::kDefaultPositionKd, -motion_cfg::kMaxPositionVelocityMmS, motion_cfg::kMaxPositionVelocityMmS),
+      pid_pos_y_(PidMode::kPositional, motion_cfg::kDefaultPositionKp, motion_cfg::kDefaultPositionKi, motion_cfg::kDefaultPositionKd, -motion_cfg::kMaxPositionVelocityMmS, motion_cfg::kMaxPositionVelocityMmS),
+      pid_pos_yaw_(PidMode::kPositional, motion_cfg::kDefaultYawKp, motion_cfg::kDefaultYawKi, motion_cfg::kDefaultYawKd, -motion_cfg::kMaxPositionYawRadS, motion_cfg::kMaxPositionYawRadS) {}
 
-void MotionController::SetMaxAcceleration(float accel_mms2) { max_accel_rpm_s_ = accel_mms2 * kMmsToRpm; }
+void MotionController::SetMaxAcceleration(float accel_mms2) { max_accel_rpm_s_ = accel_mms2 * motion_cfg::kMmSToRpm; }
 
 void MotionController::MoveToPosition(float target_x, float target_y, float target_yaw) {
   target_pos_x_ = target_x; target_pos_y_ = target_y; target_pos_yaw_ = target_yaw;
@@ -112,9 +103,11 @@ void MotionController::ResetOdometry() {
 }
 
 void MotionController::CalculateKinematics(float linear_x, float linear_y, float angular_z) {
-  (void)linear_y;
-  final_target_vel_[0] = (linear_x - angular_z * kLy) * kMmsToRpm;
-  final_target_vel_[1] = (linear_x + angular_z * kLy) * kMmsToRpm;
+  float wheel_mms[kNumWheels];
+  kinematics_.Inverse(linear_x, linear_y, angular_z, wheel_mms);
+  for (int i = 0; i < kNumWheels; ++i) {
+    final_target_vel_[i] = wheel_mms[i] * motion_cfg::kMmSToRpm;
+  }
 }
 
 void MotionController::Drive(float linear_x, float linear_y, float angular_z) {
@@ -128,10 +121,9 @@ void MotionController::Drive(float linear_x, float linear_y, float angular_z) {
 }
 
 int16_t MotionController::ApplyDeadband(float target_vel, float pid_output) {
-  const float kDeadband = 150.0f; 
   if (std::abs(target_vel) > 0.1f && std::abs(pid_output) > 0.1f) {
-    float out = pid_output + (pid_output > 0 ? kDeadband : -kDeadband);
-    return static_cast<int16_t>(std::clamp(out, -kMaxPwm, kMaxPwm));
+    float out = pid_output + (pid_output > 0 ? motion_cfg::kMotorPwmDeadband : -motion_cfg::kMotorPwmDeadband);
+    return static_cast<int16_t>(std::clamp(out, -motion_cfg::kMaxPwm, motion_cfg::kMaxPwm));
   }
   return 0; 
 }
@@ -140,16 +132,12 @@ void MotionController::Update(float dt, float current_imu_yaw_rad) {
   if (dt <= 0.0f) return;
 
   // 1. 读取并计算转速
-  const float kAlpha = 0.35f;
-  const float kPulsesPerRev = 4680.0f; 
-  const int sign[kNumWheels] = {-1, 1}; // 右侧轮反向读取
-
   for (int i = 0; i < kNumWheels; ++i) {
-    int32_t current_count = encs_[i]->GetCount() * sign[i];
+    int32_t current_count = encs_[i]->GetCount() * motion_cfg::kEncoderSigns[i];
     float pps = (current_count - last_count_[i]) / dt;
     last_count_[i] = current_count;
-    float raw_rpm = (pps / kPulsesPerRev) * 60.0f;
-    filtered_rpm_[i] = kAlpha * raw_rpm + (1.0f - kAlpha) * filtered_rpm_[i];
+    float raw_rpm = (pps / motion_cfg::kPulsesPerWheelRev) * 60.0f;
+    filtered_rpm_[i] = motion_cfg::kVelocityFilterAlpha * raw_rpm + (1.0f - motion_cfg::kVelocityFilterAlpha) * filtered_rpm_[i];
   }
 
   // 2. 里程计更新
@@ -207,8 +195,8 @@ void MotionController::Update(float dt, float current_imu_yaw_rad) {
         cmd_vx = pid_pos_x_.Calculate(seq_target_dist_, moved_dist, dt);
       }
     } else if (seq_state_ == SeqState::kSettle) {
-      if (std::abs(local_vx) < kRelativeTurnSettleVxMms ||
-          ++settle_count_ > kRelativeTurnSettleMaxCycles) {
+      if (std::abs(local_vx) < motion_cfg::kRelativeTurnSettleVxMms ||
+          ++settle_count_ > motion_cfg::kRelativeTurnSettleMaxCycles) {
         seq_start_imu_yaw_ = imu_yaw_rel_;
         pid_pos_yaw_.Reset();
         seq_stable_count_ = 0; 
@@ -283,12 +271,10 @@ void MotionController::GetVelocity(float* linear_x, float* linear_y, float* angu
 
   float v[kNumWheels];
   for (int i = 0; i < kNumWheels; ++i) {
-    v[i] = filtered_rpm_[i] * kRpmToMms;
+    v[i] = filtered_rpm_[i] * motion_cfg::kRpmToMmS;
   }
 
-  *linear_x = (v[0] + v[1]) / 2.0f;
-  *linear_y = 0.0f;
-  *angular_z = (-v[0] + v[1]) / (2.0f * kLy);
+  kinematics_.Forward(v, linear_x, linear_y, angular_z);
 }
 
 void MotionController::Stop() {
@@ -319,7 +305,7 @@ void MotionController::SetMotorTargetVelocity(MotorID motor_id, float target_mms
   if (motor_index < 0 || motor_index >= kNumWheels) {
     return;
   }
-  final_target_vel_[motor_index] = target_mms * kMmsToRpm;
+  final_target_vel_[motor_index] = target_mms * motion_cfg::kMmSToRpm;
   if (IsNearZero(target_mms)) {
     target_vel_[motor_index] = 0.0f;
     pid_vel_[motor_index].Reset();
@@ -334,8 +320,8 @@ void MotionController::SetAllMotorTargetsVelocity(float left_mms, float right_mm
   }
 
   control_mode_ = ControlMode::kVelocity;
-  final_target_vel_[0] = left_mms * kMmsToRpm;
-  final_target_vel_[1] = right_mms * kMmsToRpm;
+  final_target_vel_[0] = left_mms * motion_cfg::kMmSToRpm;
+  final_target_vel_[1] = right_mms * motion_cfg::kMmSToRpm;
 }
 
 float MotionController::GetMotorVelocity(MotorID motor_id) const {
@@ -343,10 +329,10 @@ float MotionController::GetMotorVelocity(MotorID motor_id) const {
   if (motor_index < 0 || motor_index >= kNumWheels) {
     return 0.0f;
   }
-  return filtered_rpm_[motor_index] * kRpmToMms;
+  return filtered_rpm_[motor_index] * motion_cfg::kRpmToMmS;
 }
 
 void MotionController::GetAllMotorVelocities(float* left_mms, float* right_mms) const {
-  if (left_mms) *left_mms = filtered_rpm_[0] * kRpmToMms;
-  if (right_mms) *right_mms = filtered_rpm_[1] * kRpmToMms;
+  if (left_mms) *left_mms = filtered_rpm_[0] * motion_cfg::kRpmToMmS;
+  if (right_mms) *right_mms = filtered_rpm_[1] * motion_cfg::kRpmToMmS;
 }

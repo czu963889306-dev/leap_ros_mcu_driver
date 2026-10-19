@@ -1,3 +1,4 @@
+#include "board_config.h"
 #include "system_globals.h"
 
 #include <cmath>
@@ -13,7 +14,6 @@
 namespace {
 
 constexpr char kTag[] = "GAMEPAD_I2C";
-constexpr uint8_t kGamepadI2cAddress = 0x50;
 constexpr uint8_t kExpectedHeader1 = 0x56;
 constexpr uint8_t kExpectedHeader2 = 0xAB;
 constexpr uint8_t kExpectedTail = 0xCF;
@@ -50,7 +50,7 @@ esp_err_t WriteGamepadPollCommand() {
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (kGamepadI2cAddress << 1) | I2C_MASTER_WRITE, true);
+    i2c_master_write_byte(cmd, (leap_config::board::kGamepadI2cAddress << 1) | I2C_MASTER_WRITE, true);
     i2c_master_write(cmd, const_cast<uint8_t*>(kGamepadPollCommand), sizeof(kGamepadPollCommand), true);
     i2c_master_stop(cmd);
 
@@ -71,7 +71,7 @@ esp_err_t ReadGamepadFrame(GamepadData_t* frame) {
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (kGamepadI2cAddress << 1) | I2C_MASTER_READ, true);
+    i2c_master_write_byte(cmd, (leap_config::board::kGamepadI2cAddress << 1) | I2C_MASTER_READ, true);
     i2c_master_read(cmd, reinterpret_cast<uint8_t*>(frame), sizeof(*frame) - 1, I2C_MASTER_ACK);
     i2c_master_read_byte(cmd, reinterpret_cast<uint8_t*>(frame) + sizeof(*frame) - 1, I2C_MASTER_NACK);
     i2c_master_stop(cmd);
@@ -121,26 +121,26 @@ GamepadMsg MakeGamepadMsg(const GamepadData_t& frame, bool connected) {
 }
 
 void PublishDisconnected(void) {
-    if (q_gamepad_state == nullptr) {
+    if (system_globals().queues.gamepad_state == nullptr) {
         return;
     }
 
     GamepadMsg msg = {};
-    if (xQueuePeek(q_gamepad_state, &msg, 0) != pdTRUE) {
+    if (xQueuePeek(system_globals().queues.gamepad_state, &msg, 0) != pdTRUE) {
         msg = {};
     }
     msg.connected = 0;
     msg.update_ms = static_cast<uint32_t>(esp_timer_get_time() / 1000ULL);
-    xQueueOverwrite(q_gamepad_state, &msg);
+    xQueueOverwrite(system_globals().queues.gamepad_state, &msg);
 }
 
 void PublishGamepadState(const GamepadData_t& frame) {
-    if (q_gamepad_state == nullptr) {
+    if (system_globals().queues.gamepad_state == nullptr) {
         return;
     }
 
     const GamepadMsg msg = MakeGamepadMsg(frame, true);
-    xQueueOverwrite(q_gamepad_state, &msg);
+    xQueueOverwrite(system_globals().queues.gamepad_state, &msg);
 }
 
 float NormalizeAxis(int8_t raw_value) {
@@ -173,11 +173,11 @@ bool HasGamepadMotion(const GamepadMotion& motion) {
 }
 
 void SetGamepadOverrideActive(bool active) {
-    g_gamepad_override_active = active;
+    system_globals().flags.gamepad_override_active = active;
 }
 
 void PublishGamepadMotion(const GamepadMotion& motion) {
-    if (q_gamepad_motion_cmd == nullptr) {
+    if (system_globals().queues.gamepad_motion_cmd == nullptr) {
         SetGamepadOverrideActive(false);
         return;
     }
@@ -192,9 +192,9 @@ void PublishGamepadMotion(const GamepadMotion& motion) {
     cmd.target_vy = 0.0f;
     cmd.target_wz = motion.wz;
 
-    xQueueOverwrite(q_gamepad_motion_cmd, &cmd);
+    xQueueOverwrite(system_globals().queues.gamepad_motion_cmd, &cmd);
     SetGamepadOverrideActive(true);
-    g_emergency_stop = false;
+    system_globals().flags.emergency_stop = false;
 }
 
 void LogFrame(const GamepadData_t& frame) {
@@ -224,11 +224,11 @@ void gamepad_i2c_task(void* p) {
         bool frame_valid = false;
         const esp_err_t write_ret = WriteGamepadPollCommand();
         if (write_ret != ESP_OK) {
-            // ESP_LOGW(kTag, "I2C write to 0x%02X failed: %s", kGamepadI2cAddress, esp_err_to_name(write_ret));
+            // ESP_LOGW(kTag, "I2C write to 0x%02X failed: %s", leap_config::board::kGamepadI2cAddress, esp_err_to_name(write_ret));
         } else {
             const esp_err_t read_ret = ReadGamepadFrame(&frame);
             if (read_ret != ESP_OK) {
-                ESP_LOGW(kTag, "I2C read from 0x%02X failed: %s", kGamepadI2cAddress, esp_err_to_name(read_ret));
+                ESP_LOGW(kTag, "I2C read from 0x%02X failed: %s", leap_config::board::kGamepadI2cAddress, esp_err_to_name(read_ret));
             } else if (!HasValidMarkers(frame)) {
                 ESP_LOGW(
                     kTag,

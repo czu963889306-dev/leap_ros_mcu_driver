@@ -21,7 +21,7 @@ void imu_task(void *p) {
         msg.gyro_y = imu.GetGyroY();
         msg.gyro_z = imu.GetGyroZ();
 
-        xQueueOverwrite(q_imu_state, &msg);
+        xQueueOverwrite(system_globals().queues.imu_state, &msg);
 
         // 【新增】：降频打印 Yaw 角 (25 * 20ms = 500ms 打印一次)
         // if (++print_counter >= 5) {

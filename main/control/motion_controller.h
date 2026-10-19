@@ -4,6 +4,7 @@
 #include "motor_driver.h"
 #include "encoder_driver.h"
 #include "pid_controller.h"
+#include "differential_kinematics.h"
 
 enum class ControlMode { kVelocity, kPosition, kRelativeSeq };
 enum class SeqState { kIdle, kForward, kSettle, kTurn };
@@ -46,7 +47,8 @@ class MotionController {
   void CalculateKinematics(float linear_x, float linear_y, float angular_z);
   static float NormalizeAngle(float angle);
 
-  static constexpr int kNumWheels = 2;
+  static constexpr int kNumWheels = leap_config::motion::kWheelCount;
+  DifferentialKinematics kinematics_;
   At8236Motor* motors_[kNumWheels];
   QuadratureEncoder* encs_[kNumWheels];
   PidController pid_vel_[kNumWheels];
@@ -73,7 +75,7 @@ class MotionController {
   float seq_target_dist_ = 0.0f, seq_target_angle_ = 0.0f;
   float seq_start_x_ = 0.0f, seq_start_y_ = 0.0f, seq_start_imu_yaw_ = 0.0f;
 
-  float max_accel_rpm_s_ = 200.0f; 
+  float max_accel_rpm_s_ = leap_config::motion::kDefaultMaxAccelerationRpmS;
   int seq_stable_count_ = 0; 
   int settle_count_ = 0;     
 };

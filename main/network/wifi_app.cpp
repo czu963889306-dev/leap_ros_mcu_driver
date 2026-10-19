@@ -1,3 +1,4 @@
+#include "network_config.h"
 #include "wifi_app.h"
 
 #include <stdio.h>
@@ -14,19 +15,7 @@
 
 static const char *TAG = "WIFI_APP";
 static constexpr EventBits_t WIFI_CONNECTED_BIT = BIT0;
-static constexpr uint32_t kWifiConnectTimeoutMs = 15000;
-static const char *kWifiCfgNamespace = "wifi_cfg";
-static const char *kWifiCfgSsidKey = "sta_ssid";
-static const char *kWifiCfgPasswordKey = "sta_pass";
-static const char *kWifiCfgProvisionOnlyKey = "provision_only";
-static const char *kRuntimeCfgNamespace = "runtime_cfg";
-static const char *kRuntimeCfgCommModeKey = "comm_mode";
-static const char *kRuntimeCfgMicroRosAgentIpKey = "uros_ip";
-static const char *kRuntimeCfgMicroRosAgentPortKey = "uros_port";
-static const char *kDefaultStaSsid = "Maturo";
-static const char *kDefaultStaPassword = "maturo2026";
-static const char *kDefaultMicroRosAgentIp = "192.168.31.214";
-static constexpr uint16_t kDefaultMicroRosAgentPort = 8888;
+namespace net_cfg = leap_config::network;
 static constexpr esp_err_t kProvisionOnlyCredentials = ESP_ERR_INVALID_STATE;
 
 static EventGroupHandle_t s_wifi_event_group = nullptr;
@@ -68,13 +57,13 @@ static void clear_connected_sta_credentials(void) {
 static esp_err_t load_saved_sta_credentials(char *ssid, size_t ssid_size,
                                             char *password, size_t password_size) {
     nvs_handle_t handle;
-    esp_err_t err = nvs_open(kWifiCfgNamespace, NVS_READONLY, &handle);
+    esp_err_t err = nvs_open(net_cfg::kWifiCfgNamespace, NVS_READONLY, &handle);
     if (err != ESP_OK) {
         return err;
     }
 
     uint8_t provision_only = 0;
-    err = nvs_get_u8(handle, kWifiCfgProvisionOnlyKey, &provision_only);
+    err = nvs_get_u8(handle, net_cfg::kWifiCfgProvisionOnlyKey, &provision_only);
     if (err == ESP_OK && provision_only != 0) {
         nvs_close(handle);
         return kProvisionOnlyCredentials;
@@ -86,9 +75,9 @@ static esp_err_t load_saved_sta_credentials(char *ssid, size_t ssid_size,
 
     size_t actual_ssid_size = ssid_size;
     size_t actual_password_size = password_size;
-    err = nvs_get_str(handle, kWifiCfgSsidKey, ssid, &actual_ssid_size);
+    err = nvs_get_str(handle, net_cfg::kWifiCfgSsidKey, ssid, &actual_ssid_size);
     if (err == ESP_OK) {
-        err = nvs_get_str(handle, kWifiCfgPasswordKey, password, &actual_password_size);
+        err = nvs_get_str(handle, net_cfg::kWifiCfgPasswordKey, password, &actual_password_size);
         if (err == ESP_ERR_NVS_NOT_FOUND) {
             password[0] = '\0';
             err = ESP_OK;
@@ -112,9 +101,9 @@ esp_err_t wifi_load_sta_credentials_or_default(char *ssid, size_t ssid_size,
         return err;
     }
 
-    strncpy(ssid, kDefaultStaSsid, ssid_size - 1);
+    strncpy(ssid, net_cfg::kDefaultStaSsid, ssid_size - 1);
     ssid[ssid_size - 1] = '\0';
-    strncpy(password, kDefaultStaPassword, password_size - 1);
+    strncpy(password, net_cfg::kDefaultStaPassword, password_size - 1);
     password[password_size - 1] = '\0';
     return ESP_OK;
 }
@@ -133,10 +122,10 @@ void wifi_get_default_runtime_config(WifiRuntimeConfig *config) {
     }
 
     config->comm_mode = WifiCommMode::kMicroRos;
-    strncpy(config->microros_agent_ip, kDefaultMicroRosAgentIp,
+    strncpy(config->microros_agent_ip, net_cfg::kDefaultMicroRosAgentIp,
             sizeof(config->microros_agent_ip) - 1);
     config->microros_agent_ip[sizeof(config->microros_agent_ip) - 1] = '\0';
-    config->microros_agent_port = kDefaultMicroRosAgentPort;
+    config->microros_agent_port = net_cfg::kDefaultMicroRosAgentPort;
 }
 
 static bool is_valid_runtime_config(const WifiRuntimeConfig *config) {
@@ -145,7 +134,7 @@ static bool is_valid_runtime_config(const WifiRuntimeConfig *config) {
         return false;
     }
 
-    return wifi_comm_mode_is_valid(config->comm_mode);
+    return SystemGlobals::IsWifiCommModeValid(config->comm_mode);
 }
 
 static void ensure_wifi_stack_ready() {
@@ -208,9 +197,9 @@ void wifi_init_softap(void) {
     }
 
     wifi_config_t wifi_config = {};
-    strncpy(reinterpret_cast<char *>(wifi_config.ap.ssid), g_device_name,
+    strncpy(reinterpret_cast<char *>(wifi_config.ap.ssid), system_globals().runtime.device_name,
             sizeof(wifi_config.ap.ssid) - 1);
-    wifi_config.ap.ssid_len = strlen(g_device_name);
+    wifi_config.ap.ssid_len = strlen(system_globals().runtime.device_name);
     wifi_config.ap.password[0] = 0;
     wifi_config.ap.authmode = WIFI_AUTH_OPEN;
     wifi_config.ap.max_connection = 4;
@@ -250,8 +239,8 @@ bool wifi_init_sta(void) {
         ESP_LOGW(TAG, "Wi-Fi provisioning mode requested; skipping saved/default STA credentials.");
         return false;
     } else {
-        strncpy(ssid, kDefaultStaSsid, sizeof(ssid) - 1);
-        strncpy(password, kDefaultStaPassword, sizeof(password) - 1);
+        strncpy(ssid, net_cfg::kDefaultStaSsid, sizeof(ssid) - 1);
+        strncpy(password, net_cfg::kDefaultStaPassword, sizeof(password) - 1);
         ESP_LOGW(TAG, "Saved STA credentials not found, trying default SSID: %s", ssid);
     }
 
@@ -273,7 +262,7 @@ bool wifi_init_sta(void) {
         WIFI_CONNECTED_BIT,
         pdFALSE,
         pdFALSE,
-        pdMS_TO_TICKS(kWifiConnectTimeoutMs));
+        pdMS_TO_TICKS(net_cfg::kWifiConnectTimeoutMs));
 
     if ((bits & WIFI_CONNECTED_BIT) != 0) {
         ESP_LOGI(TAG, "STA connection established.");
@@ -281,7 +270,7 @@ bool wifi_init_sta(void) {
     }
 
     ESP_LOGW(TAG, "STA connect timeout after %lu ms.",
-             static_cast<unsigned long>(kWifiConnectTimeoutMs));
+             static_cast<unsigned long>(net_cfg::kWifiConnectTimeoutMs));
     esp_wifi_disconnect();
     ESP_ERROR_CHECK(esp_wifi_stop());
     return false;
@@ -302,17 +291,17 @@ esp_err_t wifi_save_sta_credentials(const char *ssid, const char *password) {
     }
 
     nvs_handle_t handle;
-    esp_err_t err = nvs_open(kWifiCfgNamespace, NVS_READWRITE, &handle);
+    esp_err_t err = nvs_open(net_cfg::kWifiCfgNamespace, NVS_READWRITE, &handle);
     if (err != ESP_OK) {
         return err;
     }
 
-    err = nvs_set_str(handle, kWifiCfgSsidKey, ssid);
+    err = nvs_set_str(handle, net_cfg::kWifiCfgSsidKey, ssid);
     if (err == ESP_OK) {
-        err = nvs_set_str(handle, kWifiCfgPasswordKey, password);
+        err = nvs_set_str(handle, net_cfg::kWifiCfgPasswordKey, password);
     }
     if (err == ESP_OK) {
-        err = nvs_erase_key(handle, kWifiCfgProvisionOnlyKey);
+        err = nvs_erase_key(handle, net_cfg::kWifiCfgProvisionOnlyKey);
         if (err == ESP_ERR_NVS_NOT_FOUND) {
             err = ESP_OK;
         }
@@ -331,23 +320,23 @@ esp_err_t wifi_clear_sta_credentials(void) {
     cache_pending_sta_credentials("", "");
 
     nvs_handle_t handle;
-    esp_err_t err = nvs_open(kWifiCfgNamespace, NVS_READWRITE, &handle);
+    esp_err_t err = nvs_open(net_cfg::kWifiCfgNamespace, NVS_READWRITE, &handle);
     if (err != ESP_OK) {
         return err;
     }
 
-    esp_err_t op_err = nvs_erase_key(handle, kWifiCfgSsidKey);
+    esp_err_t op_err = nvs_erase_key(handle, net_cfg::kWifiCfgSsidKey);
     if (op_err != ESP_OK && op_err != ESP_ERR_NVS_NOT_FOUND) {
         err = op_err;
     }
 
-    op_err = nvs_erase_key(handle, kWifiCfgPasswordKey);
+    op_err = nvs_erase_key(handle, net_cfg::kWifiCfgPasswordKey);
     if (op_err != ESP_OK && op_err != ESP_ERR_NVS_NOT_FOUND) {
         err = op_err;
     }
 
     if (err == ESP_OK) {
-        err = nvs_set_u8(handle, kWifiCfgProvisionOnlyKey, 1);
+        err = nvs_set_u8(handle, net_cfg::kWifiCfgProvisionOnlyKey, 1);
     }
     if (err == ESP_OK) {
         err = nvs_commit(handle);
@@ -395,16 +384,16 @@ esp_err_t wifi_load_runtime_config(WifiRuntimeConfig *config) {
     wifi_get_default_runtime_config(config);
 
     nvs_handle_t handle;
-    esp_err_t err = nvs_open(kRuntimeCfgNamespace, NVS_READONLY, &handle);
+    esp_err_t err = nvs_open(net_cfg::kRuntimeCfgNamespace, NVS_READONLY, &handle);
     if (err != ESP_OK) {
         return err;
     }
 
     uint8_t comm_mode = static_cast<uint8_t>(config->comm_mode);
-    esp_err_t read_err = nvs_get_u8(handle, kRuntimeCfgCommModeKey, &comm_mode);
+    esp_err_t read_err = nvs_get_u8(handle, net_cfg::kRuntimeCfgCommModeKey, &comm_mode);
     if (read_err == ESP_OK) {
         const WifiCommMode saved_mode = static_cast<WifiCommMode>(comm_mode);
-        if (wifi_comm_mode_is_valid(saved_mode)) {
+        if (SystemGlobals::IsWifiCommModeValid(saved_mode)) {
             config->comm_mode = saved_mode;
         }
     } else if (read_err != ESP_ERR_NVS_NOT_FOUND) {
@@ -412,14 +401,14 @@ esp_err_t wifi_load_runtime_config(WifiRuntimeConfig *config) {
     }
 
     size_t ip_len = sizeof(config->microros_agent_ip);
-    read_err = nvs_get_str(handle, kRuntimeCfgMicroRosAgentIpKey,
+    read_err = nvs_get_str(handle, net_cfg::kRuntimeCfgMicroRosAgentIpKey,
                            config->microros_agent_ip, &ip_len);
     if (read_err != ESP_OK && read_err != ESP_ERR_NVS_NOT_FOUND) {
         err = read_err;
     }
 
     uint16_t port = config->microros_agent_port;
-    read_err = nvs_get_u16(handle, kRuntimeCfgMicroRosAgentPortKey, &port);
+    read_err = nvs_get_u16(handle, net_cfg::kRuntimeCfgMicroRosAgentPortKey, &port);
     if (read_err == ESP_OK) {
         config->microros_agent_port = port;
     } else if (read_err != ESP_ERR_NVS_NOT_FOUND) {
@@ -441,19 +430,19 @@ esp_err_t wifi_save_runtime_config(const WifiRuntimeConfig *config) {
     }
 
     nvs_handle_t handle;
-    esp_err_t err = nvs_open(kRuntimeCfgNamespace, NVS_READWRITE, &handle);
+    esp_err_t err = nvs_open(net_cfg::kRuntimeCfgNamespace, NVS_READWRITE, &handle);
     if (err != ESP_OK) {
         return err;
     }
 
-    err = nvs_set_u8(handle, kRuntimeCfgCommModeKey,
+    err = nvs_set_u8(handle, net_cfg::kRuntimeCfgCommModeKey,
                      static_cast<uint8_t>(config->comm_mode));
     if (err == ESP_OK) {
-        err = nvs_set_str(handle, kRuntimeCfgMicroRosAgentIpKey,
+        err = nvs_set_str(handle, net_cfg::kRuntimeCfgMicroRosAgentIpKey,
                           config->microros_agent_ip);
     }
     if (err == ESP_OK) {
-        err = nvs_set_u16(handle, kRuntimeCfgMicroRosAgentPortKey,
+        err = nvs_set_u16(handle, net_cfg::kRuntimeCfgMicroRosAgentPortKey,
                           config->microros_agent_port);
     }
     if (err == ESP_OK) {

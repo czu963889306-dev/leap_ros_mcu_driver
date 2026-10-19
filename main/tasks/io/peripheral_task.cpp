@@ -1,3 +1,4 @@
+#include "board_config.h"
 #include "system_globals.h"
 #include "app_runtime.h"
 #include "board.h"
@@ -10,8 +11,8 @@
 #include "esp_log.h"
 
 static const char *TAG = "PERIPHERAL";
-static const TickType_t kBootWifiResetLongPressTicks = pdMS_TO_TICKS(3000);
-static const TickType_t kTemperatureSampleTicks = pdMS_TO_TICKS(1000);
+static const TickType_t kBootWifiResetLongPressTicks = pdMS_TO_TICKS(leap_config::board::kBootWifiResetLongPressMs);
+static const TickType_t kTemperatureSampleTicks = pdMS_TO_TICKS(leap_config::board::kTemperatureSamplePeriodMs);
 
 static bool clear_wifi_for_provisioning() {
     const esp_err_t err = wifi_clear_sta_credentials();
@@ -46,7 +47,7 @@ static temperature_sensor_handle_t init_temperature_sensor() {
 }
 
 static void sample_temperature_sensor(temperature_sensor_handle_t sensor) {
-    if (sensor == nullptr || q_temperature_state == nullptr) {
+    if (sensor == nullptr || system_globals().queues.temperature_state == nullptr) {
         return;
     }
 
@@ -56,7 +57,7 @@ static void sample_temperature_sensor(temperature_sensor_handle_t sensor) {
     if (!msg.valid) {
         ESP_LOGW(TAG, "Failed to read internal temperature: %s", esp_err_to_name(err));
     }
-    xQueueOverwrite(q_temperature_state, &msg);
+    xQueueOverwrite(system_globals().queues.temperature_state, &msg);
 }
 
 void peripheral_task(void *p) {
@@ -69,7 +70,7 @@ void peripheral_task(void *p) {
     my_servo.SetAngle(servo_cmd.angle);
     
     while (1) {
-        if (xQueueReceive(q_servo_cmd, &servo_cmd, 0) == pdTRUE) {
+        if (xQueueReceive(system_globals().queues.servo_cmd, &servo_cmd, 0) == pdTRUE) {
             my_servo.SetAngle(servo_cmd.angle);
         }
 

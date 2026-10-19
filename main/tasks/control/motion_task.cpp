@@ -1,3 +1,4 @@
+#include "motion_config.h"
 #include "system_globals.h"
 #include "board.h" 
 #include "msg/motion_msg.h"
@@ -9,7 +10,7 @@
 static const char *TAG = "MOTION_TASK";
 
 void motion_task(void *p) {
-    const float dt = 0.02f;
+    const float dt = leap_config::motion::kControlLoopDtS;
     MotionMsg cmd_msg = {};
     MotionMsg incoming_msg = {};
     MotionMsg gamepad_cmd = {};
@@ -31,7 +32,7 @@ void motion_task(void *p) {
         } else if (current_mode == 1) {
             robot.MoveToPosition(command.target_x, command.target_y, command.target_yaw);
         } else if (current_mode == 2) {
-            g_motion_busy = true;
+            system_globals().flags.motion_busy = true;
             robot.MoveRelative(command.target_x, command.target_yaw);
         } else if (current_mode == 3) {
             robot.SetMotorTargetVelocity((MotorID)command.motor_id, command.target_motor_v);
@@ -43,17 +44,17 @@ void motion_task(void *p) {
     };
     
     while (1) {
-        xQueuePeek(q_imu_state, &imu_msg, 0);
+        xQueuePeek(system_globals().queues.imu_state, &imu_msg, 0);
                  
         // 1. 接收底层运动指令 (指令状态机)
-        const bool nav_cmd_received = xQueueReceive(q_motion_cmd, &incoming_msg, 0) == pdTRUE;
+        const bool nav_cmd_received = xQueueReceive(system_globals().queues.motion_cmd, &incoming_msg, 0) == pdTRUE;
         if (nav_cmd_received) {
             cmd_msg = incoming_msg;
         }
 
-        const bool gamepad_override_active = g_gamepad_override_active;
+        const bool gamepad_override_active = system_globals().flags.gamepad_override_active;
         if (gamepad_override_active &&
-            xQueuePeek(q_gamepad_motion_cmd, &gamepad_cmd, 0) == pdTRUE) {
+            xQueuePeek(system_globals().queues.gamepad_motion_cmd, &gamepad_cmd, 0) == pdTRUE) {
             active_cmd = gamepad_cmd;
             apply_command(active_cmd);
         } else if (nav_cmd_received || was_gamepad_override_active) {
@@ -63,30 +64,30 @@ void motion_task(void *p) {
         was_gamepad_override_active = gamepad_override_active;
 
         // 2. 接收 PID 指令 (速度环)
-        if (xQueueReceive(q_speedpid_cmd, &speed_msg, 0) == pdTRUE) { 
+        if (xQueueReceive(system_globals().queues.speedpid_cmd, &speed_msg, 0) == pdTRUE) {
             robot.SetVelocityPidGains(speed_msg.kp, speed_msg.ki, speed_msg.kd);
-            g_speed_pid_state = speed_msg;
+            system_globals().control.speed_pid = speed_msg;
             ESP_LOGI(TAG, "Speed PID updated: kp=%.3f, ki=%.3f, kd=%.3f",
                      speed_msg.kp, speed_msg.ki, speed_msg.kd);
         }
         
         // 3. 接收 PID 指令 (位置环)
-        if (xQueueReceive(q_postionpid_cmd, &position_msg, 0) == pdTRUE) { 
+        if (xQueueReceive(system_globals().queues.positionpid_cmd, &position_msg, 0) == pdTRUE) {
             robot.SetPositionPidGains(position_msg.kp, position_msg.ki, position_msg.kd);
-            g_position_pid_state = position_msg;
+            system_globals().control.position_pid = position_msg;
             ESP_LOGI(TAG, "Position PID updated: kp=%.3f, ki=%.3f, kd=%.3f",
                      position_msg.kp, position_msg.ki, position_msg.kd);
         }
 
         // 4. 执行物理控制循环
-        if (g_emergency_stop) {
+        if (system_globals().flags.emergency_stop) {
             robot.Stop();
-            g_motion_busy = false;
+            system_globals().flags.motion_busy = false;
         } else {
             float imu_yaw_rad = imu_msg.yaw * (M_PI / 180.0f); 
             robot.Update(dt, imu_yaw_rad);
             if (current_mode == 2 && !robot.IsBusy()) {
-                g_motion_busy = false;
+                system_globals().flags.motion_busy = false;
             }
         }
         
@@ -101,8 +102,8 @@ void motion_task(void *p) {
         status_msg.source = active_cmd.source;
         status_msg.target_vx = active_cmd.target_vx;
         
-        xQueueOverwrite(q_motion_state, &status_msg);
+        xQueueOverwrite(system_globals().queues.motion_state, &status_msg);
         
-        vTaskDelay(pdMS_TO_TICKS(20));
+        vTaskDelay(pdMS_TO_TICKS(leap_config::motion::kControlLoopPeriodMs));
     }
 }

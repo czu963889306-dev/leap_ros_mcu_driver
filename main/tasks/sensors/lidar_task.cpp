@@ -1,3 +1,5 @@
+#include "board_config.h"
+#include "network_config.h"
 #include "system_globals.h"
 #include "camsense_lidar.h"
 #include "msg/lidar_msg.h"
@@ -10,21 +12,17 @@ void lidar_task(void *p) {
 
     CamsenseLidar* lidar = new CamsenseLidar(
 
-        UART_NUM_1,
+        leap_config::network::kLidarUartPort,
 
-        (gpio_num_t)UART_PIN_NO_CHANGE,
+        leap_config::board::kLidarTxPin,
 
-        GPIO_NUM_41,
+        leap_config::board::kLidarRxPin,
 
-        115200
+        leap_config::network::kLidarBaudRate
 
     );
 
-
-
     lidar->Init();
-
-
 
     static LidarPoint full_scan_data[MAX_LIDAR_POINTS_PER_SCAN];
 
@@ -32,45 +30,31 @@ void lidar_task(void *p) {
 
     LidarMsg lidar_msg;
 
-
-
-    ESP_LOGI(TAG, "Lidar task started on UART1, RX=41");
-
-
+    ESP_LOGI(TAG, "Lidar task started on UART%d, RX=%d",
+             static_cast<int>(leap_config::network::kLidarUartPort),
+             static_cast<int>(leap_config::board::kLidarRxPin));
 
     while (1) {
 
         bool parsed_lidar_data = lidar->Poll(full_scan_data, &scan_point_count);
 
-
-
         if (parsed_lidar_data) {
 
             memset(&lidar_msg, 0, sizeof(LidarMsg));
-
-
 
             for (int i = 0; i < scan_point_count; i++) {
 
                 int angle_deg = (int)(full_scan_data[i].angle + 0.5f);
 
-
-
                 if (angle_deg >= 360) angle_deg -= 360;
 
                 if (angle_deg < 0) angle_deg = 0;
-
-
 
                 // 左右镜像
 
                 angle_deg = (360 - angle_deg) % 360;
 
-
-
                 uint16_t dist = (uint16_t)full_scan_data[i].distance;
-
-
 
                 if (dist > 0) {
 
@@ -86,16 +70,12 @@ void lidar_task(void *p) {
 
             }
 
-
-
-            xQueueOverwrite(q_lidar_state, &lidar_msg);
-            g_lidar_scan_sequence = g_lidar_scan_sequence + 1;
+            xQueueOverwrite(system_globals().queues.lidar_state, &lidar_msg);
+            system_globals().flags.lidar_scan_sequence = system_globals().flags.lidar_scan_sequence + 1;
 
         }
 
-
-
-        vTaskDelay(pdMS_TO_TICKS(10));
+        vTaskDelay(pdMS_TO_TICKS(leap_config::network::kLidarTaskPeriodMs));
 
     }
 
