@@ -4,18 +4,16 @@
 
 `leap_ros_mcu_driver` 是 Leap_ROS 底盘的 ESP32-S3 下位机驱动固件，用于电机控制、里程计、IMU、雷达、超声波、电池状态、状态灯和外设数据采集。固件支持 micro-ROS 与 MAVLink 通信模式，并提供 Wi-Fi 配网页用于运行参数配置。
 
-## v2.2 更新内容
+## v2.2 功能
 
 - 支持自动识别 LD STL26 和欢创 Camsense 雷达，断流后自动重新探测。
 - STL26 使用零角度偏置，两种雷达采用相同的角度镜像，输出完整 360° 扫描。
 - micro-ROS 定期校准时间，同步失败时重试，避免发布未同步的传感器时间戳。
 - 工程及生成固件统一命名为 `leap_ros_mcu_driver`。
 
-## v2.1 更新内容
-
 - 支持通过服务通讯修改速度 PID 参数，并提供获取 PID 参数服务。
-- 超声波改为独立 HC-SR04，TRIG 使用 `GPIO21`，ECHO 使用 `GPIO47`。
-- micro-ROS 新增 `/ultrasonic` 话题，发布超声波距离数据。
+- 支持独立 HC-SR04 超声波传感器，TRIG 使用 `GPIO21`，ECHO 使用 `GPIO47`。
+- micro-ROS 通过 `/ultrasonic` 话题发布超声波距离数据。
 - 支持 MAVLink UDP、MAVLink UART 与 micro-ROS 通信模式切换。
 - 支持 micro-ROS UART 模式：复用 MAVLink UART 的 UART0，921600 波特率，默认启动等待 8 秒后连接 Agent。
 - 支持长按 BOOT 键清除 Wi-Fi 配置，并重启回到配网模式。
