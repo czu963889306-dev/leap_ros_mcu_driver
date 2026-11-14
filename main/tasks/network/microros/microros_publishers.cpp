@@ -195,7 +195,7 @@ void publish_state_timer(rcl_timer_t *timer, int64_t) {
 
     ++s_publish_tick;
     int64_t stamp_ms = 0;
-    if (get_synchronized_time_ms(&stamp_ms)) {
+    if (get_synced_stamp_ms(stamp_ms)) {
         publish_odom(stamp_ms);
         publish_imu(stamp_ms);
 

@@ -80,7 +80,7 @@ static bool create_ros_entities() {
     MICROROS_RCCHECK(rcl_init(0, nullptr, &s_init_options, &s_context));
     s_context_initialized = true;
 
-    update_time_sync(true);
+    update_time_sync(ros_cfg::kTimeSyncTimeoutMs);
 
     s_node = rcl_get_zero_initialized_node();
     rcl_node_options_t node_options = rcl_node_get_default_options();
@@ -432,7 +432,7 @@ void microros_runtime_loop(void) {
                     continue;
                 }
             }
-            update_time_sync();
+            update_time_sync(ros_cfg::kTimeSyncRuntimeTimeoutMs);
             if (!spin_once(ros_cfg::kPublishPeriodMs)) {
                 ESP_LOGW(kTag, "micro-ROS transport stopped; recreating session");
                 destroy_ros_entities();

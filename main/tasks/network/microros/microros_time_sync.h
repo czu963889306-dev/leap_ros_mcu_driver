@@ -4,9 +4,10 @@
 
 namespace microros {
 
-// All calls run on the micro-ROS task, alongside the session's other I/O.
+// Call only from the ROS task, along with the other session operations.
 void reset_time_sync();
-void update_time_sync(bool initial = false);
-bool get_synchronized_time_ms(int64_t *stamp_ms);
+void update_time_sync(int timeout_ms);
+// Returns false before sync, after expiry, or while a backward correction catches up.
+bool get_synced_stamp_ms(int64_t &stamp_ms);
 
 }  // namespace microros
