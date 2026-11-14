@@ -23,6 +23,7 @@ set(APP_SRCS
     "tasks/network/microros/microros_subscribers.cpp"
     "tasks/network/microros/microros_services.cpp"
     "tasks/network/microros/microros_publishers.cpp"
+    "tasks/network/microros/microros_time_sync.cpp"
     "tasks/network/microros/microros_runtime.cpp"
     "tasks/network/microros/microros_task.cpp"
     "network/wifi_app.cpp"
@@ -59,6 +60,7 @@ idf_component_register(
         servo_driver
         lsm6ds3_driver
         pid_controller
+        ldstl26_lidar
         camsense_lidar
         status_led
         battery_adc

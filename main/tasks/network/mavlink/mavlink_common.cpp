@@ -1067,7 +1067,7 @@ void mavlink_common_publish(
 
                 snprintf(vendor_name, sizeof(vendor_name), "Maturo");
                 snprintf(model_name, sizeof(model_name), "Driver");
-                snprintf(software_version, sizeof(software_version), "v2.1");
+                snprintf(software_version, sizeof(software_version), "v2.2");
                 snprintf(hardware_version, sizeof(hardware_version), "ESP32");
                 snprintf(serial_number, sizeof(serial_number), "%s", system_globals().runtime.device_name);
 

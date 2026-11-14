@@ -1,8 +1,8 @@
-# Leap Low v1 MAVLink 与 micro-ROS 协议说明
+# leap_ros_mcu_driver MAVLink 与 micro-ROS 协议说明
 
-软件版本：`v2.1`
+软件版本：`v2.2`
 
-本文档说明 `leap_ros` 固件提供的网络与串口通信协议。
+本文档说明 `leap_ros_mcu_driver` 固件提供的网络与串口通信协议。
 
 ## 运行模式
 
@@ -31,7 +31,7 @@
 
 ## micro-ROS
 
-`micro_ros` 模式使用 Wi-Fi UDP；`microros_uart` 模式使用与 MAVLink UART 相同的 UART0，不依赖 Wi-Fi 连接。UART 参数为 GPIO43 (TX)、GPIO44 (RX)、921600 波特率、8N1、无硬件流控。进入 UART 模式后固件会等待系统启动 5 秒，再建立 micro-ROS 会话，无需额外握手；串口接收数据按二进制 XRCE-DDS 帧处理，不打印接收内容。
+`micro_ros` 模式使用 Wi-Fi UDP；`microros_uart` 模式使用与 MAVLink UART 相同的 UART0，不依赖 Wi-Fi 连接。UART 参数为 GPIO43 (TX)、GPIO44 (RX)、921600 波特率、8N1、无硬件流控。进入 UART 模式后固件默认等待系统启动 8 秒，再建立 micro-ROS 会话，无需额外握手；串口接收数据按二进制 XRCE-DDS 帧处理，不打印接收内容。
 
 `micro_ros` 传输方式为基于 Wi-Fi 的自定义 UDP；`microros_uart` 传输方式为 UART0 自定义串口传输。
 
@@ -62,6 +62,22 @@
 
 摇杆死区为 12（原始范围 `-127..127`）。摇杆离开死区时手柄临时接管底盘；回到死区、断连或数据帧无效时，仅释放手动接管，不发送零速 `/cmd_vel`，随后继续执行最近一次导航指令。
 
+### 时间戳同步
+
+UDP 和 UART 模式均与 micro-ROS Agent 同步时间。首次同步超时为 1000 ms；失败后每隔 1 秒重试，成功后每 30 秒重新同步。运行时同步的超时为 20 ms。
+
+当前会话同步成功后才发布 `/odom`、`/imu`、`/scan`、`/battery_state` 和 `/ultrasonic`。同步失败、同步标志丢失、时间无效或距离上次成功同步超过 90 秒时，这些话题暂停，直到同步恢复；`/wifi_config`、订阅和服务继续运行。重建会话时会重新同步。
+
+`header.stamp` 使用 Agent 主机系统时间对应的发布时刻，精度为毫秒；当前传感器队列不包含采样时间，且此机制不使用 ROS 仿真时间 `/clock`。
+
+可在主机上运行回归测试：
+
+```bash
+cmake -S tests -B /tmp/leap-time-sync-tests
+cmake --build /tmp/leap-time-sync-tests
+ctest --test-dir /tmp/leap-time-sync-tests --output-on-failure
+```
+
 ### 发布话题
 
 | 话题 | 类型 | 频率 | 坐标系 | 说明 |
@@ -72,6 +88,10 @@
 | `/battery_state` | `sensor_msgs/msg/BatteryState` | 10 Hz | `battery` | 电压与电量百分比；锂电池，放电状态 |
 | `/ultrasonic` | `sensor_msgs/msg/Range` | 10 Hz | `ultrasonic_link` | HC-SR04 超声波距离，单位 m |
 | `/wifi_config` | `std_msgs/msg/String` | 1 Hz | 无 | 已保存的 STA 凭据 JSON：`{"ssid":"<name>","password":"<password>"}` |
+
+雷达在 UART1（RX GPIO41）自动识别 STL26（230400 波特率）与欢创 Camsense（115200 波特率）。每种波特率探测 1.5 秒，收到 3 个有效协议帧后锁定；连续 2 秒无有效帧则清空旧扫描并重新探测。
+
+STL26 不加角度偏置，欢创使用 18.5° 偏置，两种雷达采用相同方向镜像，无扇区屏蔽和额外的 10 cm 近距过滤。整圈按 0–359° 的 360 个方向保存同角度最近的有效距离，避免超过 500 个采样点时丢失后续角度。无有效回波的方向仍为 0。
 
 `/battery_state` 字段：
 
@@ -208,7 +228,7 @@ MAVLink 参数协议暴露以下参数：
 
 | 消息 | 内容 |
 | --- | --- |
-| `COMPONENT_INFORMATION_BASIC` | vendor `Maturo`，model `Driver`，software `v2.1`，hardware `ESP32`，serial 为设备名 |
+| `COMPONENT_INFORMATION_BASIC` | vendor `Maturo`，model `Driver`，software `v2.2`，hardware `ESP32`，serial 为设备名 |
 
 MAVLink 发布行为遵循当前启用的通信模式和对应传输方式。
 

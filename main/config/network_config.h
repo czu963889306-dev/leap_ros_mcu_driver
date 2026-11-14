@@ -50,7 +50,11 @@ static constexpr uint16_t kMavlinkUdpPort = 14550;
 static constexpr size_t kMavlinkUdpRxBufferSize = 32768;
 static constexpr uint32_t kMavlinkPublishPeriodMs = 20;
 static constexpr uart_port_t kLidarUartPort = UART_NUM_1;
-static constexpr int kLidarBaudRate = 115200;
+static constexpr int kLidarBaudRate = 230400;
+static constexpr int kCamsenseLidarBaudRate = 115200;
+static constexpr uint32_t kLidarProbePeriodMs = 1500;
+static constexpr uint32_t kLidarDisconnectTimeoutMs = 2000;
+static constexpr uint32_t kLidarDetectionMinPackets = 3;
 static constexpr uint32_t kLidarTaskPeriodMs = 10;
 
 }  // namespace network

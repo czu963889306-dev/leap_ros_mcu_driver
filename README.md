@@ -1,8 +1,15 @@
-# leap_ros
+# leap_ros_mcu_driver
 
-软件版本：`v2.1`
+软件版本：`v2.2`
 
-`leap_ros` 是 Leap_ROS 底盘的 ESP32-S3 下位机驱动固件，用于电机控制、里程计、IMU、雷达、超声波、电池状态、状态灯和外设数据采集。固件支持 micro-ROS 与 MAVLink 通信模式，并提供 Wi-Fi 配网页用于运行参数配置。
+`leap_ros_mcu_driver` 是 Leap_ROS 底盘的 ESP32-S3 下位机驱动固件，用于电机控制、里程计、IMU、雷达、超声波、电池状态、状态灯和外设数据采集。固件支持 micro-ROS 与 MAVLink 通信模式，并提供 Wi-Fi 配网页用于运行参数配置。
+
+## v2.2 更新内容
+
+- 支持自动识别 LD STL26 和欢创 Camsense 雷达，断流后自动重新探测。
+- STL26 使用零角度偏置，两种雷达采用相同的角度镜像，输出完整 360° 扫描。
+- micro-ROS 定期校准时间，同步失败时重试，避免发布未同步的传感器时间戳。
+- 工程及生成固件统一命名为 `leap_ros_mcu_driver`。
 
 ## v2.1 更新内容
 
@@ -10,14 +17,14 @@
 - 超声波改为独立 HC-SR04，TRIG 使用 `GPIO21`，ECHO 使用 `GPIO47`。
 - micro-ROS 新增 `/ultrasonic` 话题，发布超声波距离数据。
 - 支持 MAVLink UDP、MAVLink UART 与 micro-ROS 通信模式切换。
-- 支持 micro-ROS UART 模式：复用 MAVLink UART 的 UART0，921600 波特率，系统启动 5 秒后连接 Agent。
+- 支持 micro-ROS UART 模式：复用 MAVLink UART 的 UART0，921600 波特率，默认启动等待 8 秒后连接 Agent。
 - 支持长按 BOOT 键清除 Wi-Fi 配置，并重启回到配网模式。
 - 接入 I²C 手柄控制：左摇杆 Y 控制前后，右摇杆 X 控制转向；断连后自动发送零速指令。
 
 ## 底盘参数
 
 - 两轮差速底盘：轮径 `65 mm`、轮距 `131.7 mm`、每圈编码器计数 `4680`，集中在 `main/config/motion_config.h`。
-- 保留现有 Camsense 雷达（115200 波特率）、电池 ADC、HC-SR04、单舵机、I²C 手柄和四种通信模式。
+- 雷达在 UART1、RX GPIO41 自动识别 LD STL26（230400 波特率）或欢创 Camsense（115200 波特率）。STL26 不加角度偏置，欢创保留 18.5° 偏置，两种雷达均采用相同的角度镜像并开放完整 360°。支持电池 ADC、HC-SR04、单舵机、I²C 手柄和四种通信模式。
 - 目录组织参考 `leap_ros_four`；硬件参数和协议保持本工程配置，不包含机械臂运动学、机械臂任务或机械臂 ROS 接口。
 
 ## 代码结构
@@ -52,10 +59,10 @@ main/
 
 | 修改内容 | 文件 | 配置项 |
 | --- | --- | --- |
-| micro-ROS UART 启动等待 | `main/config/network_config.h` | `kMicroRosUartStartupDelayMs`，默认 `5000`；设为 `10000` 即等待 10 秒 |
+| micro-ROS UART 启动等待 | `main/config/network_config.h` | `kMicroRosUartStartupDelayMs`，默认 `8000`；设为 `10000` 即等待 10 秒 |
 | Agent 默认地址和端口 | `main/config/network_config.h` | `kDefaultMicroRosAgentIp`、`kDefaultMicroRosAgentPort` |
 | micro-ROS / MAVLink 串口波特率 | `main/config/network_config.h` | `kMicroRosUartBaudRate` / `kMavlinkUartBaudRate` |
-| 雷达串口和波特率 | `main/config/network_config.h` | `kLidarUartPort`、`kLidarBaudRate` |
+| 雷达串口、自动识别和波特率 | `main/config/network_config.h` | `kLidarUartPort`、`kLidarBaudRate`（STL26）、`kCamsenseLidarBaudRate`、`kLidarProbePeriodMs`、`kLidarDisconnectTimeoutMs` |
 | 电机、编码器、传感器引脚 | `main/config/board_config.h` | 对应的 `kMotor*`、`kEncoder*`、`kUltrasonic*` 等 |
 | 轮径、轮距、编码器方向 | `main/config/motion_config.h` | `kWheelDiameterMm`、`kTrackWidthMm`、`kEncoderSigns` |
 | 速度 PID 默认值 | `main/config/motion_config.h` | `kDefaultSpeedKp`、`kDefaultSpeedKi`、`kDefaultSpeedKd` |
@@ -65,7 +72,7 @@ main/
 
 ## 构建与验证
 
-在已加载 ESP-IDF 环境的终端中执行 `idf.py build`。固件为 `build/leap_ros.bin`，整包为 `build/merged-binary.bin`。
+在已加载 ESP-IDF 环境的终端中执行 `idf.py build`。固件为 `build/leap_ros_mcu_driver.bin`，整包为 `build/merged-binary.bin`。
 
 两轮运动学可在主机上独立验证，无需连接开发板：
 
@@ -76,7 +83,9 @@ g++ -std=c++17 -Wall -Wextra -Werror -I main/config -I main/control \
 /tmp/leap_low_kinematics_test
 ```
 
-上板验证应覆盖前进/后退/原地转向、手柄接管、四种通信模式、ROS 电池和超声波话题，以及配网和 PID 保存重启。
+雷达解析与自动识别可执行 `bash tests/run_lidar_tests.sh` 在主机验证，覆盖 STL26 全 360°、高密度扫描、近距与空回波、错帧、欢创解析、自动识别和断流重探测。
+
+上板验证应覆盖前进/后退/原地转向、手柄接管、四种通信模式、ROS 电池和超声波话题、两种雷达的自动识别及断流恢复，以及配网和 PID 保存重启。
 
 ## 协议说明
 

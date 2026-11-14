@@ -1,4 +1,5 @@
 #include "microros_internal.h"
+#include "microros_time_sync.h"
 
 namespace microros {
 
@@ -192,14 +193,17 @@ void publish_state_timer(rcl_timer_t *timer, int64_t) {
         return;
     }
 
-    const int64_t stamp_ms = rmw_uros_epoch_millis();
-    publish_odom(stamp_ms);
-    publish_imu(stamp_ms);
+    ++s_publish_tick;
+    int64_t stamp_ms = 0;
+    if (get_synchronized_time_ms(&stamp_ms)) {
+        publish_odom(stamp_ms);
+        publish_imu(stamp_ms);
 
-    if ((++s_publish_tick % ros_cfg::kSlowPublishDivider) == 0) {
-        publish_scan(stamp_ms);
-        publish_battery(stamp_ms);
-        publish_ultrasonic(stamp_ms);
+        if ((s_publish_tick % ros_cfg::kSlowPublishDivider) == 0) {
+            publish_scan(stamp_ms);
+            publish_battery(stamp_ms);
+            publish_ultrasonic(stamp_ms);
+        }
     }
     if ((s_publish_tick % ros_cfg::kWifiConfigPublishTicks) == 0) {
         publish_wifi_config();

@@ -1,9 +1,11 @@
 #include "microros_internal.h"
 #include "microros_runtime.h"
+#include "microros_time_sync.h"
 
 namespace microros {
 
 static bool create_ros_entities() {
+    reset_time_sync();
     s_publish_tick = 0;
     reset_ros_handles();
     reset_host_info_state();
@@ -78,9 +80,7 @@ static bool create_ros_entities() {
     MICROROS_RCCHECK(rcl_init(0, nullptr, &s_init_options, &s_context));
     s_context_initialized = true;
 
-    if (!rmw_uros_epoch_synchronized()) {
-        (void)rmw_uros_sync_session(ros_cfg::kTimeSyncTimeoutMs);
-    }
+    update_time_sync(true);
 
     s_node = rcl_get_zero_initialized_node();
     rcl_node_options_t node_options = rcl_node_get_default_options();
@@ -227,6 +227,7 @@ static bool create_ros_entities() {
 }
 
 static void destroy_ros_entities() {
+    reset_time_sync();
     if (!s_ros_created &&
         !s_strings_initialized &&
         !s_scan_ranges_initialized &&
@@ -431,6 +432,7 @@ void microros_runtime_loop(void) {
                     continue;
                 }
             }
+            update_time_sync();
             if (!spin_once(ros_cfg::kPublishPeriodMs)) {
                 ESP_LOGW(kTag, "micro-ROS transport stopped; recreating session");
                 destroy_ros_entities();
