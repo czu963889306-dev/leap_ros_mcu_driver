@@ -16,6 +16,7 @@ public:
     void Reset();
     bool Poll(LidarPoint* out_scan, uint16_t* out_count);
     uint32_t ValidPacketCount() const { return valid_packet_count_; }
+    uint16_t SpeedDegPerSec() const { return speed_deg_per_sec_; }
 
 private:
     uart_port_t uart_num_;
@@ -25,6 +26,7 @@ private:
     uint8_t packet_idx_ = 0;
     uint8_t packet_[LDSTL26_PACKET_SIZE] = {};
     uint32_t valid_packet_count_ = 0;
+    uint16_t speed_deg_per_sec_ = 0;
     LidarScan scan_;
 
     bool ProcessByte(uint8_t data, LidarPoint* out_scan, uint16_t* out_count);

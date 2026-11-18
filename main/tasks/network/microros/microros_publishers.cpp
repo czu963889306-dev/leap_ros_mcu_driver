@@ -139,6 +139,9 @@ static void publish_scan(int64_t stamp_ms) {
     }
 
     set_stamp(&s_scan_msg.header, stamp_ms);
+    s_scan_msg.scan_time = lidar.speed_deg_per_sec > 0
+        ? 360.0f / lidar.speed_deg_per_sec
+        : ros_cfg::kScanTimeS;
     for (size_t i = 0; i < ros_cfg::kLaserScanPointCount; ++i) {
         s_scan_msg.ranges.data[i] = lidar.distances[i] > 0
             ? static_cast<float>(lidar.distances[i]) / 1000.0f
@@ -194,19 +197,21 @@ void publish_state_timer(rcl_timer_t *timer, int64_t) {
     }
 
     ++s_publish_tick;
+    if ((s_publish_tick % ros_cfg::kWifiConfigPublishTicks) == 0) {
+        publish_wifi_config();
+    }
     int64_t stamp_ms = 0;
     if (get_synced_stamp_ms(stamp_ms)) {
         publish_odom(stamp_ms);
         publish_imu(stamp_ms);
 
         if ((s_publish_tick % ros_cfg::kSlowPublishDivider) == 0) {
-            publish_scan(stamp_ms);
             publish_battery(stamp_ms);
             publish_ultrasonic(stamp_ms);
+            // The scan spans IP fragments. Send it last so smaller messages do
+            // not overtake it in the shared best-effort XRCE stream.
+            publish_scan(stamp_ms);
         }
-    }
-    if ((s_publish_tick % ros_cfg::kWifiConfigPublishTicks) == 0) {
-        publish_wifi_config();
     }
 }
 

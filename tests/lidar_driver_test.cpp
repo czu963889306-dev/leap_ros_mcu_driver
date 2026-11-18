@@ -146,17 +146,27 @@ static void test_stl_bad_data() {
     Ldstl26Lidar driver(1, -1, 41);
     Scan scan;
     auto bad_crc = stl_packet(0, 1100);
+    put_u16(bad_crc, 2, 2880);
+    update_stl_crc(bad_crc);
     bad_crc.back() ^= 1;
     feed(driver, bad_crc, scan);
     feed(driver, stl_packet(36001, 1100), scan);
     feed(driver, camsense_packet(0, 11), scan);
     assert(driver.ValidPacketCount() == 0);
+    assert(driver.SpeedDegPerSec() == 0);
     // An overlapping sync byte must not lose the following valid header.
     feed(driver, {0x54}, scan);
-    feed(driver, stl_packet(0, 1100), scan);
+    auto packet = stl_packet(0, 1100);
+    put_u16(packet, 2, 1800);
+    update_stl_crc(packet);
+    feed(driver, packet, scan);
     assert(driver.ValidPacketCount() == 1);
+    assert(driver.SpeedDegPerSec() == 1800);
+    feed(driver, bad_crc, scan);
+    assert(driver.SpeedDegPerSec() == 1800);
     driver.Reset();
     assert(driver.ValidPacketCount() == 0);
+    assert(driver.SpeedDegPerSec() == 0);
     feed(driver, stl_packet(0, 1100), scan);
     assert(driver.ValidPacketCount() == 1);
     feed(driver, stl_packet(36000, 1100), scan);

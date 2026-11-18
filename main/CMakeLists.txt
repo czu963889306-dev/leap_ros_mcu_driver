@@ -68,4 +68,6 @@ idf_component_register(
         i2c_bus_lock
         mavlink_lib
         micro_ros_espidf_component
+    PRIV_REQUIRES
+        esp_driver_ledc
 )

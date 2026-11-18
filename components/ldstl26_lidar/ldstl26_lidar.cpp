@@ -26,6 +26,7 @@ void Ldstl26Lidar::Reset() {
     state_ = 0;
     packet_idx_ = 0;
     valid_packet_count_ = 0;
+    speed_deg_per_sec_ = 0;
     scan_.Reset();
 }
 
@@ -79,6 +80,7 @@ bool Ldstl26Lidar::ProcessByte(uint8_t data, LidarPoint* out_scan, uint16_t* out
     const uint16_t start = packet_[4] | (packet_[5] << 8);
     const uint16_t end = packet_[42] | (packet_[43] << 8);
     if (start > 36000 || end > 36000) return false;
+    speed_deg_per_sec_ = packet_[2] | (packet_[3] << 8);
     ++valid_packet_count_;
 
     LidarPoint points[LDSTL26_POINTS_PER_PACKET];
